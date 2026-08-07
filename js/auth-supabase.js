@@ -1,13 +1,13 @@
 /* ==========================================================================
    SnapFlow - Supabase Authentication & SaaS User Plan Management Engine
-   Suporte a Login com Google, E-mail & Senha, Controle de Sessão e Planos (Free/Pro)
+   Conectado Oficialmente ao Projeto Supabase do Usuário
    ========================================================================== */
 
 class SupabaseAuthModule {
   constructor() {
-    // Configurações padrão do Supabase (Substituíveis pelo usuário)
-    this.supabaseUrl = 'https://xyzcompany.supabase.co';
-    this.supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSJ9.sampleKey';
+    // Configurações Oficiais Conectadas ao Supabase do SnapFlow
+    this.supabaseUrl = 'https://fcynqxsrmdegzrorwsrp.supabase.co';
+    this.supabaseAnonKey = 'sb_publishable_rguLiiKHtTpdUnIJhe1NNg_yxDWQpUP';
 
     this.user = null;
     this.userPlan = 'free'; // 'free' ou 'pro'
@@ -21,8 +21,9 @@ class SupabaseAuthModule {
     if (window.supabase) {
       try {
         this.client = window.supabase.createClient(this.supabaseUrl, this.supabaseAnonKey);
+        console.log('[SnapFlow Auth] Conectado ao Supabase com sucesso!');
       } catch (err) {
-        console.warn('[SnapFlow Auth] Cliente Supabase aguardando chaves reais:', err);
+        console.warn('[SnapFlow Auth] Erro ao inicializar Supabase:', err);
       }
     }
   }
@@ -120,28 +121,16 @@ class SupabaseAuthModule {
   }
 
   async loginWithGoogle() {
-    if (!this.client || this.supabaseUrl.includes('xyzcompany')) {
-      // Simulação Amigável em modo Demo se ainda não configurou as chaves reais no Supabase
-      this.user = {
-        email: 'usuario.demo@gmail.com',
-        user_metadata: { full_name: 'Usuário Demo Google', plan: 'pro' }
-      };
-      this.userPlan = 'pro';
-      localStorage.setItem('snapflow_user', JSON.stringify(this.user));
-      localStorage.setItem('snapflow_plan', 'pro');
-      this.updateUiState();
-      this.closeModal();
-      Utils.showToast('Login com Google realizado com sucesso! Plano PRO Ativado 🎉');
-      return;
-    }
+    if (!this.client) return;
 
+    // Trigger OAuth SignIn with Google via Supabase
     const { error } = await this.client.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: window.location.href }
     });
 
     if (error) {
-      Utils.showToast(`Erro no login com Google: ${error.message}`);
+      Utils.showToast(`Autenticação com Google: ${error.message}`);
     }
   }
 
@@ -154,17 +143,32 @@ class SupabaseAuthModule {
       return;
     }
 
-    // Demo Mode fallback se as chaves do Supabase forem as de exemplo
-    this.user = {
-      email: email,
-      user_metadata: { full_name: email.split('@')[0], plan: 'pro' }
-    };
-    this.userPlan = 'pro';
-    localStorage.setItem('snapflow_user', JSON.stringify(this.user));
-    localStorage.setItem('snapflow_plan', 'pro');
-    this.updateUiState();
-    this.closeModal();
-    Utils.showToast(`Bem-vindo ao SnapFlow! Conta ativada para ${email}`);
+    if (this.client) {
+      const { data, error } = await this.client.auth.signInWithOtp({
+        email: email,
+        options: {
+          emailRedirectTo: window.location.href,
+        }
+      });
+
+      if (error) {
+        Utils.showToast(`Erro ao enviar e-mail: ${error.message}`);
+      } else {
+        Utils.showToast(`Enviamos um link mágico de acesso para ${email}! Verifique sua caixa de entrada.`);
+        this.closeModal();
+      }
+    } else {
+      this.user = {
+        email: email,
+        user_metadata: { full_name: email.split('@')[0], plan: 'pro' }
+      };
+      this.userPlan = 'pro';
+      localStorage.setItem('snapflow_user', JSON.stringify(this.user));
+      localStorage.setItem('snapflow_plan', 'pro');
+      this.updateUiState();
+      this.closeModal();
+      Utils.showToast(`Bem-vindo ao SnapFlow! Conta ativada para ${email}`);
+    }
   }
 
   logout() {
