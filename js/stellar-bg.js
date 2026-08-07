@@ -28,7 +28,7 @@ class FluidAuroraBackgroundModule {
     this.canvas.style.height = '100vh';
     this.canvas.style.pointerEvents = 'none';
     this.canvas.style.zIndex = '-1';
-    this.canvas.style.opacity = '0.85';
+    this.canvas.style.opacity = '1';
 
     this.resize();
   }
@@ -55,7 +55,7 @@ class FluidAuroraBackgroundModule {
   }
 
   animate() {
-    this.time += 0.008;
+    this.time += 0.006;
 
     // Smooth lerp mouse position
     this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.08;
@@ -69,34 +69,34 @@ class FluidAuroraBackgroundModule {
     this.ctx.fillStyle = isLightMode ? '#f4f4f5' : '#09090b';
     this.ctx.fillRect(0, 0, this.width, this.height);
 
-    // Draw Aurora Fluid Waves Layer 1 (Ciano / Sky)
+    // Draw Aurora Fluid Waves Layer 1 (Ciano / Sky Vibrante)
     this.drawAuroraWave(
-      isLightMode ? 'rgba(56, 189, 248, 0.18)' : 'rgba(56, 189, 248, 0.15)',
-      this.width * 0.3,
-      this.height * 0.4,
-      this.width * 0.45,
-      Math.sin(this.time * 0.8) * 40,
-      Math.cos(this.time * 0.6) * 40
+      isLightMode ? 'rgba(56, 189, 248, 0.35)' : 'rgba(56, 189, 248, 0.3)',
+      this.width * 0.25,
+      this.height * 0.35,
+      this.width * 0.5,
+      Math.sin(this.time * 0.8) * 60,
+      Math.cos(this.time * 0.6) * 60
     );
 
-    // Draw Aurora Fluid Waves Layer 2 (Indigo / Roxo)
+    // Draw Aurora Fluid Waves Layer 2 (Indigo / Roxo Vibrante)
     this.drawAuroraWave(
-      isLightMode ? 'rgba(168, 85, 247, 0.15)' : 'rgba(139, 92, 246, 0.18)',
-      this.width * 0.7,
-      this.height * 0.6,
-      this.width * 0.5,
-      Math.cos(this.time * 0.7) * 50,
-      Math.sin(this.time * 0.9) * 50
+      isLightMode ? 'rgba(168, 85, 247, 0.3)' : 'rgba(139, 92, 246, 0.28)',
+      this.width * 0.75,
+      this.height * 0.65,
+      this.width * 0.55,
+      Math.cos(this.time * 0.7) * 70,
+      Math.sin(this.time * 0.9) * 70
     );
 
     // Draw Aurora Fluid Waves Layer 3 (Deep Sky Accent)
     this.drawAuroraWave(
-      isLightMode ? 'rgba(14, 165, 233, 0.12)' : 'rgba(3, 105, 161, 0.2)',
+      isLightMode ? 'rgba(14, 165, 233, 0.25)' : 'rgba(3, 105, 161, 0.32)',
       this.width * 0.5,
-      this.height * 0.2,
-      this.width * 0.4,
-      Math.sin(this.time * 1.1) * 35,
-      Math.cos(this.time * 0.8) * 35
+      this.height * 0.25,
+      this.width * 0.45,
+      Math.sin(this.time * 1.1) * 50,
+      Math.cos(this.time * 0.8) * 50
     );
 
     // Interactive Cursor Fluid Glow Spotlight
@@ -107,22 +107,22 @@ class FluidAuroraBackgroundModule {
         0,
         this.mouse.x,
         this.mouse.y,
-        280
+        350
       );
 
       if (isLightMode) {
-        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.28)');
-        gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.1)');
+        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.45)');
+        gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.2)');
         gradient.addColorStop(1, 'rgba(244, 244, 245, 0)');
       } else {
-        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.25)');
-        gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.12)');
+        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
+        gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.22)');
         gradient.addColorStop(1, 'rgba(9, 9, 11, 0)');
       }
 
       this.ctx.fillStyle = gradient;
       this.ctx.beginPath();
-      this.ctx.arc(this.mouse.x, this.mouse.y, 280, 0, Math.PI * 2);
+      this.ctx.arc(this.mouse.x, this.mouse.y, 350, 0, Math.PI * 2);
       this.ctx.fill();
     }
 
