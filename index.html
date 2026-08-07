@@ -65,11 +65,14 @@
         <button id="authLoginBtn" class="btn btn-secondary btn-sm" title="Entrar ou Criar Conta no SnapFlow">
           <i data-lucide="user"></i> Entrar
         </button>
-        <div id="userProfileBadge" class="privacy-badge hidden" style="background: rgba(56, 189, 248, 0.15); border-color: #38bdf8; color: #38bdf8;">
-          <i data-lucide="user-check"></i>
-          <span id="userNameLabel">Conta</span>
-          <button id="authLogoutBtn" class="icon-btn-sm" title="Sair da Conta" style="margin-left: 6px; background: none; border: none; color: #f87171; cursor: pointer;">
-            <i data-lucide="log-out" style="width:14px; height:14px;"></i>
+        <div id="userProfileBadge" class="user-micro-badge hidden" title="Ver Planos / Gerenciar Conta">
+          <div class="user-avatar-circle" id="userAvatarInitial">P</div>
+          <div class="user-meta-info">
+            <span class="user-meta-name" id="userNameLabel">Conta</span>
+            <span class="micro-plan-badge free-badge" id="userPlanTag">FREE (0/10)</span>
+          </div>
+          <button id="authLogoutBtn" class="logout-icon-btn" title="Sair da Conta">
+            <i data-lucide="log-out"></i>
           </button>
         </div>
         <button id="showHubBtn" class="btn btn-secondary btn-sm hidden">
