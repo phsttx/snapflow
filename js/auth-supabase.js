@@ -1,16 +1,16 @@
 /* ==========================================================================
    SnapFlow - Supabase Authentication & SaaS User Plan Management Engine
-   Conectado Oficialmente ao Projeto Supabase do Usuário
+   Micro-Badge Minimalista (Vercel / Raycast Style) + Controle Estrito Free/PRO
    ========================================================================== */
 
 class SupabaseAuthModule {
   constructor() {
-    // Configurações Oficiais Conectadas ao Supabase do SnapFlow
+    // Configurações Oficiais do Projeto Supabase
     this.supabaseUrl = 'https://fcynqxsrmdegzrorwsrp.supabase.co';
     this.supabaseAnonKey = 'sb_publishable_rguLiiKHtTpdUnIJhe1NNg_yxDWQpUP';
 
     this.user = null;
-    this.userPlan = 'free'; // 'free' ou 'pro'
+    this.userPlan = 'free'; // Padrão estrito: todo usuário entra como FREE
 
     this.initSupabaseClient();
     this.initEvents();
@@ -21,7 +21,7 @@ class SupabaseAuthModule {
     if (window.supabase) {
       try {
         this.client = window.supabase.createClient(this.supabaseUrl, this.supabaseAnonKey);
-        console.log('[SnapFlow Auth] Conectado ao Supabase com sucesso!');
+        console.log('[SnapFlow Auth] Conectado ao Supabase!');
       } catch (err) {
         console.warn('[SnapFlow Auth] Erro ao inicializar Supabase:', err);
       }
@@ -53,7 +53,7 @@ class SupabaseAuthModule {
       googleBtn.addEventListener('click', () => this.loginWithGoogle());
     }
 
-    // Email Form Auth
+    // Email Form Auth (Magic Link)
     const authForm = document.getElementById('authEmailForm');
     if (authForm) {
       authForm.addEventListener('submit', (e) => {
@@ -65,7 +65,20 @@ class SupabaseAuthModule {
     // Logout Button
     const logoutBtn = document.getElementById('authLogoutBtn');
     if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => this.logout());
+      logoutBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.logout();
+      });
+    }
+
+    // Clique na badge para ir para planos se for Free
+    const userBadge = document.getElementById('userProfileBadge');
+    if (userBadge) {
+      userBadge.addEventListener('click', () => {
+        if (this.userPlan === 'free' && window.appController) {
+          window.appController.showScreen(4); // Tela de Preços
+        }
+      });
     }
   }
 
@@ -97,7 +110,8 @@ class SupabaseAuthModule {
       const { data: { session } } = await this.client.auth.getSession();
       if (session && session.user) {
         this.user = session.user;
-        this.userPlan = session.user.user_metadata?.plan || 'pro';
+        // Padrão estrito: lê a flag do Supabase (user_metadata.plan) ou define como 'free'
+        this.userPlan = session.user.user_metadata?.plan || 'free';
         localStorage.setItem('snapflow_user', JSON.stringify(this.user));
         localStorage.setItem('snapflow_plan', this.userPlan);
         this.updateUiState();
@@ -106,7 +120,7 @@ class SupabaseAuthModule {
       this.client.auth.onAuthStateChange((_event, session) => {
         if (session && session.user) {
           this.user = session.user;
-          this.userPlan = session.user.user_metadata?.plan || 'pro';
+          this.userPlan = session.user.user_metadata?.plan || 'free';
           localStorage.setItem('snapflow_user', JSON.stringify(this.user));
           localStorage.setItem('snapflow_plan', this.userPlan);
         } else {
@@ -123,14 +137,15 @@ class SupabaseAuthModule {
   async loginWithGoogle() {
     if (!this.client) return;
 
-    // Trigger OAuth SignIn with Google via Supabase
     const { error } = await this.client.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.href }
+      options: {
+        redirectTo: window.location.origin + window.location.pathname
+      }
     });
 
     if (error) {
-      Utils.showToast(`Autenticação com Google: ${error.message}`);
+      Utils.showToast(`Erro Google Auth: ${error.message}`, 'error');
     }
   }
 
@@ -144,30 +159,19 @@ class SupabaseAuthModule {
     }
 
     if (this.client) {
-      const { data, error } = await this.client.auth.signInWithOtp({
+      const { error } = await this.client.auth.signInWithOtp({
         email: email,
         options: {
-          emailRedirectTo: window.location.href,
+          emailRedirectTo: window.location.origin + window.location.pathname,
         }
       });
 
       if (error) {
-        Utils.showToast(`Erro ao enviar e-mail: ${error.message}`);
+        Utils.showToast(`Erro ao enviar e-mail: ${error.message}`, 'error');
       } else {
-        Utils.showToast(`Enviamos um link mágico de acesso para ${email}! Verifique sua caixa de entrada.`);
+        Utils.showToast(`Enviamos um link mágico de acesso para ${email}! Verifique seu e-mail.`);
         this.closeModal();
       }
-    } else {
-      this.user = {
-        email: email,
-        user_metadata: { full_name: email.split('@')[0], plan: 'pro' }
-      };
-      this.userPlan = 'pro';
-      localStorage.setItem('snapflow_user', JSON.stringify(this.user));
-      localStorage.setItem('snapflow_plan', 'pro');
-      this.updateUiState();
-      this.closeModal();
-      Utils.showToast(`Bem-vindo ao SnapFlow! Conta ativada para ${email}`);
     }
   }
 
@@ -187,13 +191,28 @@ class SupabaseAuthModule {
     const loginBtn = document.getElementById('authLoginBtn');
     const badge = document.getElementById('userProfileBadge');
     const nameLabel = document.getElementById('userNameLabel');
+    const planTag = document.getElementById('userPlanTag');
+    const userAvatar = document.getElementById('userAvatarInitial');
 
     if (this.user) {
       if (loginBtn) loginBtn.classList.add('hidden');
       if (badge) badge.classList.remove('hidden');
-      if (nameLabel) {
-        const displayName = this.user.user_metadata?.full_name || this.user.email.split('@')[0];
-        nameLabel.textContent = `${displayName} (${this.userPlan.toUpperCase()})`;
+
+      const displayName = this.user.user_metadata?.full_name || this.user.email.split('@')[0];
+      const initial = displayName.charAt(0).toUpperCase();
+
+      if (userAvatar) userAvatar.textContent = initial;
+      if (nameLabel) nameLabel.textContent = displayName;
+
+      if (planTag) {
+        if (this.userPlan === 'pro') {
+          planTag.textContent = 'PRO 👑';
+          planTag.className = 'micro-plan-badge pro-badge';
+        } else {
+          const count = window.limitGuard ? window.limitGuard.getUsageCount() : 0;
+          planTag.textContent = `FREE (${count}/10)`;
+          planTag.className = 'micro-plan-badge free-badge';
+        }
       }
     } else {
       if (loginBtn) loginBtn.classList.remove('hidden');
