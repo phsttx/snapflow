@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SnapFlow - Suíte Completa de Edição de Mídia e Utilitários de Design 100% Privada e Client-Side (17 Ferramentas). Compressão, Mockups, Vetores SVG, Áudio Waveform, PDF, Fundo, Upscaler.">
+  <title>SnapFlow | Suíte de Edição &amp; Utilitários de Mídia (17 Ferramentas)</title>
+
+  <!-- PWA & Mobile App Setup -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#09090b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="shortcut icon" href="assets/favicon.svg">
+
+  <!-- Google Fonts & Lucide Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/glass.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body class="dark-theme">
+  <!-- Dual-Theme Animated Particle Canvas -->
+  <canvas id="stellarBg"></canvas>
+  <!-- 1. Animated Splashscreen Overlay (Only Radiating Logo + Loader Bar) -->
+  <div id="splashOverlay" class="splash-overlay">
+    <div class="splash-content">
+      <div class="splash-logo-glow">
+        <i data-lucide="zap"></i>
+      </div>
+      <div class="splash-loader-bar">
+        <div class="splash-loader-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Navigation & Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-logo" id="brandLogoBtn" style="cursor:pointer;" title="Voltar ao Hub de Serviços">
+        <div class="logo-icon-glow">
+          <i data-lucide="zap" class="brand-icon"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Snap<span class="accent-badge">Flow</span></span>
+          <span class="brand-tagline">Suíte de Edição Client-Side (17 Ferramentas)</span>
+        </div>
+      </div>
+
+      <nav class="header-nav-links">
+        <button class="header-nav-link active" id="navHomeLink"><i data-lucide="home"></i> Início</button>
+        <button class="header-nav-link" id="navPricingLink"><i data-lucide="gem"></i> Preços &amp; Planos</button>
+      </nav>
+
+      <div class="header-actions">
+        <button id="pwaInstallBtn" class="btn btn-secondary btn-sm" title="Instalar SupaEdit como App no Computador ou Celular">
+          <i data-lucide="download-cloud"></i> Instalar App
+        </button>
+        <button id="showHubBtn" class="btn btn-secondary btn-sm hidden">
+          <i data-lucide="layout-grid"></i> Ver Todas as Ferramentas
+        </button>
+        <div class="privacy-badge tooltip-trigger">
+          <i data-lucide="shield-check" class="shield-icon"></i>
+          <span>100% Privado &amp; Local</span>
+          <span class="tooltip">Seus arquivos nunca saem do seu navegador. Processamento inteiramente local.</span>
+        </div>
+        <button id="themeToggleBtn" class="icon-btn" title="Alternar Modo de Cor">
+          <i data-lucide="moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Services Grid Hub Screen (Initial Selection Screen) -->
+  <div id="hubScreen" class="hub-screen">
+    <div class="hub-header">
+      <h1 class="hub-title">O que você gostaria de criar ou editar hoje?</h1>
+      <p class="hub-subtitle">Escolha uma ferramenta abaixo para iniciar o seu projeto. Processamento 100% privado e rápido.</p>
+
+      <div class="hub-search-container">
+        <i data-lucide="search" class="hub-search-icon"></i>
+        <input type="text" id="hubSearchInput" placeholder="Buscar ferramenta (ex: PDF, Fundo, QR Code, Mockup)..." class="hub-search-input">
+      </div>
+    </div>
+
+    <!-- Category 1: Edição de Imagem -->
+    <div class="hub-category-section">
+      <div class="hub-category-title"><i data-lucide="image"></i> Edição de Imagem &amp; Mídia</div>
+      <div class="hub-grid">
+        <div class="hub-card" data-open-tab="compressor">
+          <div class="hub-card-icon"><i data-lucide="minimize-2"></i></div>
+          <div class="hub-card-title">Compressor &amp; Lote ZIP <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></div>
+          <p class="hub-card-desc">Reduza o tamanho de até 100 fotos preservando a qualidade visual. Baixe tudo em ZIP.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="mockupStudio">
+          <div class="hub-card-icon"><i data-lucide="monitor"></i></div>
+          <div class="hub-card-title">Estúdio de Mockups <span class="beta-badge">BETA</span></div>
+          <p class="hub-card-desc">Enquadre capturas de tela em molduras de Safari, iPhone 15 Pro, MacBook Pro e Twitter/X.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="cropper">
+          <div class="hub-card-icon"><i data-lucide="crop"></i></div>
+          <div class="hub-card-title">Recorte &amp; Filtros</div>
+          <p class="hub-card-desc">Recorte imagens em proporções 1:1, 16:9, 4:3, rotacione e aplique filtros visuais.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="bgRemover">
+          <div class="hub-card-icon"><i data-lucide="scissors"></i></div>
+          <div class="hub-card-title">Removedor de Fundo <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></div>
+          <p class="hub-card-desc">Remova a cor de fundo de qualquer foto em 1-clique para gerar PNG transparente.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="svgStudio">
+          <div class="hub-card-icon"><i data-lucide="pen-tool"></i></div>
+          <div class="hub-card-title">Editor SVG &amp; PNG HD</div>
+          <p class="hub-card-desc">Edite cores de vetores SVG em tempo real e converta para PNG em 2x, 4x e 8x HD.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="upscaler">
+          <div class="hub-card-icon"><i data-lucide="sparkles"></i></div>
+          <div class="hub-card-title">HD Upscaler &amp; Nitidez</div>
+          <p class="hub-card-desc">Amplie a resolução (2x/4x HD) e recupere detalhes com o filtro Unsharp Mask.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="favicon">
+          <div class="hub-card-icon"><i data-lucide="layout-grid"></i></div>
+          <div class="hub-card-title">Gerador de Favicon</div>
+          <p class="hub-card-desc">Gere conjuntos completos de favicons e ícones para iOS, Android e PWA.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="watermark">
+          <div class="hub-card-icon"><i data-lucide="stamp"></i></div>
+          <div class="hub-card-title">Marca d'Água</div>
+          <p class="hub-card-desc">Proteja suas fotos aplicando marca d'água com texto ou logo e salvamento de presets.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category 2: Utilitários & Design -->
+    <div class="hub-category-section">
+      <div class="hub-category-title"><i data-lucide="sliders"></i> Utilitários &amp; Design</div>
+      <div class="hub-grid">
+        <div class="hub-card" data-open-tab="audioWave">
+          <div class="hub-card-icon"><i data-lucide="activity"></i></div>
+          <div class="hub-card-title">Áudio Waveform</div>
+          <p class="hub-card-desc">Gere imagens em barras de ondas sonoras a partir de arquivos MP3 e WAV.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="pdfStudio">
+          <div class="hub-card-icon"><i data-lucide="file-text"></i></div>
+          <div class="hub-card-title">Imagens para PDF</div>
+          <p class="hub-card-desc">Junte múltiplas fotos PNG ou JPEG e gere um documento PDF pronto.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="qrcode">
+          <div class="hub-card-icon"><i data-lucide="qr-code"></i></div>
+          <div class="hub-card-title">Gerador de QR Code <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></div>
+          <p class="hub-card-desc">Crie códigos QR para URL, Texto e Wi-Fi com logo central e cores customizáveis.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="colorExtractor">
+          <div class="hub-card-icon"><i data-lucide="palette"></i></div>
+          <div class="hub-card-title">Extrator de Cores</div>
+          <p class="hub-card-desc">Extraia cores predominantes de imagens com cópia de códigos HEX/RGB/HSL.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="pattern">
+          <div class="hub-card-icon"><i data-lucide="layers"></i></div>
+          <div class="hub-card-title">Gradientes Mesh</div>
+          <p class="hub-card-desc">Crie planos de fundo de tela modernos com exportação em PNG 4K e código CSS.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="cssEffects">
+          <div class="hub-card-icon"><i data-lucide="wand-2"></i></div>
+          <div class="hub-card-title">Efeitos Visuais CSS</div>
+          <p class="hub-card-desc">Gerador interativo de Glassmorphism e sombras em camadas com cópia de CSS.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="svgPattern">
+          <div class="hub-card-icon"><i data-lucide="grid"></i></div>
+          <div class="hub-card-title">Pattern SVG Repeater <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> NOVO</span></div>
+          <p class="hub-card-desc">Faça upload de qualquer SVG e crie padrões repetidos contínuos em HD 4K e CSS.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category 3: Privacidade & Vídeo -->
+    <div class="hub-category-section">
+      <div class="hub-category-title"><i data-lucide="shield"></i> Privacidade &amp; Vídeo</div>
+      <div class="hub-grid">
+        <div class="hub-card" data-open-tab="exif">
+          <div class="hub-card-icon"><i data-lucide="eye-off"></i></div>
+          <div class="hub-card-title">Limpador EXIF &amp; GPS</div>
+          <p class="hub-card-desc">Inspecione coordenadas GPS e remova metadados oculados de fotos antes de compartilhar.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="frame">
+          <div class="hub-card-icon"><i data-lucide="film"></i></div>
+          <div class="hub-card-title">Extrator de Vídeo</div>
+          <p class="hub-card-desc">Capture quadros e momentos individuais de vídeos em imagem de alta definição.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Pricing & SaaS Plans Screen -->
+  <div id="pricingScreen" class="pricing-screen hidden">
+    <div class="pricing-header">
+      <h1 class="pricing-title">Escolha o plano ideal para o seu fluxo de trabalho</h1>
+      <p class="pricing-subtitle">Processamento 100% privado no seu dispositivo. Sem limites ocultos.</p>
+    </div>
+
+    <div class="pricing-toggle-row">
+      <span>Mensal</span>
+      <div class="pricing-toggle-switch" id="pricingToggleSwitch">
+        <div class="pricing-toggle-circle"></div>
+      </div>
+      <span>Anual</span>
+      <span class="discount-badge">Economize 20%</span>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Plan 1: Starter -->
+      <div class="pricing-card">
+        <h3 class="plan-name">Grátis</h3>
+        <div class="plan-price-row"><span class="plan-price">R$ 0</span><span class="plan-period">/ mês</span></div>
+        <p class="plan-desc">Para uso casual e edições rápidas no dia a dia.</p>
+        <ul class="plan-features-list">
+          <li class="plan-feature-item"><i data-lucide="check"></i> 10 Processamentos por mês</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> Ferramentas Básicas (Compressor, QR Code)</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> Processamento 100% Local &amp; Privado</li>
+        </ul>
+        <button class="btn btn-secondary btn-block margin-top-md">Plano Atual</button>
+      </div>
+
+      <!-- Plan 2: Pro -->
+      <div class="pricing-card featured">
+        <span class="featured-badge">Mais Popular</span>
+        <h3 class="plan-name">Pro</h3>
+        <div class="plan-price-row"><span class="plan-price" id="proPriceVal">R$ 29</span><span class="plan-period" id="proPeriodVal">/ mês</span></div>
+        <p class="plan-desc">Para designers, criadores de conteúdo e freelancers.</p>
+        <ul class="plan-features-list">
+          <li class="plan-feature-item"><i data-lucide="check"></i> <strong>Processamento &amp; ZIP Ilimitados</strong></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> Todas as 16 Ferramentas Avançadas</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> Estúdio de Mockups 3D &amp; Editor SVG</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> Exportação em Alta Definição 4K</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> Marcas d'Água &amp; Presets Salvos</li>
+        </ul>
+        <button class="btn btn-primary btn-block margin-top-md">Assinar Plano Pro</button>
+      </div>
+
+      <!-- Plan 3: Enterprise -->
+      <div class="pricing-card">
+        <h3 class="plan-name">Agências</h3>
+        <div class="plan-price-row"><span class="plan-price">R$ 79</span><span class="plan-period">/ mês</span></div>
+        <p class="plan-desc">Para agências, times e empresas que buscam alta escala.</p>
+        <ul class="plan-features-list">
+          <li class="plan-feature-item"><i data-lucide="check"></i> Tudo do Plano Pro para até 10 pessoas</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> Suporte Prioritário 24/7</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> Licença Comercial Ilimitada</li>
+        </ul>
+        <button class="btn btn-secondary btn-block margin-top-md">Contatar Vendas</button>
+      </div>
+    </div>
+
+    <!-- Pricing FAQ Section -->
+    <div class="pricing-faq-section">
+      <h2 class="faq-title">Perguntas Frequentes</h2>
+      <div class="faq-grid">
+        <div class="faq-card">
+          <div class="faq-question"><i data-lucide="help-circle"></i> Como funciona a privacidade dos meus arquivos?</div>
+          <div class="faq-answer">Todo o processamento de imagens, vídeos e arquivos é feito 100% no seu próprio navegador via HTML5 Canvas. Suas fotos NUNCA são enviadas para nenhum servidor externo.</div>
+        </div>
+
+        <div class="faq-card">
+          <div class="faq-question"><i data-lucide="help-circle"></i> O SnapFlow precisa de instalação?</div>
+          <div class="faq-answer">Não! O SnapFlow roda diretamente no seu navegador em qualquer computador ou dispositivo sem precisar baixar programas.</div>
+        </div>
+
+        <div class="faq-card">
+          <div class="faq-question"><i data-lucide="help-circle"></i> Posso cancelar minha assinatura a qualquer momento?</div>
+          <div class="faq-answer">Com certeza. Você pode cancelar sua assinatura com 1 clique a qualquer momento sem taxas ou fidelidade.</div>
+        </div>
+
+        <div class="faq-card">
+          <div class="faq-question"><i data-lucide="help-circle"></i> As ferramentas funcionam sem internet?</div>
+          <div class="faq-answer">Sim! Após carregar a página inicial, todas as 16 ferramentas funcionam perfeitamente mesmo se a sua conexão com a internet cair.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Studio Workspace Layout (Hidden initially until a tool is selected) -->
+  <div id="workspaceLayout" class="workspace-layout hidden">
+    <!-- Sidebar Navigation (16 Tools Categorized) -->
+    <aside class="sidebar glass-card">
+      <nav class="nav-menu">
+        <div class="nav-group-title">Edição de Imagem</div>
+
+        <button class="nav-item active" data-tab="compressor">
+          <div class="nav-icon-wrapper"><i data-lucide="minimize-2"></i></div>
+          <div class="nav-label"><span class="nav-title">Compressor &amp; Lote ZIP <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></span><span class="nav-desc">PNG, JPG, WebP</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="mockupStudio">
+          <div class="nav-icon-wrapper"><i data-lucide="monitor"></i></div>
+          <div class="nav-label"><span class="nav-title">Estúdio de Mockups <span class="beta-badge">BETA</span></span><span class="nav-desc">iPhone, Safari, Twitter</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="cropper">
+          <div class="nav-icon-wrapper"><i data-lucide="crop"></i></div>
+          <div class="nav-label"><span class="nav-title">Recorte &amp; Filtros</span><span class="nav-desc">Dimensões e Filtros</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="bgRemover">
+          <div class="nav-icon-wrapper"><i data-lucide="scissors"></i></div>
+          <div class="nav-label"><span class="nav-title">Removedor de Fundo <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></span><span class="nav-desc">Transparência PNG</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="svgStudio">
+          <div class="nav-icon-wrapper"><i data-lucide="pen-tool"></i></div>
+          <div class="nav-label"><span class="nav-title">Editor SVG &amp; PNG HD</span><span class="nav-desc">Vetores 2x/4x/8x</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="upscaler">
+          <div class="nav-icon-wrapper"><i data-lucide="sparkles"></i></div>
+          <div class="nav-label"><span class="nav-title">HD Upscaler &amp; Nitidez</span><span class="nav-desc">Ampliação 2x/4x</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="favicon">
+          <div class="nav-icon-wrapper"><i data-lucide="layout-grid"></i></div>
+          <div class="nav-label"><span class="nav-title">Gerador de Favicon</span><span class="nav-desc">Ícones de App e PWA</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="watermark">
+          <div class="nav-icon-wrapper"><i data-lucide="stamp"></i></div>
+          <div class="nav-label"><span class="nav-title">Marca d'Água</span><span class="nav-desc">Textos e Logos</span></div>
+        </button>
+
+        <div class="nav-group-title">Utilitários &amp; Design</div>
+
+        <button class="nav-item" data-tab="audioWave">
+          <div class="nav-icon-wrapper"><i data-lucide="activity"></i></div>
+          <div class="nav-label"><span class="nav-title">Áudio Waveform</span><span class="nav-desc">Formas de Onda MP3</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="pdfStudio">
+          <div class="nav-icon-wrapper"><i data-lucide="file-text"></i></div>
+          <div class="nav-label"><span class="nav-title">Imagens para PDF</span><span class="nav-desc">Documento PDF</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="qrcode">
+          <div class="nav-icon-wrapper"><i data-lucide="qr-code"></i></div>
+          <div class="nav-label"><span class="nav-title">Gerador de QR Code <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></span><span class="nav-desc">URL, Wi-Fi e Texto</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="colorExtractor">
+          <div class="nav-icon-wrapper"><i data-lucide="palette"></i></div>
+          <div class="nav-label"><span class="nav-title">Extrator de Cores</span><span class="nav-desc">Paletas e Cópia HEX</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="pattern">
+          <div class="nav-icon-wrapper"><i data-lucide="layers"></i></div>
+          <div class="nav-label"><span class="nav-title">Gerador de Gradientes</span><span class="nav-desc">Mesh &amp; Ondas CSS</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="cssEffects">
+          <div class="nav-icon-wrapper"><i data-lucide="wand-2"></i></div>
+          <div class="nav-label"><span class="nav-title">Efeitos Visuais CSS</span><span class="nav-desc">Glass &amp; Sombras</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="svgPattern">
+          <div class="nav-icon-wrapper"><i data-lucide="grid"></i></div>
+          <div class="nav-label"><span class="nav-title">Pattern SVG Repeater <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> NOVO</span></span><span class="nav-desc">Repetição de SVG</span></div>
+        </button>
+
+        <div class="nav-group-title">Privacidade &amp; Vídeo</div>
+
+        <button class="nav-item" data-tab="exif">
+          <div class="nav-icon-wrapper"><i data-lucide="eye-off"></i></div>
+          <div class="nav-label"><span class="nav-title">Limpador EXIF &amp; GPS</span><span class="nav-desc">Privacidade de Foto</span></div>
+        </button>
+
+        <button class="nav-item" data-tab="frame">
+          <div class="nav-icon-wrapper"><i data-lucide="film"></i></div>
+          <div class="nav-label"><span class="nav-title">Extrator de Vídeo</span><span class="nav-desc">Captura de Frames HD</span></div>
+        </button>
+      </nav>
+
+      <!-- Storage & Stats Counter -->
+      <div class="stats-card glass-panel">
+        <div class="stats-header">
+          <i data-lucide="cpu" class="sparkle-icon"></i>
+          <span>Sessão Atual</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-value" id="statsFilesProcessed">0</span>
+            <span class="stat-label">Arquivos</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-value" id="statsSavedSpace">0 MB</span>
+            <span class="stat-label">Economizados</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- TAB 1: Compressor & Lote ZIP -->
+      <section id="compressorTab" class="tab-panel active">
+        <div class="panel-header"><div><h1 class="panel-title">Compressor &amp; Processamento em Lote ZIP</h1><p class="panel-subtitle">Reduza o tamanho de até 100 imagens e baixe tudo compactado em ZIP.</p></div></div>
+        <div class="upload-container glass-card" id="compressorDropZone">
+          <input type="file" id="compressorFileInput" accept="image/*" multiple class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="upload-cloud"></i></div>
+            <h3>Arraste e solte uma ou várias imagens aqui</h3>
+            <p>ou clique para navegar nos seus arquivos (PNG, JPG, WebP, BMP)</p>
+            <div class="btn-row">
+              <button class="btn btn-primary" onclick="document.getElementById('compressorFileInput').click()"><i data-lucide="file-plus"></i> Selecionar Imagens (Lote)</button>
+              <button class="btn btn-secondary" onclick="fetch('assets/sample.jpg').then(r=>r.blob()).then(b=>window.compressorApp.processFile(new File([b],'sample.jpg',{type:'image/jpeg'})))"><i data-lucide="sparkles"></i> Testar com Exemplo</button>
+            </div>
+          </div>
+        </div>
+        <div id="compressorWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <h3 class="section-heading"><i data-lucide="sliders"></i> Ajustes de Compressão</h3>
+              <div class="control-group">
+                <label for="outputFormat">Formato de Saída:</label>
+                <select id="outputFormat" class="select-input">
+                  <option value="image/webp">WebP (Recomendado)</option>
+                  <option value="image/jpeg">JPEG</option>
+                  <option value="image/png">PNG</option>
+                </select>
+              </div>
+              <div class="control-group" id="qualityControlGroup"><div class="label-with-value"><label for="qualityRange">Qualidade:</label><span class="range-val" id="qualityValue">80%</span></div><input type="range" id="qualityRange" min="10" max="100" value="80" class="slider-input"></div>
+              <div class="info-box-grid"><div class="metric-card"><span class="metric-label">Original</span><span class="metric-value" id="origSizeLabel">0 KB</span></div><div class="metric-card accent"><span class="metric-label">Otimizada</span><span class="metric-value" id="optSizeLabel">0 KB</span></div><div class="metric-card success"><span class="metric-label">Economia</span><span class="metric-value" id="savingLabel">0%</span></div></div>
+              <div class="action-buttons">
+                <button id="downloadCompressedBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar Imagem Otimizada</button>
+                <button id="resetCompressorBtn" class="btn btn-secondary btn-block margin-top-sm"><i data-lucide="upload"></i> Carregar Outra Imagem</button>
+              </div>
+            </div>
+            <div class="preview-area">
+              <div class="comparison-slider-container" id="comparisonContainer">
+                <img id="imgBefore" src="" alt="Original" class="comparison-img before-img">
+                <div class="after-wrapper" id="afterWrapper"><img id="imgAfter" src="" alt="Otimizada" class="comparison-img after-img"></div>
+                <div class="slider-handle" id="sliderHandle"><div class="handle-circle"><i data-lucide="chevrons-left-right"></i></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: Estúdio de Mockups -->
+      <section id="mockupStudioTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Estúdio de Mockups de Dispositivos</h1><p class="panel-subtitle">Enquadre suas capturas de tela em molduras fotorealistas de Safari, iPhone 15 Pro, MacBook Pro e Twitter/X.</p></div></div>
+        <div class="upload-container glass-card" id="mockupDropZone">
+          <input type="file" id="mockupFileInput" accept="image/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="monitor"></i></div>
+            <h3>Carregue sua captura de tela (Screenshot)</h3>
+            <div class="btn-row">
+              <button class="btn btn-primary" onclick="document.getElementById('mockupFileInput').click()"><i data-lucide="image"></i> Abrir Screenshot</button>
+              <button class="btn btn-secondary" onclick="fetch('assets/sample.jpg').then(r=>r.blob()).then(b=>window.mockupApp.loadFile(new File([b],'sample.jpg',{type:'image/jpeg'})))"><i data-lucide="sparkles"></i> Testar com Exemplo</button>
+            </div>
+          </div>
+        </div>
+        <div id="mockupWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <h3 class="section-heading"><i data-lucide="layout"></i> Modelo do Dispositivo</h3>
+              <div class="tab-selector-small">
+                <button class="mockup-frame-btn active" data-frame="safari">Safari Window</button>
+                <button class="mockup-frame-btn" data-frame="iphone">iPhone 15</button>
+              </div>
+              <div class="tab-selector-small margin-top-sm">
+                <button class="mockup-frame-btn" data-frame="macbook">MacBook Pro</button>
+                <button class="mockup-frame-btn" data-frame="twitter">Twitter / X</button>
+              </div>
+
+              <h3 class="section-heading margin-top-md"><i data-lucide="palette"></i> Papel de Parede / Fundo</h3>
+              <div class="btn-group">
+                <button class="btn btn-secondary mockup-bg-btn active" data-bg="dark">Dark</button>
+                <button class="btn btn-secondary mockup-bg-btn" data-bg="sunset">Sunset</button>
+                <button class="btn btn-secondary mockup-bg-btn" data-bg="aurora">Aurora</button>
+                <button class="btn btn-secondary mockup-bg-btn" data-bg="transparent">PNG</button>
+              </div>
+
+              <h3 class="section-heading margin-top-md"><i data-lucide="sliders"></i> Margem / Padding</h3>
+              <div class="control-group"><div class="label-with-value"><label>Padding</label><span id="mockupPaddingVal">50px</span></div><input type="range" id="mockupPaddingRange" min="10" max="120" value="50" class="slider-input"></div>
+
+              <div class="action-buttons margin-top-md"><button id="downloadMockupBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar Mockup HD PNG</button></div>
+            </div>
+            <div class="preview-area"><canvas id="mockupCanvas" style="max-width:100%; border-radius:8px;"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: Recorte & Filtros -->
+      <section id="cropperTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Editor, Recorte e Filtros Visuais</h1><p class="panel-subtitle">Ajuste dimensões, corte e aplique filtros.</p></div></div>
+        <div class="upload-container glass-card" id="cropperDropZone">
+          <input type="file" id="cropperFileInput" accept="image/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="crop"></i></div>
+            <h3>Carregue a imagem para editar</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('cropperFileInput').click()"><i data-lucide="file-plus"></i> Abrir Editor</button></div>
+          </div>
+        </div>
+        <div id="cropperWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <div class="preset-grid"><button class="preset-btn active" data-aspect="free">Livre</button><button class="preset-btn" data-aspect="1:1">1:1</button><button class="preset-btn" data-aspect="16:9">16:9</button><button class="preset-btn" data-aspect="4:3">4:3</button></div>
+              <div class="action-buttons margin-top-md"><button id="downloadCroppedBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Exportar Imagem Editada</button></div>
+            </div>
+            <div class="preview-area"><canvas id="cropCanvas"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: Removedor de Fundo -->
+      <section id="bgRemoverTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Removedor de Fundo (Transparência PNG)</h1><p class="panel-subtitle">Remova a cor de fundo de qualquer foto para gerar um PNG transparente instantâneo.</p></div></div>
+        <div class="upload-container glass-card" id="bgDropZone">
+          <input type="file" id="bgFileInput" accept="image/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="scissors"></i></div>
+            <h3>Carregue a foto para remover o fundo</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('bgFileInput').click()"><i data-lucide="image"></i> Abrir Imagem</button></div>
+          </div>
+        </div>
+        <div id="bgWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <div class="control-group"><div class="label-with-value"><label>Tolerância</label><span id="bgToleranceVal">30%</span></div><input type="range" id="bgToleranceRange" min="5" max="80" value="30" class="slider-input"></div>
+              <div class="action-buttons margin-top-md"><button id="downloadBgRemovedBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar PNG Transparente</button></div>
+            </div>
+            <div class="preview-area"><canvas id="bgCanvas" style="max-width:100%;"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: Editor SVG -->
+      <section id="svgStudioTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Editor de Vetores SVG &amp; PNG HD</h1><p class="panel-subtitle">Edite cores de vetores SVG em tempo real e converta em alta definição (2x, 4x, 8x HD).</p></div></div>
+        <div class="upload-container glass-card" id="svgDropZone">
+          <input type="file" id="svgFileInput" accept=".svg" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="pen-tool"></i></div>
+            <h3>Carregue um arquivo vetorial SVG</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('svgFileInput').click()"><i data-lucide="upload"></i> Escolher Vetor SVG</button></div>
+          </div>
+        </div>
+        <div id="svgWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <h3 class="section-heading"><i data-lucide="palette"></i> Cor de Preenchimento</h3>
+              <input type="color" id="svgFillColor" value="#ffffff" class="select-input" style="height:38px;">
+              <div class="action-buttons margin-top-md"><button id="downloadSvgPngBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar em PNG 4x HD</button></div>
+            </div>
+            <div class="preview-area">
+              <div id="svgPreviewArea" style="max-width:300px;"></div>
+              <textarea id="svgCodeArea" class="textarea-input margin-top-md" readonly></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: HD Upscaler & Nitidez -->
+      <section id="upscalerTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">HD Upscaler &amp; Aprimorador de Nitidez</h1><p class="panel-subtitle">Amplie a resolução (2x/4x) e recupere detalhes com o filtro Unsharp Mask.</p></div></div>
+        <div class="upload-container glass-card" id="upscaleDropZone">
+          <input type="file" id="upscaleFileInput" accept="image/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="sparkles"></i></div>
+            <h3>Carregue a foto para ampliar e aprimorar</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('upscaleFileInput').click()"><i data-lucide="image"></i> Selecionar Imagem</button></div>
+          </div>
+        </div>
+        <div id="upscaleWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <div class="btn-group"><button class="btn btn-secondary scale-btn active" data-scale="2">Ampliar 2x HD</button><button class="btn btn-secondary scale-btn" data-scale="4">Ampliar 4x HD</button></div>
+              <div class="control-group margin-top-sm"><div class="label-with-value"><label>Nitidez</label><span id="sharpnessVal">30%</span></div><input type="range" id="sharpnessRange" min="0" max="100" value="30" class="slider-input"></div>
+              <div class="action-buttons margin-top-md"><button id="downloadUpscaledBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar Imagem Ampliada HD</button></div>
+            </div>
+            <div class="preview-area"><canvas id="upscaleCanvas" style="max-width:100%;"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 7: Favicon Generator -->
+      <section id="faviconTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Gerador de Favicon &amp; Ícones de App</h1><p class="panel-subtitle">Gere tamanhos de favicons para iOS, Android e PWA.</p></div></div>
+        <div class="upload-container glass-card" id="faviconDropZone">
+          <input type="file" id="faviconFileInput" accept="image/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="layout-grid"></i></div>
+            <h3>Carregue a imagem do logotipo</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('faviconFileInput').click()"><i data-lucide="upload"></i> Escolher Logotipo</button></div>
+          </div>
+        </div>
+        <div id="faviconWorkspace" class="workspace-card glass-card hidden"><div class="favicon-grid margin-top-md" id="faviconPreviewGrid"></div></div>
+      </section>
+
+      <!-- TAB 8: Marca d'Água -->
+      <section id="watermarkTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Adicionador de Marca d'Água</h1><p class="panel-subtitle">Proteja suas fotos aplicando textos ou logotipos.</p></div></div>
+        <div class="upload-container glass-card" id="watermarkDropZone">
+          <input type="file" id="watermarkFileInput" accept="image/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="stamp"></i></div>
+            <h3>Carregue a foto base para proteger</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('watermarkFileInput').click()"><i data-lucide="image"></i> Abrir Imagem</button></div>
+          </div>
+        </div>
+        <div id="watermarkWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <div id="wmTextControls"><label for="wmTextValue">Texto:</label><input type="text" id="wmTextValue" class="text-input" value="© SnapFlow"></div>
+              <div class="action-buttons margin-top-md"><button id="downloadWatermarkedBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar Imagem Protegida</button></div>
+            </div>
+            <div class="preview-area"><canvas id="watermarkCanvas" style="max-width:100%;"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 9: Áudio Waveform -->
+      <section id="audioWaveTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Visualizador de Formas de Onda de Áudio</h1><p class="panel-subtitle">Gere imagens em barras de ondas sonoras de arquivos MP3 e WAV.</p></div></div>
+        <div class="upload-container glass-card" id="audioDropZone">
+          <input type="file" id="audioFileInput" accept="audio/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="activity"></i></div>
+            <h3>Carregue um arquivo de áudio (MP3, WAV)</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('audioFileInput').click()"><i data-lucide="upload"></i> Escolher Áudio</button></div>
+          </div>
+        </div>
+        <div id="audioWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <h3 class="section-heading"><i data-lucide="palette"></i> Cor da Onda</h3>
+              <input type="color" id="audioWaveColor" value="#38bdf8" class="select-input" style="height:38px;">
+              <div class="action-buttons margin-top-md"><button id="downloadWaveformBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar Waveform PNG</button></div>
+            </div>
+            <div class="preview-area"><canvas id="audioCanvas" style="max-width:100%; border-radius:8px;"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 10: Imagens para PDF -->
+      <section id="pdfStudioTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Conversor de Imagens para PDF</h1><p class="panel-subtitle">Junte múltiplas fotos PNG ou JPEG em um documento PDF pronto para download.</p></div></div>
+        <div class="upload-container glass-card" id="pdfDropZone">
+          <input type="file" id="pdfFileInput" accept="image/*" multiple class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="file-text"></i></div>
+            <h3>Selecione uma ou mais fotos para o PDF</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('pdfFileInput').click()"><i data-lucide="file-plus"></i> Adicionar Imagens</button></div>
+          </div>
+        </div>
+        <div id="pdfWorkspace" class="workspace-card glass-card hidden">
+          <div class="pdf-list-container margin-top-md" id="pdfImageList"></div>
+          <div class="action-buttons margin-top-md"><button id="generatePdfBtn" class="btn btn-success btn-block"><i data-lucide="printer"></i> Gerar &amp; Baixar Documento PDF</button></div>
+        </div>
+      </section>
+
+      <!-- TAB 11: QR Code -->
+      <section id="qrcodeTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Gerador de QR Code Customizável</h1><p class="panel-subtitle">Crie códigos QR para URL, Texto e Wi-Fi.</p></div></div>
+        <div class="workspace-card glass-card">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <div class="tab-selector-small"><button class="qr-type-btn active" data-type="url">Link / URL</button><button class="qr-type-btn" data-type="text">Texto livre</button><button class="qr-type-btn" data-type="wifi">Wi-Fi</button></div>
+              <div id="qrInputUrl" class="qr-content-group margin-top-sm"><label for="qrUrlValue">URL do Website:</label><input type="url" id="qrUrlValue" class="text-input" value="https://google.com"></div>
+              <div class="action-buttons margin-top-lg"><button id="downloadQrPngBtn" class="btn btn-primary btn-block"><i data-lucide="download"></i> Baixar QR Code (PNG)</button></div>
+            </div>
+            <div class="preview-area center-preview"><canvas id="qrCanvas" width="320" height="320"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 12: Color Extractor -->
+      <section id="colorExtractorTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Extrator de Cores &amp; Paletas</h1><p class="panel-subtitle">Extraia cores predominantes de qualquer imagem.</p></div></div>
+        <div class="upload-container glass-card" id="colorDropZone">
+          <input type="file" id="colorFileInput" accept="image/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="palette"></i></div>
+            <h3>Carregue uma imagem para extrair a paleta</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('colorFileInput').click()"><i data-lucide="image"></i> Selecionar Imagem</button></div>
+          </div>
+        </div>
+        <div id="colorWorkspace" class="workspace-card glass-card hidden">
+          <div class="color-grid-layout"><div class="img-picker-wrapper"><img id="colorSourceImg" src="" alt="Source" class="color-source-img"><canvas id="colorSamplingCanvas" class="hidden"></canvas></div><div class="palette-results"><div class="palette-swatches-grid" id="paletteGrid"></div></div></div>
+        </div>
+      </section>
+
+      <!-- TAB 13: Gradientes Mesh -->
+      <section id="patternTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Gerador de Gradientes Mesh &amp; Padrões</h1><p class="panel-subtitle">Crie fundos modernos com exportação em PNG 4K.</p></div></div>
+        <div class="workspace-card glass-card">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <div class="tab-selector-small"><button class="pattern-type-btn active" data-type="mesh">Mesh</button><button class="pattern-type-btn" data-type="wave">Ondas</button><button class="pattern-type-btn" data-type="radial">Radial</button></div>
+              <div class="action-buttons margin-top-md"><button id="copyPatternCssBtn" class="btn btn-primary btn-block"><i data-lucide="copy"></i> Copiar Código CSS</button><button id="downloadPatternPngBtn" class="btn btn-success btn-block margin-top-sm"><i data-lucide="download"></i> Baixar PNG 4K</button></div>
+            </div>
+            <div class="preview-area"><canvas id="patternCanvas" style="max-width:100%; border-radius:8px;"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 14: Efeitos Visuais CSS -->
+      <section id="cssEffectsTab" class="tab-panel">
+        <div class="panel-header">
+          <div>
+            <h1 class="panel-title">Gerador de Efeitos Visuais CSS (Glassmorphism &amp; Sombras)</h1>
+            <p class="panel-subtitle">Crie efeitos de vidro fosco realista com cópia direta do código CSS.</p>
+          </div>
+        </div>
+        <div class="workspace-card glass-card">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <div class="control-group">
+                <div class="label-with-value"><label>Desfoque (Blur)</label><span id="cssBlurRangeVal">16px</span></div>
+                <input type="range" id="cssBlurRange" min="0" max="40" value="16" class="slider-input">
+              </div>
+
+              <div class="control-group">
+                <div class="label-with-value"><label>Transparência (Opacidade)</label><span id="cssOpacityRangeVal">20%</span></div>
+                <input type="range" id="cssOpacityRange" min="5" max="95" value="20" class="slider-input">
+              </div>
+
+              <div class="control-group">
+                <div class="label-with-value"><label>Arredondamento (Radius)</label><span id="cssRadiusRangeVal">16px</span></div>
+                <input type="range" id="cssRadiusRange" min="0" max="40" value="16" class="slider-input">
+              </div>
+
+              <div class="control-group">
+                <div class="label-with-value"><label>Difusão da Sombra</label><span id="cssShadowBlurRangeVal">30px</span></div>
+                <input type="range" id="cssShadowBlurRange" min="0" max="60" value="30" class="slider-input">
+              </div>
+
+              <div class="control-group">
+                <label>Tom do Vidro</label>
+                <div class="preset-colors-row">
+                  <button class="color-preset-btn active" data-glass-tint="light" style="background:rgba(255,255,255,0.2); border:1px solid #ffffff;" title="Vidro Claro"></button>
+                  <button class="color-preset-btn" data-glass-tint="dark" style="background:rgba(0,0,0,0.4); border:1px solid #333;" title="Vidro Escuro"></button>
+                  <button class="color-preset-btn" data-glass-tint="blue" style="background:rgba(56,189,248,0.25); border:1px solid #38bdf8;" title="Vidro Azul"></button>
+                  <button class="color-preset-btn" data-glass-tint="purple" style="background:rgba(168,85,247,0.25); border:1px solid #a855f7;" title="Vidro Roxo"></button>
+                </div>
+              </div>
+
+              <div class="action-buttons margin-top-md">
+                <button id="copyCssEffectBtn" class="btn btn-primary btn-block"><i data-lucide="copy"></i> Copiar Código CSS</button>
+              </div>
+            </div>
+
+            <div class="preview-area" style="display:flex; flex-direction:column; align-items:center; gap:1.5rem;">
+              <!-- Glassmorphism Vivid Background Showcase Container -->
+              <div class="glass-showcase-bg" id="glassShowcaseBg">
+                <div class="glass-orb orb-1"></div>
+                <div class="glass-orb orb-2"></div>
+                <div class="glass-orb orb-3"></div>
+
+                <div id="cssPreviewCard" class="css-preview-card">
+                  <div class="glass-card-content">
+                    <i data-lucide="sparkles" style="width:28px; height:28px; color:#38bdf8;"></i>
+                    <h4 style="margin-top:0.4rem; font-weight:700;">Efeito Glassmorphism</h4>
+                    <p style="font-size:0.75rem; opacity:0.8; margin-top:0.2rem;">Vidro Fosco Fotorrealista em Tempo Real</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="code-copy-box" style="width:100%;">
+                <pre style="margin:0;"><code id="cssEffectCode">/* Código CSS do Efeito */</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 17: Pattern SVG Repeater Generator -->
+      <section id="svgPatternTab" class="tab-panel">
+        <div class="panel-header">
+          <div>
+            <h1 class="panel-title">Pattern SVG Repeater &amp; Gerador de Padrões</h1>
+            <p class="panel-subtitle">Faça upload de qualquer arquivo SVG e crie estampas, texturas e fundos repetidos em tempo real.</p>
+          </div>
+        </div>
+        <div class="workspace-card glass-card">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <!-- Upload Custom SVG Box -->
+              <div class="control-group">
+                <label>Seu Arquivo SVG</label>
+                <div class="mini-upload-box" id="patternSvgDropZone" onclick="document.getElementById('patternSvgFileInput').click()" style="padding:0.75rem; border:1.5px dashed var(--glass-border-accent); border-radius:8px; text-align:center; cursor:pointer;">
+                  <input type="file" id="patternSvgFileInput" accept=".svg,image/svg+xml" class="file-input-hidden">
+                  <i data-lucide="upload-cloud" style="width:22px; height:22px; color:#38bdf8;"></i>
+                  <div style="font-size:0.8rem; font-weight:500; margin-top:0.2rem;">Carregar SVG do computador</div>
+                </div>
+              </div>
+
+              <!-- Quick Presets -->
+              <div class="control-group">
+                <label>Presets de Exemplo</label>
+                <div class="preset-colors-row" style="flex-wrap:wrap;">
+                  <button class="btn btn-secondary btn-sm" data-svg-preset="star" title="Estrela">★ Estrela</button>
+                  <button class="btn btn-secondary btn-sm" data-svg-preset="heart" title="Coração">♥ Coração</button>
+                  <button class="btn btn-secondary btn-sm" data-svg-preset="sparkle" title="Brilho">✨ Brilho</button>
+                  <button class="btn btn-secondary btn-sm" data-svg-preset="diamond" title="Losango">◆ Losango</button>
+                </div>
+              </div>
+
+              <!-- Grid Mode Selector -->
+              <div class="control-group">
+                <label>Modo de Distribuição</label>
+                <div class="preset-colors-row">
+                  <button class="btn btn-secondary btn-sm active" data-pattern-layout="grid">Grade Regular</button>
+                  <button class="btn btn-secondary btn-sm" data-pattern-layout="brick">Tijolo Intercalado</button>
+                </div>
+              </div>
+
+              <!-- Sliders -->
+              <div class="control-group">
+                <div class="label-with-value"><label>Tamanho do Elemento</label><span id="patternTileSizeVal">40px</span></div>
+                <input type="range" id="patternTileSize" min="16" max="120" value="40" class="slider-input">
+              </div>
+
+              <div class="control-group">
+                <div class="label-with-value"><label>Espaçamento (Gap)</label><span id="patternTileGapVal">20px</span></div>
+                <input type="range" id="patternTileGap" min="0" max="60" value="20" class="slider-input">
+              </div>
+
+              <div class="control-group">
+                <div class="label-with-value"><label>Rotação Individual</label><span id="patternTileRotateVal">0°</span></div>
+                <input type="range" id="patternTileRotate" min="0" max="360" value="0" class="slider-input">
+                <button id="randomizePatternRotateBtn" class="btn btn-secondary btn-sm" style="width:100%; margin-top:0.5rem;"><i data-lucide="shuffle"></i> Aleatorizar Rotações 🎲</button>
+              </div>
+
+              <div class="control-group">
+                <div class="label-with-value"><label>Opacidade</label><span id="patternTileOpacityVal">100%</span></div>
+                <input type="range" id="patternTileOpacity" min="10" max="100" value="100" class="slider-input">
+              </div>
+
+              <div class="control-group">
+                <label>Cor do Fundo</label>
+                <input type="color" id="patternBgColor" value="#09090b" class="color-picker-input">
+              </div>
+
+              <div class="control-group">
+                <label>Cor do SVG</label>
+                <input type="color" id="patternSvgColor" value="#38bdf8" class="color-picker-input">
+              </div>
+
+              <div class="action-buttons margin-top-md">
+                <button id="copyPatternCssCodeBtn" class="btn btn-primary btn-block"><i data-lucide="copy"></i> Copiar Código CSS</button>
+                <button id="downloadPatternPng4kBtn" class="btn btn-success btn-block margin-top-sm"><i data-lucide="download"></i> Baixar PNG 4K</button>
+                <button id="downloadPatternSvgFileBtn" class="btn btn-secondary btn-block margin-top-sm"><i data-lucide="file-code"></i> Baixar Arquivo SVG</button>
+              </div>
+            </div>
+
+            <div class="preview-area" style="display:flex; flex-direction:column; align-items:center; gap:1.25rem;">
+              <canvas id="svgPatternCanvas" style="max-width:100%; border-radius:12px; border:1px solid var(--glass-border); box-shadow:var(--shadow-md);"></canvas>
+              <div class="code-copy-box" style="width:100%;">
+                <pre style="margin:0;"><code id="svgPatternCssCode">/* Código CSS do Pattern */</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 15: Limpador EXIF & GPS -->
+      <section id="exifTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Visualizador &amp; Limpador de EXIF &amp; GPS</h1><p class="panel-subtitle">Remova rastreadores e coordenadas GPS das fotos.</p></div></div>
+        <div class="upload-container glass-card" id="exifDropZone">
+          <input type="file" id="exifFileInput" accept="image/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="eye-off"></i></div>
+            <h3>Carregue a fotografia</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('exifFileInput').click()"><i data-lucide="image"></i> Analisar Foto</button></div>
+          </div>
+        </div>
+        <div id="exifWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar"><button id="cleanExifBtn" class="btn btn-success btn-block"><i data-lucide="check-circle-2"></i> Baixar Foto Limpa</button></div>
+            <div class="preview-area"><div class="exif-table" id="exifMetadataGrid"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 16: Extrator de Vídeo -->
+      <section id="frameTab" class="tab-panel">
+        <div class="panel-header"><div><h1 class="panel-title">Extrator de Frames de Vídeo</h1><p class="panel-subtitle">Capture momentos em imagens de alta definição.</p></div></div>
+        <div class="upload-container glass-card" id="frameDropZone">
+          <input type="file" id="frameFileInput" accept="video/*" class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse"><i data-lucide="film"></i></div>
+            <h3>Carregue um vídeo (MP4, WebM)</h3>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('frameFileInput').click()"><i data-lucide="upload"></i> Escolher Vídeo</button></div>
+          </div>
+        </div>
+        <div id="frameWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar"><button id="captureFrameBtn" class="btn btn-primary btn-block"><i data-lucide="camera"></i> Capturar Frame</button></div>
+            <div class="preview-area"><video id="videoPlayer" controls style="max-width:100%;"></video><div id="capturedFrameContainer" class="captured-frame-box hidden"><canvas id="capturedFrameCanvas"></canvas><button id="downloadFrameBtn" class="btn btn-success btn-sm"><i data-lucide="download"></i> Baixar PNG</button></div></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/jszip.min.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/preset-manager.js"></script>
+  <script src="js/compressor.js"></script>
+  <script src="js/mockup-studio.js"></script>
+  <script src="js/cropper.js"></script>
+  <script src="js/bg-remover.js"></script>
+  <script src="js/svg-studio.js"></script>
+  <script src="js/audio-waveform.js"></script>
+  <script src="js/pdf-studio.js"></script>
+  <script src="js/upscaler.js"></script>
+  <script src="js/favicon-generator.js"></script>
+  <script src="js/watermark.js"></script>
+  <script src="js/qrcode.js"></script>
+  <script src="js/color-extractor.js"></script>
+  <script src="js/pattern-generator.js"></script>
+  <script src="js/css-effects.js"></script>
+  <script src="js/svg-pattern.js"></script>
+  <script src="js/exif-cleaner.js"></script>
+  <script src="js/frame-extractor.js"></script>
+  <script src="js/custom-color-picker.js"></script>
+  <script src="js/stellar-bg.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

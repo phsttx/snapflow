@@ -1,0 +1,19 @@
+{
+  "name": "SnapFlow - Suíte de Edição Client-Side",
+  "short_name": "SnapFlow",
+  "description": "Suíte Completa de Edição de Mídia e Utilitários de Design 100% Privada e Client-Side com 17 Ferramentas.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "128x128 192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "graphics", "productivity"]
+}
