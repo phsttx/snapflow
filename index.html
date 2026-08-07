@@ -62,9 +62,6 @@
       </nav>
 
       <div class="header-actions">
-        <button id="pwaInstallBtn" class="btn btn-secondary btn-sm" title="Instalar SupaEdit como App no Computador ou Celular">
-          <i data-lucide="download-cloud"></i> Instalar App
-        </button>
         <button id="showHubBtn" class="btn btn-secondary btn-sm hidden">
           <i data-lucide="layout-grid"></i> Ver Todas as Ferramentas
         </button>
@@ -103,11 +100,11 @@
           <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
         </div>
 
-        <div class="hub-card" data-open-tab="mockupStudio">
+        <div class="hub-card disabled-card" data-open-tab="mockupStudio" style="opacity: 0.6; pointer-events: none; position: relative;">
           <div class="hub-card-icon"><i data-lucide="monitor"></i></div>
-          <div class="hub-card-title">Estúdio de Mockups <span class="beta-badge">BETA</span></div>
+          <div class="hub-card-title">Estúdio de Mockups <span class="beta-badge" style="background: rgba(239, 68, 68, 0.2); color: #f87171;"><i data-lucide="lock" style="width:11px; height:11px; vertical-align:middle; margin-right:2px;"></i> BETA</span></div>
           <p class="hub-card-desc">Enquadre capturas de tela em molduras de Safari, iPhone 15 Pro, MacBook Pro e Twitter/X.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <span class="hub-card-action" style="color: var(--text-muted);"><i data-lucide="lock" style="width:14px; height:14px;"></i> Em Breve</span>
         </div>
 
         <div class="hub-card" data-open-tab="cropper">
@@ -329,9 +326,9 @@
           <div class="nav-label"><span class="nav-title">Compressor &amp; Lote ZIP <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></span><span class="nav-desc">PNG, JPG, WebP</span></div>
         </button>
 
-        <button class="nav-item" data-tab="mockupStudio">
+        <button class="nav-item disabled-nav-item" data-tab="mockupStudio" style="opacity: 0.5; pointer-events: none;">
           <div class="nav-icon-wrapper"><i data-lucide="monitor"></i></div>
-          <div class="nav-label"><span class="nav-title">Estúdio de Mockups <span class="beta-badge">BETA</span></span><span class="nav-desc">iPhone, Safari, Twitter</span></div>
+          <div class="nav-label"><span class="nav-title">Estúdio de Mockups <span class="beta-badge" style="background: rgba(239, 68, 68, 0.2); color: #f87171;"><i data-lucide="lock" style="width:10px; height:10px;"></i> Em Breve</span></span><span class="nav-desc">iPhone, Safari, Twitter</span></div>
         </button>
 
         <button class="nav-item" data-tab="cropper">
