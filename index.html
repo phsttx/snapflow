@@ -983,6 +983,33 @@
     </div>
   </div>
 
+  <!-- PRO Upgrade Paywall Modal -->
+  <div id="paywallModal" class="modal-overlay hidden" style="position:fixed; inset:0; z-index:9999; background:rgba(9,9,11,0.85); backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; padding:1rem;">
+    <div class="glass-card auth-modal-card" style="text-align:center;">
+      <button id="closePaywallModalBtn" class="icon-btn-sm" style="position:absolute; top:1rem; right:1rem; background:none; border:none; color:var(--text-muted); cursor:pointer;"><i data-lucide="x"></i></button>
+      
+      <div style="width:56px; height:56px; background:rgba(245,158,11,0.15); border-radius:14px; display:inline-flex; align-items:center; justify-content:center; color:#f59e0b; margin-bottom:1rem;">
+        <i data-lucide="crown" style="width:32px; height:32px;"></i>
+      </div>
+      
+      <h2 id="paywallModalTitle" style="font-size:1.4rem; font-weight:700; margin-bottom:0.4rem;">Você Atingiu seu Limite Grátis! 🛑</h2>
+      <p id="paywallModalDesc" style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:1.5rem;">Você utilizou suas 10 edições gratuitas este mês. Assine o Plano PRO por apenas R$ 29/mês para continuar criando sem limites!</p>
+
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:12px; padding:1rem; margin-bottom:1.5rem; text-align:left;">
+        <div style="font-size:0.8rem; font-weight:600; margin-bottom:0.5rem; color:#38bdf8;">Benefícios do Plano PRO:</div>
+        <ul style="font-size:0.8rem; color:var(--text-primary); list-style:none; padding:0; display:flex; flex-direction:column; gap:0.4rem;">
+          <li>✨ Processamento &amp; Lotes ZIP Ilimitados</li>
+          <li>✨ Exportação em Qualidade Máxima (4K HD)</li>
+          <li>✨ Marca d'Água com Logo &amp; Presets Salvos</li>
+        </ul>
+      </div>
+
+      <button id="paywallUpgradeBtn" class="btn btn-primary btn-block" style="width:100%; padding:0.85rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:0.5rem;">
+        Assinar Plano PRO Agora <i data-lucide="arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
   <!-- Toast Container -->
   <div id="toastContainer" class="toast-container"></div>
 
@@ -1010,6 +1037,7 @@
   <script src="js/custom-color-picker.js"></script>
   <script src="js/stellar-bg.js"></script>
   <script src="js/auth-supabase.js"></script>
+  <script src="js/limit-guard.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
