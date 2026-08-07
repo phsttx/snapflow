@@ -502,3 +502,98 @@ body.light-theme .btn-secondary:hover {
   visibility: hidden !important;
   opacity: 0 !important;
 }
+
+/* ==========================================================================
+   Mobile Responsiveness Polish (iPhone, Android & Tablets)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0.5rem 1rem !important;
+    gap: 0.5rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  .header-nav-links {
+    margin: 0 !important;
+    gap: 0.35rem !important;
+  }
+
+  .header-nav-link {
+    padding: 0.35rem 0.6rem !important;
+    font-size: 0.78rem !important;
+  }
+
+  .privacy-badge {
+    display: none !important; /* Oculta badge de privacidade em telas pequenas para não poluir */
+  }
+
+  .hub-header {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .hub-title {
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .hub-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+
+  .workspace-layout {
+    padding: 0 0.75rem !important;
+    gap: 1rem !important;
+    margin: 0.75rem auto !important;
+  }
+
+  .workspace-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .controls-sidebar {
+    order: 2;
+  }
+
+  .preview-area {
+    order: 1;
+    min-height: 260px !important;
+    padding: 0.65rem !important;
+  }
+
+  .comparison-slider-container {
+    max-height: 320px !important;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-name {
+    font-size: 1.15rem !important;
+  }
+
+  .logo-icon-glow {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .brand-icon {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .btn {
+    font-size: 0.82rem !important;
+    padding: 0.55rem 0.85rem !important;
+  }
+
+  .hub-search-input {
+    font-size: 0.85rem !important;
+    padding-left: 2.4rem !important;
+  }
+}
