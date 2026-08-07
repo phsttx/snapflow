@@ -90,7 +90,11 @@ class ImageCompressorModule {
       this.updateCompression();
     });
 
-    this.downloadBtn.addEventListener('click', () => this.downloadResult());
+    this.downloadBtn.addEventListener('click', () => {
+      if (window.limitGuard && !window.limitGuard.canProcess()) return;
+      if (window.limitGuard) window.limitGuard.incrementUsage();
+      this.downloadResult();
+    });
     this.resetBtn.addEventListener('click', () => this.reset());
 
     // Before/After Slider Drag logic
