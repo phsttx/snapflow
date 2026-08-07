@@ -73,6 +73,7 @@ class AppController {
 
     document.querySelectorAll('.hub-card').forEach(card => {
       card.addEventListener('click', () => {
+        if (card.classList.contains('disabled-card')) return;
         const tabId = card.dataset.openTab;
         if (tabId) {
           this.openStudioScreen(tabId);
@@ -258,6 +259,7 @@ class AppController {
   initSidebarNavigation() {
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', () => {
+        if (item.classList.contains('disabled-nav-item')) return;
         const tabId = item.dataset.tab;
         this.switchTab(tabId);
       });
