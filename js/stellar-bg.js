@@ -1,37 +1,35 @@
 /* ==========================================================================
-   SupaEdit - Dual-Theme Interactive Ambient Background Engine
-   Dark Mode: Constelação Estelar Noturna (Estrelas & Traços Luminosos)
-   Light Mode: Nódulo Geométrico & Partículas de Tinta Fluida Magnética
+   SnapFlow - Interactive Fluid Aurora Borealis Background Engine (60 FPS)
+   Ondas de Fluido Orgânico com Distorção e Brilho Interativo sob o Cursor
    ========================================================================== */
 
-class StellarBackgroundModule {
+class FluidAuroraBackgroundModule {
   constructor() {
-    this.canvas = document.createElement('canvas');
-    this.canvas.id = 'stellarCanvas';
+    this.canvas = document.getElementById('stellarBg');
+    if (!this.canvas) {
+      this.canvas = document.createElement('canvas');
+      this.canvas.id = 'stellarBg';
+      document.body.prepend(this.canvas);
+    }
     this.ctx = this.canvas.getContext('2d');
 
-    this.particles = [];
-    this.particleCount = 65;
-    this.maxDistance = 110;
-    this.mouse = { x: null, y: null, radius: 150 };
+    this.mouse = { x: -1000, y: -1000, targetX: -1000, targetY: -1000 };
+    this.time = 0;
 
     this.initCanvas();
-    this.createParticles();
     this.bindEvents();
     this.animate();
   }
 
   initCanvas() {
     this.canvas.style.position = 'fixed';
-    this.canvas.style.top = '0';
-    this.canvas.style.left = '0';
+    this.canvas.style.inset = '0';
     this.canvas.style.width = '100vw';
     this.canvas.style.height = '100vh';
     this.canvas.style.pointerEvents = 'none';
-    this.canvas.style.zIndex = '0';
-    this.canvas.style.opacity = '0.75';
+    this.canvas.style.zIndex = '-1';
+    this.canvas.style.opacity = '0.85';
 
-    document.body.prepend(this.canvas);
     this.resize();
   }
 
@@ -42,106 +40,110 @@ class StellarBackgroundModule {
     this.canvas.height = this.height;
   }
 
-  createParticles() {
-    this.particles = [];
-    for (let i = 0; i < this.particleCount; i++) {
-      this.particles.push({
-        x: Math.random() * this.width,
-        y: Math.random() * this.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 2 + 1,
-        alpha: Math.random() * 0.5 + 0.3,
-        baseAlpha: Math.random() * 0.5 + 0.3
-      });
-    }
-  }
-
   bindEvents() {
     window.addEventListener('resize', () => this.resize());
 
     window.addEventListener('mousemove', (e) => {
-      this.mouse.x = e.clientX;
-      this.mouse.y = e.clientY;
+      this.mouse.targetX = e.clientX;
+      this.mouse.targetY = e.clientY;
     });
 
     window.addEventListener('mouseleave', () => {
-      this.mouse.x = null;
-      this.mouse.y = null;
+      this.mouse.targetX = -1000;
+      this.mouse.targetY = -1000;
     });
   }
 
   animate() {
+    this.time += 0.008;
+
+    // Smooth lerp mouse position
+    this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.08;
+    this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.08;
+
     this.ctx.clearRect(0, 0, this.width, this.height);
 
     const isLightMode = document.body.classList.contains('light-theme');
 
-    // Theme Color Tokens
-    const particleColor = isLightMode ? 'rgba(9, 9, 11, ' : 'rgba(255, 255, 255, ';
-    const lineStrokeColor = isLightMode ? 'rgba(2, 132, 199, ' : 'rgba(56, 189, 248, ';
-    const gridLineColor = isLightMode ? 'rgba(113, 113, 122, ' : 'rgba(255, 255, 255, ';
+    // Base background fill
+    this.ctx.fillStyle = isLightMode ? '#f4f4f5' : '#09090b';
+    this.ctx.fillRect(0, 0, this.width, this.height);
 
-    for (let i = 0; i < this.particles.length; i++) {
-      const p = this.particles[i];
+    // Draw Aurora Fluid Waves Layer 1 (Ciano / Sky)
+    this.drawAuroraWave(
+      isLightMode ? 'rgba(56, 189, 248, 0.18)' : 'rgba(56, 189, 248, 0.15)',
+      this.width * 0.3,
+      this.height * 0.4,
+      this.width * 0.45,
+      Math.sin(this.time * 0.8) * 40,
+      Math.cos(this.time * 0.6) * 40
+    );
 
-      p.x += p.vx;
-      p.y += p.vy;
+    // Draw Aurora Fluid Waves Layer 2 (Indigo / Roxo)
+    this.drawAuroraWave(
+      isLightMode ? 'rgba(168, 85, 247, 0.15)' : 'rgba(139, 92, 246, 0.18)',
+      this.width * 0.7,
+      this.height * 0.6,
+      this.width * 0.5,
+      Math.cos(this.time * 0.7) * 50,
+      Math.sin(this.time * 0.9) * 50
+    );
 
-      if (p.x < 0) p.x = this.width;
-      if (p.x > this.width) p.x = 0;
-      if (p.y < 0) p.y = this.height;
-      if (p.y > this.height) p.y = 0;
+    // Draw Aurora Fluid Waves Layer 3 (Deep Sky Accent)
+    this.drawAuroraWave(
+      isLightMode ? 'rgba(14, 165, 233, 0.12)' : 'rgba(3, 105, 161, 0.2)',
+      this.width * 0.5,
+      this.height * 0.2,
+      this.width * 0.4,
+      Math.sin(this.time * 1.1) * 35,
+      Math.cos(this.time * 0.8) * 35
+    );
 
-      // Mouse Pursuit & Elastic Gravity
-      if (this.mouse.x !== null && this.mouse.y !== null) {
-        const dx = this.mouse.x - p.x;
-        const dy = this.mouse.y - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+    // Interactive Cursor Fluid Glow Spotlight
+    if (this.mouse.x > 0 && this.mouse.y > 0) {
+      const gradient = this.ctx.createRadialGradient(
+        this.mouse.x,
+        this.mouse.y,
+        0,
+        this.mouse.x,
+        this.mouse.y,
+        280
+      );
 
-        if (dist < this.mouse.radius) {
-          const force = (this.mouse.radius - dist) / this.mouse.radius;
-          p.x += (dx / dist) * force * 1.5;
-          p.y += (dy / dist) * force * 1.5;
-
-          // Draw Connection Beam to Mouse
-          this.ctx.beginPath();
-          this.ctx.moveTo(p.x, p.y);
-          this.ctx.lineTo(this.mouse.x, this.mouse.y);
-          this.ctx.strokeStyle = `${lineStrokeColor}${0.35 * (1 - dist / this.mouse.radius)})`;
-          this.ctx.lineWidth = isLightMode ? 1 : 0.8;
-          this.ctx.stroke();
-        }
+      if (isLightMode) {
+        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.28)');
+        gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.1)');
+        gradient.addColorStop(1, 'rgba(244, 244, 245, 0)');
+      } else {
+        gradient.addColorStop(0, 'rgba(56, 189, 248, 0.25)');
+        gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.12)');
+        gradient.addColorStop(1, 'rgba(9, 9, 11, 0)');
       }
 
-      // Draw Particle
+      this.ctx.fillStyle = gradient;
       this.ctx.beginPath();
-      this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      this.ctx.fillStyle = `${particleColor}${isLightMode ? p.alpha * 0.25 : p.alpha})`;
+      this.ctx.arc(this.mouse.x, this.mouse.y, 280, 0, Math.PI * 2);
       this.ctx.fill();
-
-      // Connect Neighboring Nodes
-      for (let j = i + 1; j < this.particles.length; j++) {
-        const p2 = this.particles[j];
-        const dx = p.x - p2.x;
-        const dy = p.y - p2.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < this.maxDistance) {
-          const lineAlpha = (1 - dist / this.maxDistance) * (isLightMode ? 0.08 : 0.12);
-          this.ctx.beginPath();
-          this.ctx.moveTo(p.x, p.y);
-          this.ctx.lineTo(p2.x, p2.y);
-          this.ctx.strokeStyle = `${gridLineColor}${lineAlpha})`;
-          this.ctx.lineWidth = 0.6;
-          this.ctx.stroke();
-        }
-      }
     }
 
     requestAnimationFrame(() => this.animate());
   }
+
+  drawAuroraWave(color, centerX, centerY, radius, offsetX, offsetY) {
+    const posX = centerX + offsetX;
+    const posY = centerY + offsetY;
+
+    const grad = this.ctx.createRadialGradient(posX, posY, 0, posX, posY, radius);
+    grad.addColorStop(0, color);
+    grad.addColorStop(1, 'transparent');
+
+    this.ctx.fillStyle = grad;
+    this.ctx.beginPath();
+    this.ctx.arc(posX, posY, radius, 0, Math.PI * 2);
+    this.ctx.fill();
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.stellarBg = new StellarBackgroundModule();
+  window.fluidAuroraModule = new FluidAuroraBackgroundModule();
 });
