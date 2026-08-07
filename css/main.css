@@ -86,16 +86,19 @@ button {
   appearance: none;
 }
 
+html {
+  background-color: var(--bg-primary);
+}
+
 html, body {
   width: 100%;
   min-height: 100vh;
   font-family: var(--font-main);
-  background-color: var(--bg-primary);
+  background: transparent !important;
   color: var(--text-primary);
   overflow-x: hidden;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 /* Typography */
@@ -116,6 +119,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 100vh !important;
   z-index: -1 !important;
   pointer-events: none !important;
+  opacity: 1 !important;
 }
 
 /* Header & Navigation Bar (Glued to Top) */
