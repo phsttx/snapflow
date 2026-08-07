@@ -97,7 +97,7 @@ class FaviconGeneratorModule {
       downloadBtn.innerHTML = `<i data-lucide="download"></i> ${item.size}x${item.size}`;
       downloadBtn.addEventListener('click', () => {
         const url = canvas.toDataURL('image/png');
-        Utils.downloadDataUrl(url, `supaedit_icon_${item.size}x${item.size}.png`);
+        Utils.downloadDataUrl(url, `snapflow_icon_${item.size}x${item.size}.png`);
         Utils.showToast(`Ícone ${item.size}x${item.size} baixado!`);
       });
 

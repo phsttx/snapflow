@@ -317,7 +317,7 @@ class ImageCropperModule {
     );
 
     const dataUrl = outCanvas.toDataURL('image/png');
-    Utils.downloadDataUrl(dataUrl, 'supaedit_cropped_image.png');
+    Utils.downloadDataUrl(dataUrl, 'snapflow_cropped_image.png');
     Utils.updateStats(0);
     Utils.showToast('Imagem editada baixada com sucesso!');
   }

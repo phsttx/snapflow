@@ -63,7 +63,7 @@ class FrameExtractorModule {
       this.downloadFrameBtn.addEventListener('click', () => {
         if (!this.capturedCanvas) return;
         const dataUrl = this.capturedCanvas.toDataURL('image/png');
-        Utils.downloadDataUrl(dataUrl, `designexpress_frame_${Math.round(this.videoElement.currentTime || 0)}s.png`);
+        Utils.downloadDataUrl(dataUrl, `snapflow_frame_${Math.round(this.videoElement.currentTime || 0)}s.png`);
         Utils.showToast('Frame de vídeo baixado com sucesso!');
       });
     }

@@ -60,7 +60,7 @@ class PatternGeneratorModule {
       downloadPngBtn.addEventListener('click', () => {
         if (!this.canvas) return;
         const dataUrl = this.canvas.toDataURL('image/png');
-        Utils.downloadDataUrl(dataUrl, 'supaedit_pattern_background.png');
+        Utils.downloadDataUrl(dataUrl, 'snapflow_pattern_background.png');
         Utils.showToast('Padrão de fundo baixado em PNG 4K!');
       });
     }

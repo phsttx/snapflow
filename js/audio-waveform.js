@@ -49,7 +49,7 @@ class AudioWaveformModule {
       downloadBtn.addEventListener('click', () => {
         if (!this.canvas) return;
         const dataUrl = this.canvas.toDataURL('image/png');
-        Utils.downloadDataUrl(dataUrl, 'supaedit_audio_waveform.png');
+        Utils.downloadDataUrl(dataUrl, 'snapflow_audio_waveform.png');
         Utils.showToast('Imagem da Forma de Onda do Áudio baixada em PNG!');
       });
     }

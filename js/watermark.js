@@ -11,7 +11,7 @@ class WatermarkModule {
     
     this.opacity = 50;
     this.scale = 100;
-    this.textValue = '© SupaEdit';
+    this.textValue = '© SnapFlow';
     this.textColor = '#ffffff';
 
     this.initEvents();
@@ -128,7 +128,7 @@ class WatermarkModule {
       downloadBtn.addEventListener('click', () => {
         if (!this.canvas) return;
         const dataUrl = this.canvas.toDataURL('image/png');
-        Utils.downloadDataUrl(dataUrl, 'supaedit_watermarked.png');
+        Utils.downloadDataUrl(dataUrl, 'snapflow_watermarked.png');
         Utils.showToast('Imagem com marca d\'água baixada!');
       });
     }

@@ -89,7 +89,7 @@ class QrCodeGeneratorModule {
       this.downloadBtn.addEventListener('click', () => {
         if (!this.canvas) return;
         const dataUrl = this.canvas.toDataURL('image/png');
-        Utils.downloadDataUrl(dataUrl, 'supaedit_qrcode.png');
+        Utils.downloadDataUrl(dataUrl, 'snapflow_qrcode.png');
         Utils.updateStats(0);
         Utils.showToast('QR Code baixado com sucesso!');
       });

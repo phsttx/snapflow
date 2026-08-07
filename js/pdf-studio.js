@@ -114,7 +114,7 @@ class PdfStudioModule {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>SupaEdit Document</title>
+        <title>SnapFlow Document</title>
         <style>
           @page { size: A4; margin: 0; }
           body { margin: 0; padding: 0; background: #fff; }

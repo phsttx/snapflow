@@ -1,5 +1,5 @@
 /* ==========================================================================
-   OmniMedia Studio - Image Compressor & Converter
+   SnapFlow - Image Compressor & Batch ZIP Module
    ========================================================================== */
 
 class ImageCompressorModule {
@@ -9,14 +9,14 @@ class ImageCompressorModule {
     this.compressedBlob = null;
 
     this.initElements();
-    this.bindEvents();
+    this.initEvents();
   }
 
   initElements() {
     this.dropZone = document.getElementById('compressorDropZone');
     this.fileInput = document.getElementById('compressorFileInput');
     this.workspace = document.getElementById('compressorWorkspace');
-    
+
     this.outputFormatSelect = document.getElementById('outputFormat');
     this.qualityRange = document.getElementById('qualityRange');
     this.qualityValue = document.getElementById('qualityValue');
@@ -29,54 +29,56 @@ class ImageCompressorModule {
     this.downloadBtn = document.getElementById('downloadCompressedBtn');
     this.resetBtn = document.getElementById('resetCompressorBtn');
 
-    // Before / After Slider
     this.container = document.getElementById('comparisonContainer');
     this.imgBefore = document.getElementById('imgBefore');
     this.imgAfter = document.getElementById('imgAfter');
     this.afterWrapper = document.getElementById('afterWrapper');
-    // Ensure clean initial state (Hide comparator until file upload)
-    if (this.workspace) this.workspace.classList.add('hidden');
-    if (this.dropZone) this.dropZone.classList.remove('hidden');
+    this.sliderHandle = document.getElementById('sliderHandle');
+
+    // Inicialmente ocultar o workspace do comparador até o upload da primeira imagem
+    if (this.workspace && this.dropZone) {
+      this.workspace.classList.add('hidden');
+      this.dropZone.classList.remove('hidden');
+    }
   }
 
-  bindEvents() {
+  initEvents() {
     if (!this.dropZone || !this.fileInput) return;
 
-    // Drag and Drop
-    ['dragenter', 'dragover'].forEach(eventName => {
-      this.dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        this.dropZone.classList.add('drag-over');
-      });
+    // Drag & Drop
+    this.dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      this.dropZone.classList.add('drag-over');
     });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-      this.dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        this.dropZone.classList.remove('drag-over');
-      });
+    this.dropZone.addEventListener('dragleave', () => {
+      this.dropZone.classList.remove('drag-over');
     });
 
     this.dropZone.addEventListener('drop', (e) => {
-      const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-      if (files.length > 1) {
-        this.processBatchFiles(files);
-      } else if (files.length === 1) {
-        this.processFile(files[0]);
-      } else {
-        Utils.showToast('Por favor, selecione arquivos de imagem válidos.', 'error');
+      e.preventDefault();
+      this.dropZone.classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        if (files.length > 1) {
+          this.processBatchFiles(files);
+        } else {
+          this.processFile(files[0]);
+        }
       }
     });
 
-    if (this.fileInput) {
-      this.fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 1) {
-          this.processBatchFiles(Array.from(e.target.files));
-        } else if (e.target.files.length === 1) {
-          this.processFile(e.target.files[0]);
+    // File Input
+    this.fileInput.addEventListener('change', (e) => {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        if (files.length > 1) {
+          this.processBatchFiles(files);
+        } else {
+          this.processFile(files[0]);
         }
-      });
-    }
+      }
+    });
 
     // Control listeners
     this.qualityRange.addEventListener('input', () => {
@@ -115,14 +117,14 @@ class ImageCompressorModule {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
 
-        const dataUrl = canvas.toDataURL(this.outputFormat, this.quality / 100);
+        const dataUrl = canvas.toDataURL(this.outputFormatSelect.value, parseInt(this.qualityRange.value, 10) / 100);
         const base64 = dataUrl.split(',')[1];
         const binaryStr = atob(base64);
         const len = binaryStr.length;
         const bytes = new Uint8Array(len);
         for (let j = 0; j < len; j++) bytes[j] = binaryStr.charCodeAt(j);
 
-        const ext = this.outputFormat.split('/')[1];
+        const ext = this.outputFormatSelect.value.split('/')[1];
         const fname = file.name.replace(/\.[^/.]+$/, '') + `_snapflow.${ext}`;
         zip.addFile(fname, bytes);
       } catch (err) {
@@ -143,10 +145,14 @@ class ImageCompressorModule {
   async processFile(file) {
     try {
       this.originalFile = file;
-      this.originalImage = await Utils.fileToImage(file);
-
-      this.imgBefore.src = this.originalImage.src;
       this.origSizeLabel.textContent = Utils.formatBytes(file.size);
+
+      this.originalImage = await Utils.fileToImage(file);
+      this.imgBefore.src = this.originalImage.src;
+
+      this.imgBefore.onload = () => {
+        this.syncImageDimensions();
+      };
 
       this.dropZone.classList.add('hidden');
       this.workspace.classList.remove('hidden');
@@ -157,6 +163,15 @@ class ImageCompressorModule {
       console.error(err);
       Utils.showToast('Erro ao abrir a imagem.', 'error');
     }
+  }
+
+  syncImageDimensions() {
+    if (!this.container || !this.imgBefore || !this.imgAfter) return;
+    const rect = this.container.getBoundingClientRect();
+    const w = `${rect.width}px`;
+    const h = `${rect.height}px`;
+    this.imgAfter.style.width = w;
+    this.imgAfter.style.height = h;
   }
 
   updateCompression() {
@@ -195,6 +210,7 @@ class ImageCompressorModule {
 
       const compressedUrl = URL.createObjectURL(blob);
       this.imgAfter.src = compressedUrl;
+      this.imgAfter.onload = () => this.syncImageDimensions();
     }, mimeType, quality);
   }
 
@@ -209,7 +225,7 @@ class ImageCompressorModule {
 
     const ext = extMap[this.outputFormatSelect.value] || '.jpg';
     const originalName = this.originalFile.name.replace(/\.[^/.]+$/, "");
-    const outputFilename = `${originalName}_supaedit_opt${ext}`;
+    const outputFilename = `${originalName}_snapflow_opt${ext}`;
 
     const savedBytes = Math.max(0, this.originalFile.size - this.compressedBlob.size);
     Utils.downloadBlob(this.compressedBlob, outputFilename);
@@ -240,6 +256,8 @@ class ImageCompressorModule {
       const percentage = (x / rect.width) * 100;
       this.afterWrapper.style.width = `${percentage}%`;
       this.sliderHandle.style.left = `${percentage}%`;
+
+      this.syncImageDimensions();
     };
 
     const startDrag = (e) => {
@@ -266,6 +284,8 @@ class ImageCompressorModule {
       this.container.addEventListener('touchstart', startDrag);
       window.addEventListener('touchend', stopDrag);
       window.addEventListener('touchmove', onMove);
+
+      window.addEventListener('resize', () => this.syncImageDimensions());
     }
   }
 }

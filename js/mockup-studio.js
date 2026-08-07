@@ -73,7 +73,7 @@ class MockupStudioModule {
       downloadBtn.addEventListener('click', () => {
         if (!this.canvas) return;
         const dataUrl = this.canvas.toDataURL('image/png');
-        Utils.downloadDataUrl(dataUrl, `supaedit_mockup_${this.frameType}.png`);
+        Utils.downloadDataUrl(dataUrl, `snapflow_mockup_${this.frameType}.png`);
         Utils.showToast('Mockup de apresentação HD baixado em PNG!');
       });
     }

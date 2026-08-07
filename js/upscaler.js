@@ -61,7 +61,7 @@ class UpscalerModule {
       downloadBtn.addEventListener('click', () => {
         if (!this.canvas) return;
         const dataUrl = this.canvas.toDataURL('image/png');
-        Utils.downloadDataUrl(dataUrl, `supaedit_upscaled_${this.scale}x.png`);
+        Utils.downloadDataUrl(dataUrl, `snapflow_upscaled_${this.scale}x.png`);
         Utils.showToast(`Imagem ampliada ${this.scale}x HD baixada com sucesso!`);
       });
     }

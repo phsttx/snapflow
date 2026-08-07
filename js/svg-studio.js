@@ -85,7 +85,7 @@ class SvgStudioModule {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const dataUrl = canvas.toDataURL('image/png');
-      Utils.downloadDataUrl(dataUrl, `supaedit_vector_${this.scale}x.png`);
+      Utils.downloadDataUrl(dataUrl, `snapflow_vector_${this.scale}x.png`);
       URL.revokeObjectURL(url);
       Utils.showToast(`Vetor exportado em PNG ${this.scale}x HD!`);
     };

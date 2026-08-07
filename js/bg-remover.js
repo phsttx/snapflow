@@ -75,7 +75,7 @@ class BgRemoverModule {
       downloadBtn.addEventListener('click', () => {
         if (!this.canvas) return;
         const dataUrl = this.canvas.toDataURL('image/png');
-        Utils.downloadDataUrl(dataUrl, 'supaedit_transparent_bg.png');
+        Utils.downloadDataUrl(dataUrl, 'snapflow_transparent_bg.png');
         Utils.showToast('Imagem transparente PNG baixada!');
       });
     }
