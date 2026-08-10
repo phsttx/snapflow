@@ -49,10 +49,10 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Stylesheets (v16 Cache Buster) -->
-  <link rel="stylesheet" href="css/main.css?v=16">
-  <link rel="stylesheet" href="css/glass.css?v=16">
-  <link rel="stylesheet" href="css/components.css?v=16">
+  <!-- Stylesheets (v17 Cache Buster) -->
+  <link rel="stylesheet" href="css/main.css?v=17">
+  <link rel="stylesheet" href="css/glass.css?v=17">
+  <link rel="stylesheet" href="css/components.css?v=17">
 </head>
 <body class="dark-theme">
   <!-- Dual-Theme Animated Particle Canvas -->
@@ -498,56 +498,85 @@
         </div>
       </section>
 
-      <!-- TAB 4: Removedor de Fundo -->
+      <!-- TAB 4: Removedor de Fundo com IA Neural -->
       <section id="bgRemoverTab" class="tab-panel">
-        <div class="panel-header"><div><h1 class="panel-title">Removedor de Fundo (Transparência PNG)</h1><p class="panel-subtitle">Remova a cor de fundo de qualquer foto para gerar um PNG transparente instantâneo.</p></div></div>
+        <div class="panel-header">
+          <div>
+            <h1 class="panel-title">Removedor de Fundo com IA Neural <span class="hot-badge"><i data-lucide="sparkles" class="flame-icon"></i> IA 100% LOCAL</span></h1>
+            <p class="panel-subtitle">Segmentação fotorrealista com Inteligência Artificial executada diretamente no seu navegador. 100% privado.</p>
+          </div>
+        </div>
+
         <div class="upload-container glass-card" id="bgDropZone">
           <input type="file" id="bgFileInput" accept="image/*" class="file-input-hidden">
           <div class="upload-placeholder">
-            <div class="upload-icon-pulse"><i data-lucide="scissors"></i></div>
-            <h3>Carregue a foto para remover o fundo</h3>
-            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('bgFileInput').click()"><i data-lucide="image"></i> Abrir Imagem</button></div>
+            <div class="upload-icon-pulse" style="background:rgba(56,189,248,0.15); color:#38bdf8; border-color:rgba(56,189,248,0.3);"><i data-lucide="sparkles"></i></div>
+            <h3>Carregue a foto para recortar com IA em 1-Clique</h3>
+            <p>Pessoas, cabelos, produtos, roupas e objetos recortados com precisão cirúrgica</p>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('bgFileInput').click()"><i data-lucide="image"></i> Selecionar Imagem</button></div>
           </div>
         </div>
+
         <div id="bgWorkspace" class="workspace-card glass-card hidden">
           <div class="workspace-grid">
             <div class="controls-sidebar">
-              <!-- Color Detection Indicator & Eyedropper -->
+              <!-- Engine Selector -->
               <div class="control-group">
-                <label>Cor do Fundo Detectada</label>
-                <div style="display:flex; align-items:center; gap:0.75rem; margin-top:0.35rem;">
-                  <div id="bgDetectedColorPreview" style="width:36px; height:36px; border-radius:8px; border:2px solid var(--glass-border-accent); background:#ffffff; box-shadow:0 0 10px rgba(0,0,0,0.3); flex-shrink:0;"></div>
-                  <div style="font-size:0.8rem; color:var(--text-secondary); line-height:1.3;">
-                    <span id="bgDetectedColorHex" style="font-family:monospace; font-weight:700; color:var(--text-primary);">#FFFFFF</span>
-                    <div style="font-size:0.72rem; color:var(--text-muted);">Clique na imagem para trocar 💧</div>
-                  </div>
+                <label>Modo de Recorte</label>
+                <div class="tab-selector-small" style="margin-top:0.35rem;">
+                  <button id="bgModeAiBtn" class="btn btn-sm btn-primary active" style="flex:1;"><i data-lucide="sparkles"></i> IA Neural (Auto)</button>
+                  <button id="bgModeColorBtn" class="btn btn-sm btn-secondary" style="flex:1;"><i data-lucide="pipette"></i> Cor / Chroma</button>
                 </div>
               </div>
 
-              <!-- Contiguous Flood-fill Toggle -->
-              <div class="control-group margin-top-sm" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); padding:0.75rem; border-radius:8px;">
-                <label style="display:flex; align-items:center; gap:0.6rem; cursor:pointer; font-size:0.85rem; font-weight:600; margin:0;">
-                  <input type="checkbox" id="bgContiguousToggle" checked style="accent-color:#38bdf8; width:16px; height:16px;">
-                  <span>Preservar Interior (Borda Inteligente)</span>
-                </label>
-                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.3rem;">Evita furar roupas, pele ou olhos com cores parecidas.</div>
-              </div>
-
+              <!-- Background Replacement Swatches -->
               <div class="control-group margin-top-sm">
-                <div class="label-with-value"><label>Tolerância</label><span id="bgToleranceVal">25%</span></div>
-                <input type="range" id="bgToleranceRange" min="5" max="80" value="25" class="slider-input">
+                <label>Fundo da Imagem</label>
+                <div class="preset-colors-row" style="margin-top:0.35rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+                  <button class="btn btn-secondary btn-sm active bg-preset-btn" data-bg-type="transparent" title="Fundo Transparente">🏁 Transparente</button>
+                  <button class="btn btn-secondary btn-sm bg-preset-btn" data-bg-type="white" title="Fundo Branco">⚪ Branco</button>
+                  <button class="btn btn-secondary btn-sm bg-preset-btn" data-bg-type="black" title="Fundo Preto">⚫ Preto</button>
+                  <button class="btn btn-secondary btn-sm bg-preset-btn" data-bg-type="gradient" title="Gradiente Neon">🔮 Gradiente</button>
+                </div>
               </div>
 
-              <div class="control-group margin-top-sm">
-                <div class="label-with-value"><label>Suavização de Borda</label><span id="bgFeatherVal">2px</span></div>
-                <input type="range" id="bgFeatherRange" min="0" max="10" value="2" class="slider-input">
+              <!-- Chroma Key Controls (Only shown if user selects Color mode) -->
+              <div id="bgChromaControls" class="hidden margin-top-sm" style="border-top:1px solid var(--glass-border); padding-top:0.75rem;">
+                <div class="control-group">
+                  <label>Cor Alvo (Clique na imagem)</label>
+                  <div style="display:flex; align-items:center; gap:0.75rem; margin-top:0.35rem;">
+                    <div id="bgDetectedColorPreview" style="width:32px; height:32px; border-radius:6px; border:2px solid var(--glass-border-accent); background:#ffffff; flex-shrink:0;"></div>
+                    <span id="bgDetectedColorHex" style="font-family:monospace; font-weight:700; color:var(--text-primary);">#FFFFFF</span>
+                  </div>
+                </div>
+
+                <div class="control-group margin-top-sm">
+                  <div class="label-with-value"><label>Tolerância</label><span id="bgToleranceVal">25%</span></div>
+                  <input type="range" id="bgToleranceRange" min="5" max="80" value="25" class="slider-input">
+                </div>
               </div>
 
-              <div class="action-buttons margin-top-md">
-                <button id="downloadBgRemovedBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar PNG Transparente</button>
+              <!-- Re-run AI Trigger Button -->
+              <div class="action-buttons margin-top-lg">
+                <button id="reprocessAiBtn" class="btn btn-secondary btn-block margin-bottom-sm"><i data-lucide="refresh-cw"></i> Recalcular com IA</button>
+                <button id="downloadBgRemovedBtn" class="btn btn-success btn-block"><i data-lucide="download"></i> Baixar Imagem Recortada</button>
               </div>
             </div>
-            <div class="preview-area" style="position:relative; background: repeating-conic-gradient(#18181b 0% 25%, #27272a 0% 50%) 50% / 20px 20px; border-radius:12px; padding:1rem; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+
+            <div class="preview-area" style="position:relative; min-height:420px; background: repeating-conic-gradient(#18181b 0% 25%, #27272a 0% 50%) 50% / 20px 20px; border-radius:12px; padding:1rem; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+              
+              <!-- AI Neural Processing Overlay -->
+              <div id="aiLoadingOverlay" class="hidden" style="position:absolute; inset:0; background:rgba(9,9,11,0.88); backdrop-filter:blur(8px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.85rem; z-index:20; text-align:center; padding:1.5rem;">
+                <div style="width:54px; height:54px; border-radius:50%; background:rgba(56,189,248,0.2); border:2px solid #38bdf8; display:flex; align-items:center; justify-content:center; color:#38bdf8; animation:pulseGlow 2s infinite;">
+                  <i data-lucide="sparkles" style="width:28px; height:28px;"></i>
+                </div>
+                <h4 id="aiProgressStatusText" style="font-size:1.05rem; font-weight:700; color:var(--text-primary); margin:0;">IA Neural Segmentando Imagem...</h4>
+                <div style="width:260px; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
+                  <div id="aiProgressBarFill" style="width:20%; height:100%; background:linear-gradient(90deg, #38bdf8, #818cf8); transition:width 0.3s ease;"></div>
+                </div>
+                <p id="aiProgressPercentageText" style="font-size:0.8rem; color:var(--text-muted); margin:0;">Carregando modelo WebGPU local...</p>
+              </div>
+
               <canvas id="bgCanvas" style="max-width:100%; max-height:550px; cursor:crosshair; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.5);"></canvas>
             </div>
           </div>
