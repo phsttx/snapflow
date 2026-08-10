@@ -1,13 +1,15 @@
 /* ==========================================================================
    SnapFlow - Stripe Checkout & Payment Link Integration Module
+   Conectado Oficialmente ao Stripe Checkout Live do SnapFlow
    ========================================================================== */
 
 class PricingCheckoutModule {
   constructor() {
-    // Insira aqui o seu link final de pagamento do Stripe (buy.stripe.com)
-    this.stripeCheckoutUrl = 'https://buy.stripe.com/SEU_LINK_DO_STRIPE_AQUI';
+    // Link Oficial de Pagamento do Stripe do SnapFlow
+    this.stripeCheckoutUrl = 'https://buy.stripe.com/00wbJ3fqIfKbcyFdDPdnW00';
 
     this.initEvents();
+    this.checkPaymentSuccessReturn();
   }
 
   initEvents() {
@@ -25,17 +27,44 @@ class PricingCheckoutModule {
   }
 
   openCheckout() {
-    if (!this.stripeCheckoutUrl || this.stripeCheckoutUrl.includes('SEU_LINK_DO_STRIPE')) {
+    if (!this.stripeCheckoutUrl) {
       Utils.showToast('Configurando gateway de pagamento Stripe... Em breve no ar!');
-      // Redireciona para a tela de preços se o link ainda for temporário
-      if (window.appController) {
-        window.appController.showScreen(4);
-      }
       return;
     }
 
-    // Abre o checkout seguro do Stripe em uma nova aba com o plano PRO
+    // Abre o checkout seguro do Stripe em uma nova aba
     window.open(this.stripeCheckoutUrl, '_blank');
+  }
+
+  /* Verifica se o usuário acabou de pagar e retornou do Stripe */
+  checkPaymentSuccessReturn() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isPaymentSuccess = urlParams.get('payment') === 'success' || urlParams.get('upgrade') === 'pro' || urlParams.has('session_id');
+
+    if (isPaymentSuccess) {
+      // Ativa o Plano PRO no cliente
+      localStorage.setItem('snapflow_plan', 'pro');
+
+      // Se houver usuário logado no Supabase, atualiza o metadata
+      if (window.supabaseAuthModule && window.supabaseAuthModule.user) {
+        window.supabaseAuthModule.userPlan = 'pro';
+        if (window.supabaseAuthModule.client) {
+          window.supabaseAuthModule.client.auth.updateUser({
+            data: { plan: 'pro' }
+          });
+        }
+      }
+
+      // Atualiza a interface
+      if (window.supabaseAuthModule) {
+        window.supabaseAuthModule.updateUiState();
+      }
+
+      Utils.showToast('🎉 Parabéns! Seu Plano PRO foi ativado com sucesso! Aproveite ferramentas ilimitadas.', 'success');
+
+      // Limpa os parâmetros da URL para ficar limpo
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
   }
 
   setStripeUrl(url) {
