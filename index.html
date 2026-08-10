@@ -49,10 +49,10 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Stylesheets (v21 Cache Buster) -->
-  <link rel="stylesheet" href="css/main.css?v=21">
-  <link rel="stylesheet" href="css/glass.css?v=21">
-  <link rel="stylesheet" href="css/components.css?v=21">
+  <!-- Stylesheets (v22 Cache Buster) -->
+  <link rel="stylesheet" href="css/main.css?v=22">
+  <link rel="stylesheet" href="css/glass.css?v=22">
+  <link rel="stylesheet" href="css/components.css?v=22">
 </head>
 <body class="dark-theme">
   <!-- Dual-Theme Animated Particle Canvas -->
@@ -763,6 +763,22 @@
       <button id="paywallUpgradeBtn" class="btn btn-primary btn-block" style="width:100%; padding:0.85rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:0.5rem;">
         Assinar Plano PRO Agora <i data-lucide="arrow-right"></i>
       </button>
+    </div>
+  </div>
+
+  <!-- Cookie Consent Glassmorphism Banner (LGPD / GDPR Compliant) -->
+  <div id="cookieConsentBanner" class="cookie-banner hidden">
+    <div class="cookie-banner-content">
+      <div class="cookie-banner-icon">
+        <i data-lucide="shield-check"></i>
+      </div>
+      <div class="cookie-banner-text">
+        <strong>Privacidade &amp; Cookies 🍪</strong>
+        Utilizamos cookies essenciais e métricas para aprimorar sua experiência. Seus arquivos e fotos continuam 100% processados localmente e privados no seu dispositivo.
+      </div>
+    </div>
+    <div class="cookie-banner-actions">
+      <button id="acceptCookieBtn" class="btn btn-primary cookie-banner-btn">Entendido</button>
     </div>
   </div>
 
