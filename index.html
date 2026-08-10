@@ -49,10 +49,10 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Stylesheets (v19 Cache Buster) -->
-  <link rel="stylesheet" href="css/main.css?v=19">
-  <link rel="stylesheet" href="css/glass.css?v=19">
-  <link rel="stylesheet" href="css/components.css?v=19">
+  <!-- Stylesheets (v20 Cache Buster) -->
+  <link rel="stylesheet" href="css/main.css?v=20">
+  <link rel="stylesheet" href="css/glass.css?v=20">
+  <link rel="stylesheet" href="css/components.css?v=20">
 </head>
 <body class="dark-theme">
   <!-- Dual-Theme Animated Particle Canvas -->
@@ -132,6 +132,13 @@
           <div class="hub-card-icon"><i data-lucide="minimize-2"></i></div>
           <div class="hub-card-title">Compressor &amp; Lote ZIP <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></div>
           <p class="hub-card-desc">Reduza o tamanho de até 100 fotos preservando a qualidade visual. Baixe tudo em ZIP.</p>
+          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+        </div>
+
+        <div class="hub-card" data-open-tab="converter">
+          <div class="hub-card-icon"><i data-lucide="repeat"></i></div>
+          <div class="hub-card-title">Conversor em Lote <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></div>
+          <p class="hub-card-desc">Converta entre PNG, JPG, WebP, AVIF e ICO em lote com download em ZIP.</p>
           <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
         </div>
 
@@ -304,6 +311,11 @@
           <div class="nav-label"><span class="nav-title">Compressor &amp; Lote ZIP <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></span><span class="nav-desc">PNG, JPG, WebP</span></div>
         </button>
 
+        <button class="nav-item" data-tab="converter">
+          <div class="nav-icon-wrapper"><i data-lucide="repeat"></i></div>
+          <div class="nav-label"><span class="nav-title">Conversor em Lote <span class="hot-badge"><i data-lucide="flame" class="flame-icon"></i> POPULAR</span></span><span class="nav-desc">PNG, JPG, WebP, ICO</span></div>
+        </button>
+
         <button class="nav-item" data-tab="cropper">
           <div class="nav-icon-wrapper"><i data-lucide="crop"></i></div>
           <div class="nav-label"><span class="nav-title">Recorte &amp; Filtros</span><span class="nav-desc">Dimensões e Filtros</span></div>
@@ -414,6 +426,89 @@
                 <div class="after-wrapper" id="afterWrapper"><img id="imgAfter" src="" alt="Otimizada" class="comparison-img after-img"></div>
                 <div class="slider-handle" id="sliderHandle"><div class="handle-circle"><i data-lucide="chevrons-left-right"></i></div></div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: Conversor em Lote -->
+      <section id="converterTab" class="tab-panel">
+        <div class="panel-header">
+          <div>
+            <h1 class="panel-title">Conversor Universal de Imagens em Lote <span class="hot-badge"><i data-lucide="sparkles" class="flame-icon"></i> LOTE ZIP</span></h1>
+            <p class="panel-subtitle">Converta até 100 imagens de uma vez entre PNG, JPG, WebP, AVIF e ICO diretamente no seu navegador.</p>
+          </div>
+        </div>
+
+        <div class="upload-container glass-card" id="converterDropZone">
+          <input type="file" id="converterFileInput" accept="image/*" multiple class="file-input-hidden">
+          <div class="upload-placeholder">
+            <div class="upload-icon-pulse" style="background:rgba(56,189,248,0.15); color:#38bdf8; border-color:rgba(56,189,248,0.3);"><i data-lucide="repeat"></i></div>
+            <h3>Arraste imagens ou clique para converter em lote</h3>
+            <p>Suporta PNG, JPG, WebP, AVIF, BMP, GIF e SVG</p>
+            <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('converterFileInput').click()"><i data-lucide="upload"></i> Escolher Imagens</button></div>
+          </div>
+        </div>
+
+        <div id="converterWorkspace" class="workspace-card glass-card hidden">
+          <div class="workspace-grid">
+            <div class="controls-sidebar">
+              <!-- Target Format -->
+              <div class="control-group">
+                <label>Formato de Saída</label>
+                <div class="tab-selector-small" style="margin-top:0.35rem; display:flex; gap:0.3rem; flex-wrap:wrap;">
+                  <button class="btn btn-sm btn-primary active converter-format-btn" data-mime="image/webp" data-ext="webp" style="flex:1;">🚀 WebP</button>
+                  <button class="btn btn-sm btn-secondary converter-format-btn" data-mime="image/jpeg" data-ext="jpg" style="flex:1;">📸 JPG</button>
+                  <button class="btn btn-sm btn-secondary converter-format-btn" data-mime="image/png" data-ext="png" style="flex:1;">🎨 PNG</button>
+                </div>
+              </div>
+
+              <!-- Quality Slider -->
+              <div class="control-group margin-top-sm">
+                <div class="label-with-value"><label>Qualidade</label><span id="converterQualityVal">90%</span></div>
+                <input type="range" id="converterQualityRange" min="10" max="100" value="90" class="slider-input">
+              </div>
+
+              <!-- Scale / Resize -->
+              <div class="control-group margin-top-sm">
+                <label>Redimensionar</label>
+                <div class="btn-group" style="margin-top:0.35rem;">
+                  <button class="btn btn-sm btn-primary active converter-scale-btn" data-scale="1">100%</button>
+                  <button class="btn btn-sm btn-secondary converter-scale-btn" data-scale="0.75">75%</button>
+                  <button class="btn btn-sm btn-secondary converter-scale-btn" data-scale="0.5">50%</button>
+                </div>
+              </div>
+
+              <!-- Summary Card -->
+              <div style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); border-radius:10px; padding:0.85rem; margin-top:1.25rem;">
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:0.3rem; color:var(--text-muted);">
+                  <span>Total de Arquivos:</span>
+                  <strong id="converterCountVal" style="color:var(--text-primary);">0</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:0.3rem; color:var(--text-muted);">
+                  <span>Tamanho Original:</span>
+                  <span id="converterTotalOrigVal" style="color:var(--text-primary);">0 KB</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted);">
+                  <span>Tamanho Convertido:</span>
+                  <strong id="converterTotalNewVal" style="color:#10b981;">0 KB</strong>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="action-buttons margin-top-lg">
+                <button id="converterDownloadZipBtn" class="btn btn-success btn-block margin-bottom-sm"><i data-lucide="archive"></i> Baixar Todas em ZIP</button>
+                <div style="display:flex; gap:0.4rem;">
+                  <input type="file" id="converterAddMoreInput" accept="image/*" multiple class="file-input-hidden">
+                  <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="document.getElementById('converterAddMoreInput').click()"><i data-lucide="plus"></i> Mais Fotos</button>
+                  <button id="converterClearBtn" class="btn btn-secondary btn-sm" style="flex:1;"><i data-lucide="trash-2"></i> Limpar</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Items List Container -->
+            <div class="preview-area" style="max-height:560px; overflow-y:auto; padding:0.5rem;">
+              <div id="converterItemsGrid"></div>
             </div>
           </div>
         </div>
@@ -679,6 +774,7 @@
   <script src="js/utils.js"></script>
   <script src="js/preset-manager.js"></script>
   <script src="js/compressor.js"></script>
+  <script src="js/converter.js"></script>
   <script src="js/mockup-studio.js"></script>
   <script src="js/cropper.js"></script>
   <script src="js/svg-studio.js"></script>
