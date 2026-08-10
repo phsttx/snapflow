@@ -14,6 +14,7 @@ class AppController {
     this.initSidebarNavigation();
     this.initThemeToggle();
     this.initPwaSupport();
+    this.initCookieConsent();
   }
 
   /* 1. Splashscreen */
@@ -315,6 +316,27 @@ class AppController {
         if (window.lucide) lucide.createIcons();
       });
     }
+  }
+
+  /* 8. Cookie Consent Banner (LGPD / GDPR Compliant) */
+  initCookieConsent() {
+    const banner = document.getElementById('cookieConsentBanner');
+    const acceptBtn = document.getElementById('acceptCookieBtn');
+
+    if (!banner || !acceptBtn) return;
+
+    const hasConsent = localStorage.getItem('snapflow_cookie_consent');
+    if (!hasConsent) {
+      setTimeout(() => {
+        banner.classList.remove('hidden');
+        if (window.lucide) lucide.createIcons();
+      }, 1200);
+    }
+
+    acceptBtn.addEventListener('click', () => {
+      localStorage.setItem('snapflow_cookie_consent', 'true');
+      banner.classList.add('hidden');
+    });
   }
 }
 
