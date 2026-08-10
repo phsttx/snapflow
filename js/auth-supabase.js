@@ -218,6 +218,39 @@ class SupabaseAuthModule {
       if (loginBtn) loginBtn.classList.remove('hidden');
       if (badge) badge.classList.add('hidden');
     }
+
+    // Atualiza os botões dinamicamente na Tela de Preços & Planos
+    const freePlanBtn = document.getElementById('freePlanBtn');
+    const proSubscribeBtn = document.getElementById('proSubscribeBtn');
+
+    if (this.userPlan === 'pro') {
+      if (freePlanBtn) {
+        freePlanBtn.textContent = 'Plano Grátis';
+        freePlanBtn.classList.remove('btn-primary');
+        freePlanBtn.classList.add('btn-secondary');
+      }
+      if (proSubscribeBtn) {
+        proSubscribeBtn.innerHTML = '✓ Seu Plano Atual (PRO Ativo 👑)';
+        proSubscribeBtn.classList.remove('btn-secondary');
+        proSubscribeBtn.classList.add('btn-primary');
+        proSubscribeBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        proSubscribeBtn.style.borderColor = '#10b981';
+        proSubscribeBtn.style.cursor = 'default';
+      }
+    } else {
+      if (freePlanBtn) {
+        freePlanBtn.textContent = 'Plano Atual';
+        freePlanBtn.classList.add('btn-secondary');
+      }
+      if (proSubscribeBtn) {
+        proSubscribeBtn.textContent = 'Assinar Plano Pro';
+        proSubscribeBtn.classList.remove('btn-secondary');
+        proSubscribeBtn.classList.add('btn-primary');
+        proSubscribeBtn.style.background = '';
+        proSubscribeBtn.style.borderColor = '';
+        proSubscribeBtn.style.cursor = 'pointer';
+      }
+    }
   }
 }
 
