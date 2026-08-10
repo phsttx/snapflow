@@ -1,8 +1,8 @@
 /* ==========================================================================
-   SnapFlow - Progressive Web App Service Worker (v15 Live Network-First)
+   SnapFlow - Progressive Web App Service Worker (v16 Live Network-First)
    ========================================================================== */
 
-const CACHE_NAME = 'snapflow-pwa-v15';
+const CACHE_NAME = 'snapflow-pwa-v16';
 
 // Install Event - Força atualização imediata
 self.addEventListener('install', (event) => {
