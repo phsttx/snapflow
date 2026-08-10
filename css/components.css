@@ -1143,9 +1143,11 @@ input[type="color"]::-moz-color-swatch {
 
 /* 2. Services Grid Hub Screen */
 .hub-screen {
-  max-width: 1280px;
-  margin: 5rem auto 4.5rem auto;
-  padding: 0 1.5rem;
+  max-width: 1280px !important;
+  width: 100% !important;
+  margin: 5rem auto 4.5rem auto !important;
+  padding: 0 1.5rem !important;
+  box-sizing: border-box !important;
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
