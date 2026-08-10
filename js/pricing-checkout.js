@@ -91,6 +91,11 @@ class PricingCheckoutModule {
 
       Utils.showToast('🎉 Parabéns! Seu Plano PRO foi ativado com sucesso! Aproveite ferramentas ilimitadas.', 'success');
 
+      // 4. Registra evento de Venda no Analytics
+      if (window.snapFlowAnalytics) {
+        window.snapFlowAnalytics.trackPurchaseCompleted();
+      }
+
       // Limpa os parâmetros da URL sem recarregar a página
       window.history.replaceState({}, document.title, window.location.pathname);
     }

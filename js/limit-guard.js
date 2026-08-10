@@ -98,6 +98,11 @@ class LimitGuardModule {
     }
 
     if (modal) modal.classList.remove('hidden');
+
+    // Dispara evento de métrica de funil no Analytics
+    if (window.snapFlowAnalytics) {
+      window.snapFlowAnalytics.trackPaywallTriggered(this.getUsageCount());
+    }
   }
 
   closePaywall() {
