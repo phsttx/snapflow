@@ -1143,8 +1143,8 @@ input[type="color"]::-moz-color-swatch {
 
 /* 2. Services Grid Hub Screen */
 .hub-screen {
-  max-width: 1200px;
-  margin: 8rem auto 4.5rem auto;
+  max-width: 1280px;
+  margin: 5rem auto 4.5rem auto;
   padding: 0 1.5rem;
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1281,7 +1281,7 @@ input[type="color"]::-moz-color-swatch {
 
 /* 3. Pricing Screen & SaaS Tier Cards */
 .pricing-screen {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 2.5rem auto;
   padding: 0 1.5rem;
   transition: opacity 0.3s ease;
