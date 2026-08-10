@@ -5,8 +5,8 @@
 
 class SnapFlowAnalytics {
   constructor() {
-    // Insira o seu ID da Métrica do Google Analytics aqui (G-XXXXXXXXXX)
-    this.measurementId = 'G-XXXXXXXXXX'; 
+    // ID Oficial da Métrica do Google Analytics do SnapFlow
+    this.measurementId = 'G-6MSY5E45TN'; 
     this.isInitialized = false;
 
     this.initGA4();
