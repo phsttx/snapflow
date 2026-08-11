@@ -1,5 +1,6 @@
 /* ==========================================================================
-   SnapFlow - 4-Screen Router & PWA Service Worker Registration Engine
+   SnapFlow - High-End Awwwards-Tier UI Animation & Router Engine
+   Features: GSAP Coreographed Entrances, 3D Tilt Cards, Magnetic Buttons & Ambient Cursor
    ========================================================================== */
 
 class AppController {
@@ -7,17 +8,63 @@ class AppController {
     this.currentStep = 1; // 1: Splash, 2: Hub, 3: Studio, 4: Pricing
     this.currentTab = 'compressor';
 
+    this.initAmbientCursor();
     this.initSplashscreen();
     this.initHeaderNavigation();
     this.initHubScreen();
+    this.initCardSpotlightAndTilt();
+    this.initMagneticButtons();
     this.initSearchTypewriter();
     this.initSidebarNavigation();
     this.initThemeToggle();
     this.initPwaSupport();
     this.initCookieConsent();
+    this.initKeyboardShortcuts();
   }
 
-  /* 1. Splashscreen */
+  /* 0. Ambient Magnetic Cursor Follower */
+  initAmbientCursor() {
+    const glow = document.getElementById('ambientCursorGlow');
+    const dot = document.getElementById('ambientCursorDot');
+    if (!glow || !dot) return;
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let targetX = mouseX;
+    let targetY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    });
+
+    const updateCursor = () => {
+      mouseX += (targetX - mouseX) * 0.15;
+      mouseY += (targetY - mouseY) * 0.15;
+
+      glow.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      dot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
+
+      requestAnimationFrame(updateCursor);
+    };
+    updateCursor();
+
+    // Hover Scaling for Interactive Elements
+    const interactiveSelectors = 'button, a, .hub-card, input, select, .nav-item, .pricing-card';
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest(interactiveSelectors)) {
+        dot.classList.add('cursor-hover');
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest(interactiveSelectors)) {
+        dot.classList.remove('cursor-hover');
+      }
+    });
+  }
+
+  /* 1. Splashscreen with GSAP Animation */
   initSplashscreen() {
     const splash = document.getElementById('splashOverlay');
     const startBtn = document.getElementById('splashStartBtn');
@@ -25,11 +72,24 @@ class AppController {
     if (!splash) return;
 
     const goToHub = () => {
-      splash.classList.add('fade-out');
-      setTimeout(() => {
-        splash.style.display = 'none';
-        this.showScreen(2);
-      }, 500);
+      if (window.gsap) {
+        gsap.to(splash, {
+          opacity: 0,
+          scale: 1.05,
+          duration: 0.6,
+          ease: 'power3.inOut',
+          onComplete: () => {
+            splash.style.display = 'none';
+            this.showScreen(2);
+          }
+        });
+      } else {
+        splash.classList.add('fade-out');
+        setTimeout(() => {
+          splash.style.display = 'none';
+          this.showScreen(2);
+        }, 500);
+      }
     };
 
     if (startBtn) {
@@ -38,7 +98,7 @@ class AppController {
 
     setTimeout(() => {
       if (this.currentStep === 1) goToHub();
-    }, 2200);
+    }, 2000);
   }
 
   /* 2. Top Header Navigation Router */
@@ -102,111 +162,121 @@ class AppController {
     }
   }
 
-  /* 4. Typewriter Search Placeholder Engine */
+  /* 4. 3D Tilt & Cursor Spotlight Tracking */
+  initCardSpotlightAndTilt() {
+    const cards = document.querySelectorAll('.hub-card, .glass-card, .pricing-card');
+
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+
+        if (card.classList.contains('hub-card')) {
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -7;
+          const rotateY = ((x - centerX) / centerX) * 7;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        if (card.classList.contains('hub-card')) {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        }
+      });
+    });
+  }
+
+  /* 5. Magnetic Button Physics */
+  initMagneticButtons() {
+    const magneticBtns = document.querySelectorAll('.brand-logo, .header-nav-link, .hero-badge-pill');
+
+    magneticBtns.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+      });
+    });
+  }
+
+  /* 6. Search Box Typewriter Effect */
   initSearchTypewriter() {
     const searchInput = document.getElementById('hubSearchInput');
     if (!searchInput) return;
 
-    const phrases = [
-      'PDF',
-      'Cortar',
-      'Upscale',
-      'Fundo',
-      'Mockup',
-      'Favicon',
-      'QR Code',
-      'Waveform',
-      'Compressor',
-      'Marca d\'água',
-      'Vetores SVG',
-      'Metadados EXIF'
+    const placeholders = [
+      'Buscar ferramenta (ex: Compressor, WebP)...',
+      'Experimente: Converter PNG em WebP...',
+      'Experimente: Gerador de QR Code com Logo...',
+      'Experimente: HD Upscaler Nitidez 4K...',
+      'Experimente: Marca d\'Água com Presets...'
     ];
 
-    let phraseIndex = 0;
+    let phIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
-    let isPaused = false;
-    let timer = null;
+    let isFocused = false;
 
-    const type = () => {
-      if (isPaused || document.activeElement === searchInput || searchInput.value.length > 0) {
-        timer = setTimeout(type, 500);
+    searchInput.addEventListener('focus', () => { isFocused = true; searchInput.placeholder = 'Digite para pesquisar...'; });
+    searchInput.addEventListener('blur', () => { isFocused = false; });
+
+    const typeLoop = () => {
+      if (isFocused) {
+        setTimeout(typeLoop, 500);
         return;
       }
 
-      const currentPhrase = phrases[phraseIndex];
+      const currentText = placeholders[phIndex];
 
       if (isDeleting) {
+        searchInput.placeholder = currentText.substring(0, charIndex - 1);
         charIndex--;
       } else {
+        searchInput.placeholder = currentText.substring(0, charIndex + 1);
         charIndex++;
       }
 
-      const currentText = currentPhrase.substring(0, charIndex);
-      searchInput.setAttribute('placeholder', `Buscar ferramenta (ex: ${currentText}|)`);
+      let speed = isDeleting ? 30 : 60;
 
-      let typeSpeed = isDeleting ? 60 : 120;
-
-      if (!isDeleting && charIndex === currentPhrase.length) {
-        typeSpeed = 1800; // Pause at end of word
+      if (!isDeleting && charIndex === currentText.length) {
+        speed = 2000;
         isDeleting = true;
       } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length;
-        typeSpeed = 400; // Pause before next word
+        phIndex = (phIndex + 1) % placeholders.length;
+        speed = 400;
       }
 
-      timer = setTimeout(type, typeSpeed);
+      setTimeout(typeLoop, speed);
     };
 
-    searchInput.addEventListener('focus', () => {
-      isPaused = true;
-      searchInput.setAttribute('placeholder', 'Digite para buscar...');
-    });
-
-    searchInput.addEventListener('blur', () => {
-      if (searchInput.value.length === 0) {
-        isPaused = false;
-      }
-    });
-
-    type();
+    setTimeout(typeLoop, 1000);
   }
 
-  /* 5. PWA Service Worker & Install Prompt Support */
-  initPwaSupport() {
-    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then((reg) => console.log('[SnapFlow PWA] Service Worker registrado!', reg.scope))
-          .catch((err) => console.log('[SnapFlow PWA] Registro SW falhou:', err));
-      });
-    }
-
-    let deferredPrompt = null;
-    const installBtn = document.getElementById('pwaInstallBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-    });
-
-    if (installBtn) {
-      installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          if (outcome === 'accepted') {
-            Utils.showToast('SnapFlow instalado com sucesso como App!');
-          }
-          deferredPrompt = null;
-        } else if (location.protocol === 'file:') {
-          Utils.showToast('📱 PWA pronto! Ao publicar na web (Vercel/Netlify) ou rodar em servidor local, o app instala em 1-clique!');
-        } else {
-          Utils.showToast('Para instalar, clique no ícone de instalar [⊕] na barra de endereço do seu navegador!');
+  /* 7. Keyboard Shortcuts (/ to search) */
+  initKeyboardShortcuts() {
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        const searchInput = document.getElementById('hubSearchInput');
+        if (searchInput && this.currentStep === 2) {
+          searchInput.focus();
         }
-      });
-    }
+      }
+    });
   }
 
   openStudioScreen(tabId) {
@@ -215,7 +285,7 @@ class AppController {
     this.switchTab(tabId);
   }
 
-  /* Screen Switcher Engine (ClassList Toggle Fix) */
+  /* Screen Switcher Engine with GSAP Coreography */
   showScreen(stepNumber) {
     this.currentStep = stepNumber;
 
@@ -227,7 +297,6 @@ class AppController {
     document.querySelectorAll('.header-nav-link').forEach(link => link.classList.remove('active'));
 
     if (stepNumber === 2) {
-      // Step 2: Show Selection Screen ONLY
       if (workspaceLayout) workspaceLayout.classList.add('hidden');
       if (pricingScreen) pricingScreen.classList.add('hidden');
       if (hubScreen) hubScreen.classList.remove('hidden');
@@ -235,15 +304,30 @@ class AppController {
       if (showHubBtn) showHubBtn.classList.add('hidden');
       const homeLink = document.getElementById('navHomeLink');
       if (homeLink) homeLink.classList.add('active');
+
+      // GSAP Stagger Entrance for Hub Cards
+      if (window.gsap) {
+        gsap.fromTo('.hub-header > *', 
+          { opacity: 0, y: 20 }, 
+          { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' }
+        );
+        gsap.fromTo('.hub-card', 
+          { opacity: 0, y: 30, scale: 0.96 }, 
+          { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out', delay: 0.15 }
+        );
+      }
     } else if (stepNumber === 3) {
-      // Step 3: Show Studio Workspace ONLY
       if (hubScreen) hubScreen.classList.add('hidden');
       if (pricingScreen) pricingScreen.classList.add('hidden');
       if (workspaceLayout) workspaceLayout.classList.remove('hidden');
 
       if (showHubBtn) showHubBtn.classList.remove('hidden');
+
+      if (window.gsap) {
+        gsap.fromTo('.sidebar', { opacity: 0, x: -25 }, { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out' });
+        gsap.fromTo('.tab-panel.active', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+      }
     } else if (stepNumber === 4) {
-      // Step 4: Show Pricing Screen ONLY
       if (hubScreen) hubScreen.classList.add('hidden');
       if (workspaceLayout) workspaceLayout.classList.add('hidden');
       if (pricingScreen) pricingScreen.classList.remove('hidden');
@@ -251,6 +335,11 @@ class AppController {
       if (showHubBtn) showHubBtn.classList.add('hidden');
       const pricingLink = document.getElementById('navPricingLink');
       if (pricingLink) pricingLink.classList.add('active');
+
+      if (window.gsap) {
+        gsap.fromTo('.pricing-header > *', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' });
+        gsap.fromTo('.pricing-card', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: 'power3.out', delay: 0.15 });
+      }
     }
 
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -281,44 +370,70 @@ class AppController {
     document.querySelectorAll('.tab-panel').forEach(panel => {
       if (panel.id === `${tabId}Tab`) {
         panel.classList.add('active');
+        if (window.gsap) {
+          gsap.fromTo(panel, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' });
+        }
       } else {
         panel.classList.remove('active');
       }
     });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  /* Theme Toggle */
+  /* Theme Switcher */
   initThemeToggle() {
     const themeBtn = document.getElementById('themeToggleBtn');
-    const themeIcon = document.getElementById('themeIcon');
     const body = document.body;
+
+    const renderIcon = (isLight) => {
+      if (!themeBtn) return;
+      themeBtn.innerHTML = isLight 
+        ? '<i data-lucide="sun"></i>' 
+        : '<i data-lucide="moon"></i>';
+      if (window.lucide) lucide.createIcons();
+    };
 
     const savedTheme = localStorage.getItem('snapflow_theme') || 'dark';
     if (savedTheme === 'light') {
       body.classList.remove('dark-theme');
       body.classList.add('light-theme');
-      if (themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
+      renderIcon(true);
+    } else {
+      body.classList.add('dark-theme');
+      body.classList.remove('light-theme');
+      renderIcon(false);
     }
 
     if (themeBtn) {
       themeBtn.addEventListener('click', () => {
-        if (body.classList.contains('light-theme')) {
-          body.classList.remove('light-theme');
-          body.classList.add('dark-theme');
-          localStorage.setItem('snapflow_theme', 'dark');
-          if (themeIcon) themeIcon.setAttribute('data-lucide', 'moon');
-        } else {
+        const isNowLight = !body.classList.contains('light-theme');
+        if (isNowLight) {
           body.classList.remove('dark-theme');
           body.classList.add('light-theme');
           localStorage.setItem('snapflow_theme', 'light');
-          if (themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
+        } else {
+          body.classList.remove('light-theme');
+          body.classList.add('dark-theme');
+          localStorage.setItem('snapflow_theme', 'dark');
         }
-        if (window.lucide) lucide.createIcons();
+        renderIcon(isNowLight);
       });
     }
   }
 
-  /* 8. Cookie Consent Banner (LGPD / GDPR Compliant) */
+  /* PWA Installation Support */
+  initPwaSupport() {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('[SnapFlow PWA] Service Worker registrado!', reg.scope))
+          .catch((err) => console.log('[SnapFlow PWA] Registro SW falhou:', err));
+      });
+    }
+  }
+
+  /* Cookie Consent Banner (LGPD / GDPR Compliant) */
   initCookieConsent() {
     const banner = document.getElementById('cookieConsentBanner');
     const acceptBtn = document.getElementById('acceptCookieBtn');
@@ -329,13 +444,20 @@ class AppController {
     if (!hasConsent) {
       setTimeout(() => {
         banner.classList.remove('hidden');
+        if (window.gsap) {
+          gsap.fromTo(banner, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+        }
         if (window.lucide) lucide.createIcons();
       }, 1200);
     }
 
     acceptBtn.addEventListener('click', () => {
       localStorage.setItem('snapflow_cookie_consent', 'true');
-      banner.classList.add('hidden');
+      if (window.gsap) {
+        gsap.to(banner, { opacity: 0, y: 30, duration: 0.4, ease: 'power3.in', onComplete: () => banner.classList.add('hidden') });
+      } else {
+        banner.classList.add('hidden');
+      }
     });
   }
 }
