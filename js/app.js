@@ -116,11 +116,29 @@ class AppController {
     const navPricingLink = document.getElementById('navPricingLink');
     const showHubBtn = document.getElementById('showHubBtn');
     const brandLogoBtn = document.getElementById('brandLogoBtn');
+    const footerPricingLink = document.getElementById('footerPricingLink');
 
     if (navHomeLink) navHomeLink.addEventListener('click', () => this.showScreen(2));
     if (navPricingLink) navPricingLink.addEventListener('click', () => this.showScreen(4));
     if (showHubBtn) showHubBtn.addEventListener('click', () => this.showScreen(2));
     if (brandLogoBtn) brandLogoBtn.addEventListener('click', () => this.showScreen(2));
+    if (footerPricingLink) {
+      footerPricingLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.showScreen(4);
+      });
+    }
+
+    // Footer Tool Links
+    document.querySelectorAll('[data-footer-tool]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const toolId = link.dataset.footerTool;
+        if (toolId) {
+          this.openStudioScreen(toolId);
+        }
+      });
+    });
   }
 
   /* 3. Grid Hub Screen & Real-time Search */

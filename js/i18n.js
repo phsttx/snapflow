@@ -153,6 +153,23 @@ const SNAPFLOW_TRANSLATIONS = {
     cookie_text: "Utilizamos cookies essenciais e métricas para aprimorar sua experiência. Seus arquivos continuam 100% processados localmente e privados no seu dispositivo.",
     cookie_btn: "Entendido",
 
+    // Footer
+    footer_desc: "Suíte de ferramentas de mídia 100% privada e local. Suas fotos e arquivos nunca saem do seu navegador.",
+    footer_status: "Todos os sistemas operacionais",
+    footer_tools_title: "Ferramentas Populares",
+    footer_tool_compressor: "Compressor em Lote",
+    footer_tool_converter: "Conversor WebP & AVIF",
+    footer_tool_upscaler: "HD Upscaler & Nitidez",
+    footer_tool_qrcode: "Gerador de QR Code",
+    footer_tool_frame: "Extrator de Frames",
+    footer_product_title: "Produto",
+    footer_pricing: "Planos & Preços",
+    footer_mockup: "Estúdio de Mockups 3D",
+    footer_soon: "Em Breve",
+    footer_terms: "Termos de Uso",
+    footer_privacy: "Política de Privacidade",
+    footer_copyright: "© 2026 SnapFlow. Todos os direitos reservados.",
+
     // Toasts
     toast_lang_changed: "Idioma alterado para Português!"
   },
@@ -299,6 +316,23 @@ const SNAPFLOW_TRANSLATIONS = {
     cookie_text: "We use essential cookies and metrics to enhance your experience. Your files remain 100% processed locally and private on your device.",
     cookie_btn: "Got It",
 
+    // Footer
+    footer_desc: "100% private and local media suite. Your photos and files never leave your browser.",
+    footer_status: "All systems operational",
+    footer_tools_title: "Popular Tools",
+    footer_tool_compressor: "Batch Compressor",
+    footer_tool_converter: "WebP & AVIF Converter",
+    footer_tool_upscaler: "HD Upscaler & Sharpness",
+    footer_tool_qrcode: "QR Code Generator",
+    footer_tool_frame: "Video Frame Extractor",
+    footer_product_title: "Product",
+    footer_pricing: "Plans & Pricing",
+    footer_mockup: "3D Mockup Studio",
+    footer_soon: "Soon",
+    footer_terms: "Terms of Service",
+    footer_privacy: "Privacy Policy",
+    footer_copyright: "© 2026 SnapFlow. All rights reserved.",
+
     // Toasts
     toast_lang_changed: "Language switched to English!"
   },
@@ -444,6 +478,23 @@ const SNAPFLOW_TRANSLATIONS = {
     cookie_title: "Privacidad y Cookies 🍪",
     cookie_text: "Utilizamos cookies esenciales y métricas para mejorar tu experiencia. Tus archivos permanecen 100% procesados localmente y privados en tu dispositivo.",
     cookie_btn: "Entendido",
+
+    // Footer
+    footer_desc: "Suite de herramientas de medios 100% privada y local. Tus fotos y archivos nunca salen de tu navegador.",
+    footer_status: "Todos los sistemas operativos",
+    footer_tools_title: "Herramientas Populares",
+    footer_tool_compressor: "Compresor en Lote",
+    footer_tool_converter: "Conversor WebP y AVIF",
+    footer_tool_upscaler: "HD Upscaler y Nitidez",
+    footer_tool_qrcode: "Generador de Código QR",
+    footer_tool_frame: "Extractor de Fotogramas",
+    footer_product_title: "Producto",
+    footer_pricing: "Planes y Precios",
+    footer_mockup: "Estudio de Mockups 3D",
+    footer_soon: "Pronto",
+    footer_terms: "Términos de Uso",
+    footer_privacy: "Política de Privacidad",
+    footer_copyright: "© 2026 SnapFlow. Todos los derechos reservados.",
 
     // Toasts
     toast_lang_changed: "¡Idioma cambiado a Español!"
