@@ -1042,102 +1042,97 @@ input[type="color"]::-moz-color-swatch {
    ========================================================================== */
 
 /* 1. Splashscreen Overlay */
+/* ==========================================================================
+   1. Minimalist Obsidian Splashscreen (Floating Bloom + Subtle Loader)
+   ========================================================================== */
 .splash-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 99999;
   background: #09090b;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  user-select: none;
 }
 
-.splash-overlay.fade-out {
-  opacity: 0;
-  visibility: hidden;
+/* Atmospheric Floating Ambient Bloom */
+.splash-floating-bloom {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(129, 140, 248, 0.12) 45%, transparent 70%);
+  filter: blur(60px);
   pointer-events: none;
+  animation: subtleFloatingBloom 8s ease-in-out infinite alternate;
+}
+
+@keyframes subtleFloatingBloom {
+  0% { transform: translate3d(-25px, -20px, 0) scale(0.95); opacity: 0.7; }
+  50% { transform: translate3d(30px, 25px, 0) scale(1.12); opacity: 1; }
+  100% { transform: translate3d(-20px, 15px, 0) scale(0.98); opacity: 0.8; }
 }
 
 .splash-content {
+  position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.5rem;
   text-align: center;
-  animation: splashScaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes splashScaleIn {
-  from { opacity: 0; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.splash-logo-glow {
-  width: 84px;
-  height: 84px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #7dd3fc 100%) !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #09090b !important;
-  box-shadow: 0 0 50px rgba(56, 189, 248, 0.6);
-  animation: splashLogoRadiate 1.8s ease-in-out infinite alternate !important;
-}
-
-.splash-logo-glow svg,
-.splash-logo-glow i {
-  width: 44px;
-  height: 44px;
-  color: #09090b !important;
-  stroke: #09090b !important;
-}
-
-@keyframes splashLogoRadiate {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
-  }
-  100% {
-    transform: scale(1.08);
-    box-shadow: 0 0 70px rgba(56, 189, 248, 0.85), 0 0 110px rgba(255, 255, 255, 0.5);
-  }
-}
-
-.splash-title {
+.splash-brand-logo {
   font-family: var(--font-heading);
-  font-size: 2.5rem;
+  font-size: 2.6rem;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  display: flex;
+  align-items: baseline;
+  user-select: none;
+}
+
+.splash-brand-snap {
   color: #ffffff;
 }
 
-.splash-subtitle {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  max-width: 380px;
+.splash-brand-flow {
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: 1px;
 }
 
+/* Subtle & Minimalist Progress Line */
 .splash-loader-bar {
-  width: 160px;
-  height: 3px;
-  background: #18181b;
+  width: 140px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 99px;
+  position: relative;
   overflow: hidden;
-  margin-top: 0.5rem;
 }
 
 .splash-loader-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, #ffffff, #38bdf8);
-  animation: progressFill 2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  border-radius: 99px;
+  animation: subtleProgress 1.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
-@keyframes progressFill {
+@keyframes subtleProgress {
   0% { width: 0%; }
+  40% { width: 50%; }
+  75% { width: 85%; }
   100% { width: 100%; }
 }
 
