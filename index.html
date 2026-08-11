@@ -51,10 +51,10 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Stylesheets (v37 Cache Buster) -->
-  <link rel="stylesheet" href="css/main.css?v=37">
-  <link rel="stylesheet" href="css/glass.css?v=37">
-  <link rel="stylesheet" href="css/components.css?v=37">
+  <!-- Stylesheets (v40 Cache Buster) -->
+  <link rel="stylesheet" href="css/main.css?v=40">
+  <link rel="stylesheet" href="css/glass.css?v=40">
+  <link rel="stylesheet" href="css/components.css?v=40">
 </head>
 <body class="dark-theme">
   <!-- Interactive Ambient Magnetic Glow Cursor (Desktop only) -->
@@ -63,12 +63,16 @@
 
   <!-- Dual-Theme Animated Particle Canvas -->
   <canvas id="stellarBg"></canvas>
-  <!-- 1. Animated Splashscreen Overlay (Only Radiating Logo + Loader Bar) -->
+
+  <!-- 1. Minimalist Obsidian Splashscreen Overlay (Floating Bloom + Subtle Loader) -->
   <div id="splashOverlay" class="splash-overlay">
+    <div class="splash-floating-bloom"></div>
+
     <div class="splash-content">
-      <div class="splash-logo-glow">
-        <i data-lucide="zap"></i>
+      <div class="splash-brand-logo">
+        <span class="splash-brand-snap">Snap</span><span class="splash-brand-flow">Flow</span>
       </div>
+
       <div class="splash-loader-bar">
         <div class="splash-loader-progress"></div>
       </div>
@@ -144,7 +148,7 @@
   <!-- 2. Services Grid Hub Screen (Initial Selection Screen) -->
   <div id="hubScreen" class="hub-screen">
     <div class="hub-header">
-      <h1 class="hub-title" id="hubHeroTitle">O que você gostaria de <span class="gradient-text">criar ou transformar</span> hoje?</h1>
+      <h1 class="hub-title" id="hubDynamicTitle">O que você gostaria de <span class="gradient-text">criar ou transformar?</span></h1>
 
       <div class="hub-search-container">
         <i data-lucide="search" class="hub-search-icon"></i>
@@ -238,60 +242,60 @@
   <!-- 3. Pricing & SaaS Plans Screen -->
   <div id="pricingScreen" class="pricing-screen hidden">
     <div class="pricing-header">
-      <h1 class="pricing-title">Escolha o plano ideal para o seu fluxo de trabalho</h1>
-      <p class="pricing-subtitle">Processamento 100% privado no seu dispositivo. Sem limites ocultos.</p>
+      <h1 class="pricing-title" data-i18n="pricing_title">Escolha o plano ideal para o seu fluxo de trabalho</h1>
+      <p class="pricing-subtitle" data-i18n="pricing_subtitle">Processamento 100% privado no seu dispositivo. Sem limites ocultos.</p>
     </div>
 
     <div class="pricing-toggle-row">
-      <span>Mensal</span>
+      <span data-i18n="pricing_monthly">Mensal</span>
       <div class="pricing-toggle-switch" id="pricingToggleSwitch">
         <div class="pricing-toggle-circle"></div>
       </div>
-      <span>Anual</span>
-      <span class="discount-badge">Economize 20%</span>
+      <span data-i18n="pricing_annual">Anual</span>
+      <span class="discount-badge" data-i18n="pricing_save_badge">Economize 20%</span>
     </div>
 
     <div class="pricing-grid">
       <!-- Plan 1: Starter -->
       <div class="pricing-card">
-        <h3 class="plan-name">Grátis</h3>
-        <div class="plan-price-row"><span class="plan-price">R$ 0</span><span class="plan-period">/ mês</span></div>
-        <p class="plan-desc">Para uso casual e edições rápidas no dia a dia.</p>
+        <h3 class="plan-name" data-i18n="plan_free_name">Grátis</h3>
+        <div class="plan-price-row"><span class="plan-price">R$ 0</span><span class="plan-period" data-i18n="plan_free_period">/ mês</span></div>
+        <p class="plan-desc" data-i18n="plan_free_desc">Para uso casual e edições rápidas no dia a dia.</p>
         <ul class="plan-features-list">
-          <li class="plan-feature-item"><i data-lucide="check"></i> 10 Processamentos por mês</li>
-          <li class="plan-feature-item"><i data-lucide="check"></i> Ferramentas Básicas (Compressor, QR Code)</li>
-          <li class="plan-feature-item"><i data-lucide="check"></i> Processamento 100% Local &amp; Privado</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_free_f1">10 Processamentos por mês</span></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_free_f2">Ferramentas Básicas (Compressor, QR Code)</span></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_free_f3">Processamento 100% Local &amp; Privado</span></li>
         </ul>
-        <button id="freePlanBtn" class="btn btn-secondary btn-block margin-top-md">Plano Atual</button>
+        <button id="freePlanBtn" class="btn btn-secondary btn-block margin-top-md" data-i18n="plan_free_btn">Plano Atual</button>
       </div>
 
       <!-- Plan 2: Pro -->
       <div class="pricing-card featured">
-        <span class="featured-badge">Mais Popular</span>
-        <h3 class="plan-name">Pro</h3>
-        <div class="plan-price-row"><span class="plan-price" id="proPriceVal">R$ 29</span><span class="plan-period" id="proPeriodVal">/ mês</span></div>
-        <p class="plan-desc">Para designers, criadores de conteúdo e freelancers.</p>
+        <span class="featured-badge" data-i18n="plan_pro_badge">Mais Popular</span>
+        <h3 class="plan-name" data-i18n="plan_pro_name">Pro</h3>
+        <div class="plan-price-row"><span class="plan-price" id="proPriceVal">R$ 29</span><span class="plan-period" id="proPeriodVal" data-i18n="plan_pro_period">/ mês</span></div>
+        <p class="plan-desc" data-i18n="plan_pro_desc">Para designers, criadores de conteúdo e freelancers.</p>
         <ul class="plan-features-list">
-          <li class="plan-feature-item"><i data-lucide="check"></i> <strong>Processamento &amp; ZIP Ilimitados</strong></li>
-          <li class="plan-feature-item"><i data-lucide="check"></i> Todas as 16 Ferramentas Avançadas</li>
-          <li class="plan-feature-item"><i data-lucide="check"></i> Estúdio de Mockups 3D &amp; Editor SVG</li>
-          <li class="plan-feature-item"><i data-lucide="check"></i> Exportação em Alta Definição 4K</li>
-          <li class="plan-feature-item"><i data-lucide="check"></i> Marcas d'Água &amp; Presets Salvos</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <strong data-i18n="plan_pro_f1">Processamento &amp; ZIP Ilimitados</strong></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_pro_f2">Todas as 16 Ferramentas Avançadas</span></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_pro_f3">Estúdio de Mockups 3D &amp; Editor SVG</span></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_pro_f4">Exportação em Alta Definição 4K</span></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_pro_f5">Marcas d'Água &amp; Presets Salvos</span></li>
         </ul>
-        <button id="proSubscribeBtn" class="btn btn-primary btn-block margin-top-md">Assinar Plano Pro</button>
+        <button id="proSubscribeBtn" class="btn btn-primary btn-block margin-top-md" data-i18n="plan_pro_btn">Assinar Plano Pro</button>
       </div>
 
       <!-- Plan 3: Enterprise -->
       <div class="pricing-card">
-        <h3 class="plan-name">Agências</h3>
-        <div class="plan-price-row"><span class="plan-price">R$ 79</span><span class="plan-period">/ mês</span></div>
-        <p class="plan-desc">Para agências, times e empresas que buscam alta escala.</p>
+        <h3 class="plan-name" data-i18n="plan_agency_name">Agências</h3>
+        <div class="plan-price-row"><span class="plan-price">R$ 79</span><span class="plan-period" data-i18n="plan_agency_period">/ mês</span></div>
+        <p class="plan-desc" data-i18n="plan_agency_desc">Para agências, times e empresas que buscam alta escala.</p>
         <ul class="plan-features-list">
-          <li class="plan-feature-item"><i data-lucide="check"></i> Tudo do Plano Pro para até 10 pessoas</li>
-          <li class="plan-feature-item"><i data-lucide="check"></i> Suporte Prioritário 24/7</li>
-          <li class="plan-feature-item"><i data-lucide="check"></i> Licença Comercial Ilimitada</li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_agency_f1">Tudo do Plano Pro para até 10 pessoas</span></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_agency_f2">Suporte Prioritário 24/7</span></li>
+          <li class="plan-feature-item"><i data-lucide="check"></i> <span data-i18n="plan_agency_f3">Licença Comercial Ilimitada</span></li>
         </ul>
-        <button class="btn btn-secondary btn-block margin-top-md">Contatar Vendas</button>
+        <button class="btn btn-secondary btn-block margin-top-md" data-i18n="plan_agency_btn">Contatar Vendas</button>
       </div>
     </div>
 
@@ -301,33 +305,33 @@
         <i data-lucide="shield-check"></i>
       </div>
       <div class="guarantee-text-block">
-        <h4 class="guarantee-title">Garantia Incondicional de 7 Dias</h4>
-        <p class="guarantee-desc">Experimente o SnapFlow PRO sem nenhum risco. Se você não amar a produtividade e a velocidade da plataforma nos primeiros 7 dias, devolvemos 100% do seu investimento sem perguntas.</p>
+        <h4 class="guarantee-title" data-i18n="guarantee_title">Garantia Incondicional de 7 Dias</h4>
+        <p class="guarantee-desc" data-i18n="guarantee_desc">Experimente o SnapFlow PRO sem nenhum risco. Se você não amar a produtividade e a velocidade da plataforma nos primeiros 7 dias, devolvemos 100% do seu investimento sem perguntas.</p>
       </div>
     </div>
 
     <!-- Pricing FAQ Section -->
     <div class="pricing-faq-section">
-      <h2 class="faq-title">Perguntas Frequentes</h2>
+      <h2 class="faq-title" data-i18n="faq_title">Perguntas Frequentes</h2>
       <div class="faq-grid">
         <div class="faq-card">
-          <div class="faq-question"><i data-lucide="help-circle"></i> Como funciona a privacidade dos meus arquivos?</div>
-          <div class="faq-answer">Todo o processamento de imagens, vídeos e arquivos é feito 100% no seu próprio navegador via HTML5 Canvas. Suas fotos NUNCA são enviadas para nenhum servidor externo.</div>
+          <div class="faq-question"><i data-lucide="help-circle"></i> <span data-i18n="faq_q1">Como funciona a privacidade dos meus arquivos?</span></div>
+          <div class="faq-answer" data-i18n="faq_a1">Todo o processamento de imagens, vídeos e arquivos é feito 100% no seu próprio navegador via HTML5 Canvas. Suas fotos NUNCA são enviadas para nenhum servidor externo.</div>
         </div>
 
         <div class="faq-card">
-          <div class="faq-question"><i data-lucide="help-circle"></i> O SnapFlow precisa de instalação?</div>
-          <div class="faq-answer">Não! O SnapFlow roda diretamente no seu navegador em qualquer computador ou dispositivo sem precisar baixar programas.</div>
+          <div class="faq-question"><i data-lucide="help-circle"></i> <span data-i18n="faq_q2">O SnapFlow precisa de instalação?</span></div>
+          <div class="faq-answer" data-i18n="faq_a2">Não! O SnapFlow roda diretamente no seu navegador em qualquer computador ou dispositivo sem precisar baixar programas.</div>
         </div>
 
         <div class="faq-card">
-          <div class="faq-question"><i data-lucide="help-circle"></i> Posso cancelar minha assinatura a qualquer momento?</div>
-          <div class="faq-answer">Com certeza. Você pode cancelar sua assinatura com 1 clique a qualquer momento sem taxas ou fidelidade.</div>
+          <div class="faq-question"><i data-lucide="help-circle"></i> <span data-i18n="faq_q3">Posso cancelar minha assinatura a qualquer momento?</span></div>
+          <div class="faq-answer" data-i18n="faq_a3">Com certeza. Você pode cancelar sua assinatura com 1 clique a qualquer momento sem taxas ou fidelidade.</div>
         </div>
 
         <div class="faq-card">
-          <div class="faq-question"><i data-lucide="help-circle"></i> As ferramentas funcionam sem internet?</div>
-          <div class="faq-answer">Sim! Após carregar a página inicial, todas as 16 ferramentas funcionam perfeitamente mesmo se a sua conexão com a internet cair.</div>
+          <div class="faq-question"><i data-lucide="help-circle"></i> <span data-i18n="faq_q4">As ferramentas funcionam sem internet?</span></div>
+          <div class="faq-answer" data-i18n="faq_a4">Sim! Após carregar a página inicial, todas as 16 ferramentas funcionam perfeitamente mesmo se a sua conexão com a internet cair.</div>
         </div>
       </div>
     </div>
