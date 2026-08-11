@@ -42,19 +42,25 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="shortcut icon" href="assets/favicon.svg">
 
-  <!-- Google Fonts & Lucide Icons -->
+  <!-- Google Fonts (Inter Complete Family) & GSAP Animation Engine -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Stylesheets (v22 Cache Buster) -->
-  <link rel="stylesheet" href="css/main.css?v=22">
-  <link rel="stylesheet" href="css/glass.css?v=22">
-  <link rel="stylesheet" href="css/components.css?v=22">
+  <!-- Stylesheets (v37 Cache Buster) -->
+  <link rel="stylesheet" href="css/main.css?v=37">
+  <link rel="stylesheet" href="css/glass.css?v=37">
+  <link rel="stylesheet" href="css/components.css?v=37">
 </head>
 <body class="dark-theme">
+  <!-- Interactive Ambient Magnetic Glow Cursor (Desktop only) -->
+  <div id="ambientCursorGlow" class="ambient-cursor-glow"></div>
+  <div id="ambientCursorDot" class="ambient-cursor-dot"></div>
+
   <!-- Dual-Theme Animated Particle Canvas -->
   <canvas id="stellarBg"></canvas>
   <!-- 1. Animated Splashscreen Overlay (Only Radiating Logo + Loader Bar) -->
@@ -69,34 +75,62 @@
     </div>
   </div>
 
-  <!-- Top Navigation & Header -->
+  <!-- Top Navigation & Header (Ultra Minimalist Redesign) -->
   <header class="app-header">
     <div class="header-container">
-      <div class="brand-logo" id="brandLogoBtn" style="cursor:pointer;" title="Voltar ao Hub de Serviços">
-        <div class="logo-icon-glow">
-          <i data-lucide="zap" class="brand-icon"></i>
-        </div>
-        <div class="brand-text">
-          <span class="brand-name">Snap<span class="accent-badge">Flow</span></span>
-        </div>
+      <div class="brand-logo" id="brandLogoBtn" style="cursor:pointer;" title="SnapFlow - Ir para Início">
+        <span class="brand-name">Snap<span class="brand-name-accent">Flow</span></span>
       </div>
 
-      <nav class="header-nav-links">
-        <button class="header-nav-link active" id="navHomeLink"><i data-lucide="home"></i> Início</button>
-        <button class="header-nav-link" id="navPricingLink"><i data-lucide="gem"></i> Preços &amp; Planos</button>
-      </nav>
-
       <div class="header-actions">
-        <button id="showHubBtn" class="btn btn-secondary btn-sm hidden">
-          <i data-lucide="layout-grid"></i> Ver Todas as Ferramentas
+        <!-- Discreet Minimalist Flag Language Dropdown (Apenas bandeira ativa + caixinha ao clicar) -->
+        <div class="lang-dropdown-wrapper" id="langDropdownWrapper">
+          <button class="lang-dropdown-trigger" id="langDropdownTrigger" aria-label="Selecionar Idioma" title="Mudar Idioma">
+            <span class="current-flag-box" id="currentFlagDisplay">
+              <svg class="svg-flag" viewBox="0 0 640 480"><g fill-rule="evenodd"><path fill="#009c3b" d="M0 0h640v480H0z"/><path fill="#ffdf00" d="M320 40L600 240 320 440 40 240z"/><circle cx="320" cy="240" r="105" fill="#002776"/><path fill="#fff" d="M217 255a105 105 0 0 0 206-30 106 106 0 0 1-206 30z"/></g></svg>
+            </span>
+            <i data-lucide="chevron-down" class="lang-chevron-icon"></i>
+          </button>
+
+          <!-- Floating Glass Dropdown Menu -->
+          <div class="lang-dropdown-menu" id="langDropdownMenu">
+            <button class="lang-option-btn active" data-lang="pt">
+              <span class="option-flag-box">
+                <svg class="svg-flag" viewBox="0 0 640 480"><g fill-rule="evenodd"><path fill="#009c3b" d="M0 0h640v480H0z"/><path fill="#ffdf00" d="M320 40L600 240 320 440 40 240z"/><circle cx="320" cy="240" r="105" fill="#002776"/><path fill="#fff" d="M217 255a105 105 0 0 0 206-30 106 106 0 0 1-206 30z"/></g></svg>
+              </span>
+              <span class="option-lang-name">Português</span>
+              <i data-lucide="check" class="lang-check-icon"></i>
+            </button>
+
+            <button class="lang-option-btn" data-lang="en">
+              <span class="option-flag-box">
+                <svg class="svg-flag" viewBox="0 0 640 480"><g fill-rule="evenodd"><path fill="#bd3d44" d="M0 0h640v480H0z"/><path stroke="#fff" stroke-width="37" d="M0 55.5h640M0 129.5h640M0 203.5h640M0 277.5h640M0 351.5h640M0 425.5h640"/><path fill="#192f5d" d="M0 0h260v259H0z"/><circle cx="45" cy="45" r="8" fill="#fff"/><circle cx="95" cy="45" r="8" fill="#fff"/><circle cx="145" cy="45" r="8" fill="#fff"/><circle cx="195" cy="45" r="8" fill="#fff"/><circle cx="70" cy="85" r="8" fill="#fff"/><circle cx="120" cy="85" r="8" fill="#fff"/><circle cx="170" cy="85" r="8" fill="#fff"/><circle cx="45" cy="125" r="8" fill="#fff"/><circle cx="95" cy="125" r="8" fill="#fff"/><circle cx="145" cy="125" r="8" fill="#fff"/><circle cx="195" cy="125" r="8" fill="#fff"/><circle cx="70" cy="165" r="8" fill="#fff"/><circle cx="120" cy="165" r="8" fill="#fff"/><circle cx="170" cy="165" r="8" fill="#fff"/><circle cx="45" cy="205" r="8" fill="#fff"/><circle cx="95" cy="205" r="8" fill="#fff"/><circle cx="145" cy="205" r="8" fill="#fff"/><circle cx="195" cy="205" r="8" fill="#fff"/></g></svg>
+              </span>
+              <span class="option-lang-name">English</span>
+              <i data-lucide="check" class="lang-check-icon"></i>
+            </button>
+
+            <button class="lang-option-btn" data-lang="es">
+              <span class="option-flag-box">
+                <svg class="svg-flag" viewBox="0 0 640 480"><path fill="#aa151b" d="M0 0h640v480H0z"/><path fill="#f1bf00" d="M0 120h640v240H0z"/></svg>
+              </span>
+              <span class="option-lang-name">Español</span>
+              <i data-lucide="check" class="lang-check-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn-plans-glow" id="navPricingLink" data-i18n="nav_plans">Planos</button>
+        <button id="showHubBtn" class="btn btn-secondary btn-sm hidden" data-i18n="nav_all_tools">
+          <i data-lucide="layout-grid"></i> Ver Ferramentas
         </button>
-        <button id="authLoginBtn" class="btn btn-secondary btn-sm" title="Entrar ou Criar Conta no SnapFlow">
+        <button id="authLoginBtn" class="btn btn-secondary btn-sm" title="Entrar ou Criar Conta no SnapFlow" data-i18n="nav_signin">
           <i data-lucide="user"></i> Entrar
         </button>
         <div id="userProfileBadge" class="user-micro-badge hidden" title="Ver Planos / Gerenciar Conta">
           <div class="user-avatar-circle" id="userAvatarInitial">P</div>
           <div class="user-meta-info">
-            <span class="user-meta-name" id="userNameLabel">Conta</span>
+            <span class="user-meta-name" id="userNameLabel" data-i18n="nav_account">Conta</span>
             <span class="micro-plan-badge free-badge" id="userPlanTag">FREE (0/10)</span>
           </div>
           <button id="authLogoutBtn" class="logout-icon-btn" title="Sair da Conta">
@@ -110,91 +144,91 @@
   <!-- 2. Services Grid Hub Screen (Initial Selection Screen) -->
   <div id="hubScreen" class="hub-screen">
     <div class="hub-header">
-      <h1 class="hub-title">O que você gostaria de criar ou editar hoje?</h1>
-      <p class="hub-subtitle">Escolha uma ferramenta abaixo para iniciar o seu projeto. Processamento 100% privado e rápido.</p>
+      <h1 class="hub-title" id="hubHeroTitle">O que você gostaria de <span class="gradient-text">criar ou transformar</span> hoje?</h1>
 
       <div class="hub-search-container">
         <i data-lucide="search" class="hub-search-icon"></i>
-        <input type="text" id="hubSearchInput" placeholder="Buscar ferramenta (ex: PDF, Fundo, QR Code, Mockup)..." class="hub-search-input">
+        <input type="text" id="hubSearchInput" placeholder="Buscar ferramenta (ex: Compressor, WebP, QR Code)..." class="hub-search-input" data-i18n-placeholder="hero_search_placeholder">
+        <span class="search-kbd-badge"><kbd>/</kbd></span>
       </div>
 
       <div class="hub-privacy-pill tooltip-trigger">
         <i data-lucide="shield-check" class="shield-icon"></i>
-        <span>100% Privado &amp; Local</span>
+        <span data-i18n="hero_privacy_pill">100% Privado &amp; Local</span>
       </div>
     </div>
 
     <!-- Category: Ferramentas Principais de Mídia & Design -->
     <div class="hub-category-section">
-      <div class="hub-category-title"><i data-lucide="sparkles"></i> Ferramentas Essenciais de Mídia &amp; Design</div>
+      <div class="hub-category-title"><i data-lucide="sparkles"></i> <span data-i18n="category_essential">Ferramentas Essenciais de Mídia &amp; Design</span></div>
       <div class="hub-grid">
         <div class="hub-card" data-open-tab="compressor">
           <div class="hub-card-icon"><i data-lucide="minimize-2"></i></div>
-          <div class="hub-card-title">Compressor &amp; Lote ZIP</div>
-          <p class="hub-card-desc">Reduza o tamanho de até 100 fotos preservando a qualidade visual. Baixe tudo em ZIP.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_compressor_title">Compressor &amp; Lote ZIP</div>
+          <p class="hub-card-desc" data-i18n="card_compressor_desc">Reduza o tamanho de até 100 fotos preservando a qualidade visual. Baixe tudo em ZIP.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card" data-open-tab="converter">
           <div class="hub-card-icon"><i data-lucide="repeat"></i></div>
-          <div class="hub-card-title">Conversor em Lote</div>
-          <p class="hub-card-desc">Converta entre PNG, JPG, WebP, AVIF e ICO em lote com download em ZIP.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_converter_title">Conversor em Lote</div>
+          <p class="hub-card-desc" data-i18n="card_converter_desc">Converta entre PNG, JPG, WebP, AVIF e ICO em lote com download em ZIP.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card" data-open-tab="cropper">
           <div class="hub-card-icon"><i data-lucide="crop"></i></div>
-          <div class="hub-card-title">Recorte &amp; Filtros</div>
-          <p class="hub-card-desc">Recorte imagens em proporções 1:1, 16:9, 4:3, rotacione e aplique filtros visuais.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_cropper_title">Recorte &amp; Filtros</div>
+          <p class="hub-card-desc" data-i18n="card_cropper_desc">Recorte imagens em proporções 1:1, 16:9, 4:3, rotacione e aplique filtros visuais.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card" data-open-tab="upscaler">
           <div class="hub-card-icon"><i data-lucide="sparkles"></i></div>
-          <div class="hub-card-title">HD Upscaler &amp; Nitidez</div>
-          <p class="hub-card-desc">Amplie a resolução (2x/4x HD) e recupere detalhes com o filtro Unsharp Mask.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_upscaler_title">HD Upscaler &amp; Nitidez</div>
+          <p class="hub-card-desc" data-i18n="card_upscaler_desc">Amplie a resolução (2x/4x HD) e recupere detalhes com o filtro Unsharp Mask.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card" data-open-tab="qrcode">
           <div class="hub-card-icon"><i data-lucide="qr-code"></i></div>
-          <div class="hub-card-title">Gerador de QR Code</div>
-          <p class="hub-card-desc">Crie códigos QR para URL, Texto e Wi-Fi com logo central e cores customizáveis.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_qrcode_title">Gerador de QR Code</div>
+          <p class="hub-card-desc" data-i18n="card_qrcode_desc">Crie códigos QR para URL, Texto e Wi-Fi com logo central e cores customizáveis.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card" data-open-tab="watermark">
           <div class="hub-card-icon"><i data-lucide="stamp"></i></div>
-          <div class="hub-card-title">Marca d'Água</div>
-          <p class="hub-card-desc">Proteja suas fotos aplicando marca d'água com texto ou logo e salvamento de presets.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_watermark_title">Marca d'Água</div>
+          <p class="hub-card-desc" data-i18n="card_watermark_desc">Proteja suas fotos aplicando marca d'água com texto ou logo e salvamento de presets.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card" data-open-tab="svgStudio">
           <div class="hub-card-icon"><i data-lucide="pen-tool"></i></div>
-          <div class="hub-card-title">Editor SVG &amp; PNG HD</div>
-          <p class="hub-card-desc">Edite cores de vetores SVG em tempo real e converta para PNG em 2x, 4x e 8x HD.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_svg_title">Editor SVG &amp; PNG HD</div>
+          <p class="hub-card-desc" data-i18n="card_svg_desc">Edite cores de vetores SVG em tempo real e converta para PNG em 2x, 4x e 8x HD.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card" data-open-tab="favicon">
           <div class="hub-card-icon"><i data-lucide="layout-grid"></i></div>
-          <div class="hub-card-title">Gerador de Favicon</div>
-          <p class="hub-card-desc">Gere conjuntos completos de favicons e ícones para iOS, Android e PWA.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_favicon_title">Gerador de Favicon</div>
+          <p class="hub-card-desc" data-i18n="card_favicon_desc">Gere conjuntos completos de favicons e ícones para iOS, Android e PWA.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card" data-open-tab="frame">
           <div class="hub-card-icon"><i data-lucide="film"></i></div>
-          <div class="hub-card-title">Extrator de Vídeo</div>
-          <p class="hub-card-desc">Capture quadros e momentos individuais de vídeos em imagem de alta definição.</p>
-          <span class="hub-card-action">Abrir Ferramenta <i data-lucide="arrow-right"></i></span>
+          <div class="hub-card-title" data-i18n="card_video_title">Extrator de Vídeo</div>
+          <p class="hub-card-desc" data-i18n="card_video_desc">Capture quadros e momentos individuais de vídeos em imagem de alta definição.</p>
+          <span class="hub-card-action"><span data-i18n="card_open_action">Abrir Ferramenta</span> <i data-lucide="arrow-right"></i></span>
         </div>
 
         <div class="hub-card disabled-card" data-open-tab="mockupStudio" style="opacity: 0.6; pointer-events: none; position: relative;">
           <div class="hub-card-icon"><i data-lucide="monitor"></i></div>
-          <div class="hub-card-title">Estúdio de Mockups <span class="beta-badge" style="background: rgba(239, 68, 68, 0.2); color: #f87171;"><i data-lucide="lock" style="width:11px; height:11px; vertical-align:middle; margin-right:2px;"></i> BETA</span></div>
-          <p class="hub-card-desc">Enquadre capturas de tela em molduras de Safari, iPhone 15 Pro, MacBook Pro e Twitter/X.</p>
+          <div class="hub-card-title"><span data-i18n="card_mockup_title">Estúdio de Mockups</span> <span class="beta-badge" style="background: rgba(239, 68, 68, 0.2); color: #f87171;"><i data-lucide="lock" style="width:11px; height:11px; vertical-align:middle; margin-right:2px;"></i> BETA</span></div>
+          <p class="hub-card-desc" data-i18n="card_mockup_desc">Enquadre capturas de tela em molduras de Safari, iPhone 15 Pro, MacBook Pro e Twitter/X.</p>
           <span class="hub-card-action" style="color: var(--text-muted);"><i data-lucide="lock" style="width:14px; height:14px;"></i> Em Breve</span>
         </div>
       </div>
@@ -373,14 +407,6 @@
             <span class="stat-label">Economizados</span>
           </div>
         </div>
-      </div>
-
-      <!-- Theme Switcher in Sidebar Footer (Option B) -->
-      <div class="sidebar-theme-wrapper">
-        <button id="themeToggleBtn" class="sidebar-theme-btn" title="Alternar Modo de Cor">
-          <i data-lucide="moon" id="themeIcon"></i>
-          <span id="themeToggleLabel">Modo Claro / Escuro</span>
-        </button>
       </div>
     </aside>
 
@@ -782,6 +808,11 @@
     </div>
   </div>
 
+  <!-- Floating Bottom-Right Theme Toggle Button (Beeeeem no canto, colado na rolagem) -->
+  <button id="themeToggleBtn" class="floating-theme-btn" title="Alternar Modo Claro / Escuro" aria-label="Alternar Modo Claro / Escuro">
+    <i data-lucide="moon" id="themeIcon"></i>
+  </button>
+
   <!-- Toast Container -->
   <div id="toastContainer" class="toast-container"></div>
 
@@ -805,6 +836,7 @@
   <script src="js/limit-guard.js"></script>
   <script src="js/analytics.js"></script>
   <script src="js/pricing-checkout.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
