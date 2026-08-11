@@ -64,41 +64,48 @@ class AppController {
     });
   }
 
-  /* 1. Splashscreen with GSAP Animation */
+  /* 1. Minimalist Obsidian Splashscreen Controller */
   initSplashscreen() {
     const splash = document.getElementById('splashOverlay');
-    const startBtn = document.getElementById('splashStartBtn');
-
     if (!splash) return;
 
+    // Session Protection: garante que só roda uma vez por sessão
+    if (sessionStorage.getItem('snapflow_splash_played')) {
+      splash.style.display = 'none';
+      this.showScreen(2);
+      return;
+    }
+
+    let isDismissed = false;
+
     const goToHub = () => {
+      if (isDismissed) return;
+      isDismissed = true;
+      sessionStorage.setItem('snapflow_splash_played', 'true');
+
       if (window.gsap) {
         gsap.to(splash, {
           opacity: 0,
-          scale: 1.05,
-          duration: 0.6,
-          ease: 'power3.inOut',
+          duration: 0.45,
+          ease: 'power2.inOut',
           onComplete: () => {
             splash.style.display = 'none';
             this.showScreen(2);
           }
         });
       } else {
-        splash.classList.add('fade-out');
+        splash.style.opacity = '0';
         setTimeout(() => {
           splash.style.display = 'none';
           this.showScreen(2);
-        }, 500);
+        }, 350);
       }
     };
 
-    if (startBtn) {
-      startBtn.addEventListener('click', goToHub);
-    }
-
+    // Smooth transition right when subtle loader finishes
     setTimeout(() => {
-      if (this.currentStep === 1) goToHub();
-    }, 2000);
+      goToHub();
+    }, 2100);
   }
 
   /* 2. Top Header Navigation Router */
@@ -212,25 +219,44 @@ class AppController {
     });
   }
 
-  /* 6. Search Box Typewriter Effect */
+  /* 6. Multi-Language Search Box Typewriter Effect */
   initSearchTypewriter() {
     const searchInput = document.getElementById('hubSearchInput');
     if (!searchInput) return;
 
-    const placeholders = [
-      'Buscar ferramenta (ex: Compressor, WebP)...',
-      'Experimente: Converter PNG em WebP...',
-      'Experimente: Gerador de QR Code com Logo...',
-      'Experimente: HD Upscaler Nitidez 4K...',
-      'Experimente: Marca d\'Água com Presets...'
-    ];
+    const getPlaceholders = () => {
+      if (window.i18nEngine && typeof window.i18nEngine.t === 'function') {
+        const list = window.i18nEngine.t('search_placeholders');
+        if (Array.isArray(list) && list.length) return list;
+      }
+      return [
+        'Buscar ferramenta (ex: Compressor, WebP)...',
+        'Experimente: Converter PNG em WebP...',
+        'Experimente: Gerador de QR Code com Logo...',
+        'Experimente: HD Upscaler Nitidez 4K...',
+        'Experimente: Marca d\'Água com Presets...'
+      ];
+    };
 
+    let placeholders = getPlaceholders();
     let phIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
     let isFocused = false;
 
-    searchInput.addEventListener('focus', () => { isFocused = true; searchInput.placeholder = 'Digite para pesquisar...'; });
+    // Listen to language change to immediately update placeholders
+    window.addEventListener('snapflow:langchange', () => {
+      placeholders = getPlaceholders();
+      phIndex = 0;
+      charIndex = 0;
+      isDeleting = false;
+    });
+
+    searchInput.addEventListener('focus', () => { 
+      isFocused = true; 
+      const focusedText = window.i18nEngine ? window.i18nEngine.t('search_focused_placeholder') : 'Digite para pesquisar...';
+      searchInput.placeholder = focusedText || 'Digite para pesquisar...'; 
+    });
     searchInput.addEventListener('blur', () => { isFocused = false; });
 
     const typeLoop = () => {
@@ -239,7 +265,8 @@ class AppController {
         return;
       }
 
-      const currentText = placeholders[phIndex];
+      placeholders = getPlaceholders();
+      const currentText = placeholders[phIndex] || placeholders[0];
 
       if (isDeleting) {
         searchInput.placeholder = currentText.substring(0, charIndex - 1);
@@ -249,10 +276,10 @@ class AppController {
         charIndex++;
       }
 
-      let speed = isDeleting ? 30 : 60;
+      let speed = isDeleting ? 25 : 55;
 
       if (!isDeleting && charIndex === currentText.length) {
-        speed = 2000;
+        speed = 2200;
         isDeleting = true;
       } else if (isDeleting && charIndex === 0) {
         isDeleting = false;

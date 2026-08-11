@@ -19,14 +19,27 @@ const SNAPFLOW_TRANSLATIONS = {
     nav_logout: "Sair",
     nav_account: "Conta",
 
-    // Rotating Hero Headlines (3 Frases Alternadas)
+    // Splash Screen
+    splash_tagline: "Suíte Criativa de Alta Performance",
+
+    // Rotating Hero Headlines (Frases Alternadas)
     hero_headlines: [
+      { prefix: "O que você gostaria de ", gradient: "criar ou transformar?", suffix: "" },
       { prefix: "Edite, converta e otimize mídia com ", gradient: "velocidade máxima", suffix: "" },
       { prefix: "Comprima, converta e crie em ", gradient: "poucos cliques", suffix: "" },
       { prefix: "O fluxo definitivo para ", gradient: "designers e criadores", suffix: "" }
     ],
 
-    hero_search_placeholder: "Buscar ferramenta (ex: Compressor, WebP, QR Code)...",
+    // Search Typewriter Placeholders
+    search_placeholders: [
+      "Buscar ferramenta (ex: Compressor, WebP)...",
+      "Experimente: Converter PNG em WebP...",
+      "Experimente: Gerador de QR Code com Logo...",
+      "Experimente: HD Upscaler Nitidez 4K...",
+      "Experimente: Marca d'Água com Presets..."
+    ],
+    search_focused_placeholder: "Digite para pesquisar...",
+
     hero_privacy_pill: "100% Privado & Local",
     category_essential: "FERRAMENTAS ESSENCIAIS DE MÍDIA & DESIGN",
 
@@ -52,6 +65,74 @@ const SNAPFLOW_TRANSLATIONS = {
     card_mockup_title: "Estúdio de Mockups",
     card_mockup_desc: "Enquadre screenshots em molduras 3D fotorrealistas de iPhone, MacBook e Safari.",
     card_open_action: "Abrir Ferramenta",
+
+    // Pricing & SaaS Plans Page
+    pricing_title: "Escolha o plano ideal para o seu fluxo de trabalho",
+    pricing_subtitle: "Processamento 100% privado no seu dispositivo. Sem limites ocultos.",
+    pricing_monthly: "Mensal",
+    pricing_annual: "Anual",
+    pricing_save_badge: "Economize 20%",
+
+    // Plan 1: Free
+    plan_free_name: "Grátis",
+    plan_free_period: "/ mês",
+    plan_free_desc: "Para uso casual e edições rápidas no dia a dia.",
+    plan_free_f1: "10 Processamentos por mês",
+    plan_free_f2: "Ferramentas Básicas (Compressor, QR Code)",
+    plan_free_f3: "Processamento 100% Local & Privado",
+    plan_free_btn: "Plano Atual",
+
+    // Plan 2: PRO
+    plan_pro_badge: "Mais Popular",
+    plan_pro_name: "Pro",
+    plan_pro_period: "/ mês",
+    plan_pro_desc: "Para designers, criadores de conteúdo e freelancers.",
+    plan_pro_f1: "Processamento & ZIP Ilimitados",
+    plan_pro_f2: "Todas as 16 Ferramentas Avançadas",
+    plan_pro_f3: "Estúdio de Mockups 3D & Editor SVG",
+    plan_pro_f4: "Exportação em Alta Definição 4K",
+    plan_pro_f5: "Marcas d'Água & Presets Salvos",
+    plan_pro_btn: "Assinar Plano Pro",
+
+    // Plan 3: Agency
+    plan_agency_name: "Agências",
+    plan_agency_period: "/ mês",
+    plan_agency_desc: "Para agências, times e empresas que buscam alta escala.",
+    plan_agency_f1: "Tudo do Plano Pro para até 10 pessoas",
+    plan_agency_f2: "Suporte Prioritário 24/7",
+    plan_agency_f3: "Licença Comercial Ilimitada",
+    plan_agency_btn: "Contatar Vendas",
+
+    // Guarantee Card
+    guarantee_title: "Garantia Incondicional de 7 Dias",
+    guarantee_desc: "Experimente o SnapFlow PRO sem nenhum risco. Se você não amar a produtividade e a velocidade da plataforma nos primeiros 7 dias, devolvemos 100% do seu investimento sem perguntas.",
+
+    // FAQ
+    faq_title: "Perguntas Frequentes",
+    faq_q1: "Como funciona a privacidade dos meus arquivos?",
+    faq_a1: "Todo o processamento de imagens, vídeos e arquivos é feito 100% no seu próprio navegador via HTML5 Canvas. Suas fotos NUNCA são enviadas para nenhum servidor externo.",
+    faq_q2: "O SnapFlow precisa de instalação?",
+    faq_a2: "Não! O SnapFlow roda diretamente no seu navegador em qualquer computador ou dispositivo sem precisar baixar programas.",
+    faq_q3: "Posso cancelar minha assinatura a qualquer momento?",
+    faq_a3: "Com certeza. Você pode cancelar sua assinatura com 1 clique a qualquer momento sem taxas ou fidelidade.",
+    faq_q4: "As ferramentas funcionam sem internet?",
+    faq_a4: "Sim! Após carregar a página inicial, todas as 16 ferramentas funcionam perfeitamente mesmo se a sua conexão com a internet cair.",
+
+    // Auth & Paywall Modals
+    auth_title: "Entrar no SnapFlow",
+    auth_desc: "Acesse sua conta para desbloquear o Plano Pro e ferramentas ilimitadas.",
+    auth_google_btn: "Continuar com o Google",
+    auth_or_email: "OU COM E-MAIL",
+    auth_email_label: "Endereço de E-mail",
+    auth_submit_btn: "Entrar / Registrar",
+
+    paywall_title: "Você Atingiu seu Limite Grátis! 🛑",
+    paywall_desc: "Você utilizou suas 10 edições gratuitas este mês. Assine o Plano PRO por apenas R$ 29/mês para continuar criando sem limites!",
+    paywall_benefits_title: "Benefícios do Plano PRO:",
+    paywall_b1: "Processamento & Lotes ZIP Ilimitados",
+    paywall_b2: "Exportação em Qualidade Máxima (4K HD)",
+    paywall_b3: "Marca d'Água com Logo & Presets Salvos",
+    paywall_btn: "Assinar Plano PRO Agora",
 
     // Sidebar & Session
     sidebar_title: "FERRAMENTAS DE MÍDIA",
@@ -84,14 +165,27 @@ const SNAPFLOW_TRANSLATIONS = {
     nav_logout: "Sign Out",
     nav_account: "Account",
 
-    // Rotating Hero Headlines (3 Alternating Phrases)
+    // Splash Screen
+    splash_tagline: "High-Performance Creative Suite",
+
+    // Rotating Hero Headlines (Alternating Phrases)
     hero_headlines: [
+      { prefix: "What would you like to ", gradient: "create or transform?", suffix: "" },
       { prefix: "Edit, convert and optimize media at ", gradient: "maximum speed", suffix: "" },
       { prefix: "Compress, convert and create in ", gradient: "a few clicks", suffix: "" },
       { prefix: "The definitive workflow for ", gradient: "designers & creators", suffix: "" }
     ],
 
-    hero_search_placeholder: "Search tool (e.g. Compressor, WebP, QR Code)...",
+    // Search Typewriter Placeholders
+    search_placeholders: [
+      "Search tool (e.g. Compressor, WebP)...",
+      "Try: Convert PNG to WebP in batch...",
+      "Try: QR Code Generator with Logo...",
+      "Try: 4K HD Upscaler & Sharpness...",
+      "Try: Watermark with Saved Presets..."
+    ],
+    search_focused_placeholder: "Type to search tools...",
+
     hero_privacy_pill: "100% Private & Local",
     category_essential: "ESSENTIAL MEDIA & DESIGN TOOLS",
 
@@ -117,6 +211,74 @@ const SNAPFLOW_TRANSLATIONS = {
     card_mockup_title: "Mockup Studio",
     card_mockup_desc: "Frame screenshots into photorealistic 3D mockups of iPhone, MacBook and Safari.",
     card_open_action: "Open Tool",
+
+    // Pricing & SaaS Plans Page
+    pricing_title: "Choose the perfect plan for your creative workflow",
+    pricing_subtitle: "100% private processing on your device. Zero hidden limits.",
+    pricing_monthly: "Monthly",
+    pricing_annual: "Annual",
+    pricing_save_badge: "Save 20%",
+
+    // Plan 1: Free
+    plan_free_name: "Free",
+    plan_free_period: "/ month",
+    plan_free_desc: "For casual use and quick daily edits.",
+    plan_free_f1: "10 Free edits per month",
+    plan_free_f2: "Basic Tools (Compressor, QR Code)",
+    plan_free_f3: "100% Local & Private Processing",
+    plan_free_btn: "Current Plan",
+
+    // Plan 2: PRO
+    plan_pro_badge: "Most Popular",
+    plan_pro_name: "Pro",
+    plan_pro_period: "/ month",
+    plan_pro_desc: "For designers, content creators, and freelancers.",
+    plan_pro_f1: "Unlimited Processing & ZIP Batches",
+    plan_pro_f2: "All 16 Advanced Media Tools",
+    plan_pro_f3: "3D Mockup Studio & SVG Editor",
+    plan_pro_f4: "4K Ultra-HD Resolution Export",
+    plan_pro_f5: "Watermarks & Saved Presets",
+    plan_pro_btn: "Subscribe to Pro Plan",
+
+    // Plan 3: Agency
+    plan_agency_name: "Agencies",
+    plan_agency_period: "/ month",
+    plan_agency_desc: "For teams, studios, and high-volume businesses.",
+    plan_agency_f1: "Everything in Pro for up to 10 members",
+    plan_agency_f2: "24/7 Priority Support",
+    plan_agency_f3: "Unlimited Commercial License",
+    plan_agency_btn: "Contact Sales",
+
+    // Guarantee Card
+    guarantee_title: "7-Day 100% Money-Back Guarantee",
+    guarantee_desc: "Try SnapFlow PRO risk-free. If you don't love the speed and productivity in your first 7 days, we will refund 100% of your investment with no questions asked.",
+
+    // FAQ
+    faq_title: "Frequently Asked Questions",
+    faq_q1: "How does the privacy of my files work?",
+    faq_a1: "All image, video, and file processing happens 100% inside your own browser via HTML5 Canvas. Your photos are NEVER uploaded to any external server.",
+    faq_q2: "Does SnapFlow require any software installation?",
+    faq_a2: "No! SnapFlow runs entirely in your web browser across any Mac, Windows, or mobile device without installs.",
+    faq_q3: "Can I cancel my subscription at any time?",
+    faq_a3: "Absolutely. You can cancel your subscription with 1 click at any time with no penalties or hidden fees.",
+    faq_q4: "Do the tools work offline without internet?",
+    faq_a4: "Yes! Once the home page is loaded, all 16 client-side tools continue working even if your internet connection drops.",
+
+    // Auth & Paywall Modals
+    auth_title: "Sign in to SnapFlow",
+    auth_desc: "Access your account to unlock Pro features and unlimited tools.",
+    auth_google_btn: "Continue with Google",
+    auth_or_email: "OR WITH EMAIL",
+    auth_email_label: "Email Address",
+    auth_submit_btn: "Sign In / Register",
+
+    paywall_title: "You've Reached Your Free Limit! 🛑",
+    paywall_desc: "You used your 10 free edits this month. Upgrade to PRO to keep creating with unlimited power!",
+    paywall_benefits_title: "PRO Plan Benefits:",
+    paywall_b1: "Unlimited Processing & ZIP Batches",
+    paywall_b2: "Maximum 4K Ultra-HD Quality Export",
+    paywall_b3: "Custom Logo Watermark & Saved Presets",
+    paywall_btn: "Upgrade to PRO Now",
 
     // Sidebar & Session
     sidebar_title: "MEDIA TOOLS",
@@ -149,14 +311,27 @@ const SNAPFLOW_TRANSLATIONS = {
     nav_logout: "Cerrar Sesión",
     nav_account: "Cuenta",
 
-    // Rotating Hero Headlines (3 Frases Alternadas)
+    // Splash Screen
+    splash_tagline: "Suite Creativa de Alto Rendimiento",
+
+    // Rotating Hero Headlines (Frases Alternadas)
     hero_headlines: [
+      { prefix: "¿Qué te gustaría ", gradient: "crear o transformar?", suffix: "" },
       { prefix: "Edita, convierte y optimiza medios a ", gradient: "máxima velocidad", suffix: "" },
       { prefix: "Comprime, convierte y crea en ", gradient: "pocos clics", suffix: "" },
-      { prefix: "El flujo definitivo para ", gradient: "diseñadores y creadores", suffix: "" }
+      { prefix: "El fluxo definitivo para ", gradient: "diseñadores y creadores", suffix: "" }
     ],
 
-    hero_search_placeholder: "Buscar herramienta (ej: Compresor, WebP, QR)...",
+    // Search Typewriter Placeholders
+    search_placeholders: [
+      "Buscar herramienta (ej: Compresor, WebP)...",
+      "Prueba: Convertir PNG a WebP por lotes...",
+      "Prueba: Generador de QR Code con Logo...",
+      "Prueba: HD Upscaler y Nitidez 4K...",
+      "Prueba: Marca de Agua con Ajustes..."
+    ],
+    search_focused_placeholder: "Escribe para buscar herramientas...",
+
     hero_privacy_pill: "100% Privado y Local",
     category_essential: "HERRAMIENTAS ESENCIALES DE MEDIOS Y DISEÑO",
 
@@ -182,6 +357,74 @@ const SNAPFLOW_TRANSLATIONS = {
     card_mockup_title: "Estudio de Mockups",
     card_mockup_desc: "Enmarca capturas de pantalla en marcos 3D fotorrealistas de iPhone, MacBook e Safari.",
     card_open_action: "Abrir Herramienta",
+
+    // Pricing & SaaS Plans Page
+    pricing_title: "Elige el plan ideal para tu flujo de trabajo creativo",
+    pricing_subtitle: "Procesamiento 100% privado en tu dispositivo. Sin límites ocultos.",
+    pricing_monthly: "Mensual",
+    pricing_annual: "Anual",
+    pricing_save_badge: "Ahorra 20%",
+
+    // Plan 1: Free
+    plan_free_name: "Gratis",
+    plan_free_period: "/ mes",
+    plan_free_desc: "Para uso casual y ediciones rápidas del día a día.",
+    plan_free_f1: "10 Procesamientos por mes",
+    plan_free_f2: "Herramientas Básicas (Compresor, QR Code)",
+    plan_free_f3: "Procesamiento 100% Local y Privado",
+    plan_free_btn: "Plan Actual",
+
+    // Plan 2: PRO
+    plan_pro_badge: "Más Popular",
+    plan_pro_name: "Pro",
+    plan_pro_period: "/ mes",
+    plan_pro_desc: "Para diseñadores, creadores de contenido y freelancers.",
+    plan_pro_f1: "Procesamiento y Lotes ZIP Ilimitados",
+    plan_pro_f2: "Las 16 Herramientas Avanzadas",
+    plan_pro_f3: "Estudio de Mockups 3D y Editor SVG",
+    plan_pro_f4: "Exportación en Alta Definición 4K",
+    plan_pro_f5: "Marcas de Agua y Ajustes Guardados",
+    plan_pro_btn: "Suscribirse al Plan Pro",
+
+    // Plan 3: Agency
+    plan_agency_name: "Agencias",
+    plan_agency_period: "/ mes",
+    plan_agency_desc: "Para agencias, equipos y empresas que buscan alta escala.",
+    plan_agency_f1: "Todo lo de Pro para hasta 10 miembros",
+    plan_agency_f2: "Soporte Prioritario 24/7",
+    plan_agency_f3: "Licencia Comercial Ilimitada",
+    plan_agency_btn: "Contactar Ventas",
+
+    // Guarantee Card
+    guarantee_title: "Garantía Incondicional de 7 Días",
+    guarantee_desc: "Prueba SnapFlow PRO sin ningún riesgo. Si no te encanta la velocidad y productividad en los primeros 7 días, te devolvemos el 100% de tu dinero sin preguntas.",
+
+    // FAQ
+    faq_title: "Preguntas Frecuentes",
+    faq_q1: "¿Cómo funciona la privacidad de mis archivos?",
+    faq_a1: "Todo el procesamiento de imágenes, videos y archivos se realiza 100% en tu propio navegador mediante HTML5 Canvas. Tus fotos NUNCA se suben a ningún servidor externo.",
+    faq_q2: "¿SnapFlow requiere instalación?",
+    faq_a2: "¡No! SnapFlow se ejecuta directamente en tu navegador en cualquier computadora o dispositivo sin descargar programas.",
+    faq_q3: "¿Puedo cancelar mi suscripción en cualquier momento?",
+    faq_a3: "Por supuesto. Puedes cancelar tu suscripción con 1 clic en cualquier momento sin penalizaciones ni permanencia.",
+    faq_q4: "¿Las herramientas funcionan sin internet?",
+    faq_a4: "¡Sí! Una vez cargada la página inicial, las 16 herramientas continúan funcionando perfectamente incluso si se corta tu conexión a internet.",
+
+    // Auth & Paywall Modals
+    auth_title: "Ingresar a SnapFlow",
+    auth_desc: "Accede a tu cuenta para desbloquear el Plan Pro y herramientas ilimitadas.",
+    auth_google_btn: "Continuar con Google",
+    auth_or_email: "O CON CORREO",
+    auth_email_label: "Dirección de Correo",
+    auth_submit_btn: "Ingresar / Registrarse",
+
+    paywall_title: "¡Alcanzaste tu Límite Gratis! 🛑",
+    paywall_desc: "Has utilizado tus 10 ediciones gratuitas este mes. ¡Suscríbete a PRO para seguir creando sin límites!",
+    paywall_benefits_title: "Beneficios del Plan PRO:",
+    paywall_b1: "Procesamiento y Lotes ZIP Ilimitados",
+    paywall_b2: "Exportación en Calidad Máxima (4K HD)",
+    paywall_b3: "Marca de Agua con Logo y Ajustes Guardados",
+    paywall_btn: "Suscribirse a PRO Ahora",
 
     // Sidebar & Session
     sidebar_title: "HERRAMIENTAS DE MEDIOS",
@@ -209,17 +452,15 @@ const SNAPFLOW_TRANSLATIONS = {
 
 class I18nEngine {
   constructor() {
-    this.currentLang = this.detectLanguage();
+    this.currentLang = this.getInitialLanguage();
     this.currentHeadlineIndex = 0;
-    this.rollerInterval = null;
+    this.headlineTimer = null;
     this.init();
   }
 
-  detectLanguage() {
+  getInitialLanguage() {
     const saved = localStorage.getItem('snapflow_lang');
-    if (saved && ['pt', 'en', 'es'].includes(saved)) {
-      return saved;
-    }
+    if (saved && SNAPFLOW_TRANSLATIONS[saved]) return saved;
 
     const browserLang = (navigator.language || navigator.userLanguage || 'pt').toLowerCase();
     if (browserLang.startsWith('en')) return 'en';
@@ -230,33 +471,42 @@ class I18nEngine {
   init() {
     this.applyTranslations(this.currentLang);
     this.initDropdown();
-    this.initHeadlineRoller();
+    this.startHeadlineTicker();
   }
 
   setLanguage(lang) {
     if (!SNAPFLOW_TRANSLATIONS[lang]) return;
     this.currentLang = lang;
     localStorage.setItem('snapflow_lang', lang);
+
     this.applyTranslations(lang);
     this.updateActiveLanguageUI(lang);
-    this.renderCurrentHeadline(false);
     this.closeDropdown();
+    this.renderCurrentHeadline(false);
 
-    if (window.Utils && window.Utils.showToast) {
-      const msg = SNAPFLOW_TRANSLATIONS[lang].toast_lang_changed;
-      window.Utils.showToast(msg);
+    // Notify listeners (e.g., search typewriter)
+    window.dispatchEvent(new CustomEvent('snapflow:langchange', { detail: { lang } }));
+
+    if (window.Utils && typeof Utils.showToast === 'function') {
+      const msg = this.t('toast_lang_changed');
+      if (msg) Utils.showToast(msg);
     }
   }
 
+  t(key) {
+    const dict = SNAPFLOW_TRANSLATIONS[this.currentLang] || SNAPFLOW_TRANSLATIONS['pt'];
+    return dict[key] || '';
+  }
+
   applyTranslations(lang) {
-    const dict = SNAPFLOW_TRANSLATIONS[lang];
+    const dict = SNAPFLOW_TRANSLATIONS[lang] || SNAPFLOW_TRANSLATIONS['pt'];
     if (!dict) return;
 
-    // Apply data-i18n attributes
+    // Apply data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (dict[key]) {
-        el.textContent = dict[key];
+        el.innerHTML = dict[key];
       }
     });
 
@@ -342,67 +592,62 @@ class I18nEngine {
         btn.classList.remove('active');
       }
     });
-
-    if (window.lucide) lucide.createIcons();
   }
 
-  /* Vertical Headline Carousel Roller */
-  initHeadlineRoller() {
+  startHeadlineTicker() {
     this.renderCurrentHeadline(false);
+    if (this.headlineTimer) clearInterval(this.headlineTimer);
 
-    if (this.rollerInterval) clearInterval(this.rollerInterval);
+    // 4.2 seconds interval for comfortable reading
+    this.headlineTimer = setInterval(() => {
+      const dict = SNAPFLOW_TRANSLATIONS[this.currentLang] || SNAPFLOW_TRANSLATIONS['pt'];
+      const headlines = dict.hero_headlines || [];
+      if (!headlines.length) return;
 
-    // 4.2 seconds display time per phrase
-    this.rollerInterval = setInterval(() => {
-      this.advanceHeadline();
+      this.currentHeadlineIndex = (this.currentHeadlineIndex + 1) % headlines.length;
+      this.renderCurrentHeadline(true);
     }, 4200);
   }
 
-  advanceHeadline() {
-    const dict = SNAPFLOW_TRANSLATIONS[this.currentLang];
-    if (!dict || !dict.hero_headlines) return;
-
-    this.currentHeadlineIndex = (this.currentHeadlineIndex + 1) % dict.hero_headlines.length;
-    this.renderCurrentHeadline(true);
-  }
-
   renderCurrentHeadline(animate = true) {
-    const el = document.getElementById('hubHeroTitle');
-    const dict = SNAPFLOW_TRANSLATIONS[this.currentLang];
-    if (!el || !dict || !dict.hero_headlines) return;
+    const titleEl = document.getElementById('hubDynamicTitle');
+    if (!titleEl) return;
 
-    const item = dict.hero_headlines[this.currentHeadlineIndex];
-    const prefix = item.prefix ? item.prefix.trim() : '';
-    const gradient = item.gradient ? item.gradient.trim() : '';
-    const suffix = item.suffix ? item.suffix.trim() : '';
+    const dict = SNAPFLOW_TRANSLATIONS[this.currentLang] || SNAPFLOW_TRANSLATIONS['pt'];
+    const headlines = dict.hero_headlines || [];
+    if (!headlines.length) return;
 
-    let newHtml = '';
-    if (prefix) newHtml += `${prefix} `;
-    newHtml += `<span class="gradient-text">${gradient}</span>`;
-    if (suffix) newHtml += ` ${suffix}`;
+    const currentItem = headlines[this.currentHeadlineIndex] || headlines[0];
+    const prefix = currentItem.prefix || '';
+    const gradient = currentItem.gradient || '';
+    const suffix = currentItem.suffix || '';
 
-    if (animate && window.gsap) {
-      gsap.to(el, {
-        opacity: 0,
-        y: -22,
-        duration: 0.4,
-        ease: 'power2.in',
-        onComplete: () => {
-          el.innerHTML = newHtml;
-          gsap.fromTo(el, 
-            { opacity: 0, y: 22 }, 
-            { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }
-          );
-        }
-      });
-    } else {
-      el.innerHTML = newHtml;
-      el.style.opacity = '1';
-      el.style.transform = 'none';
+    // Enforce explicit space before gradient
+    const htmlContent = `${prefix}<span class="gradient-text">${gradient}</span>${suffix ? ' ' + suffix : ''}`;
+
+    if (!animate || !window.gsap) {
+      titleEl.innerHTML = htmlContent;
+      return;
     }
+
+    // Smooth Vertical GSAP Rolling Animation
+    gsap.to(titleEl, {
+      y: -18,
+      opacity: 0,
+      duration: 0.35,
+      ease: 'power2.in',
+      onComplete: () => {
+        titleEl.innerHTML = htmlContent;
+        gsap.fromTo(titleEl, 
+          { y: 22, opacity: 0 }, 
+          { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }
+        );
+      }
+    });
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.i18n = new I18nEngine();
+// Global i18n instance
+window.addEventListener('DOMContentLoaded', () => {
+  window.i18nEngine = new I18nEngine();
 });
