@@ -984,3 +984,36 @@ body.light-theme .floating-theme-btn:hover {
 }
 
 
+/* ==========================================================================
+   Premium Scroll & Ambient Polish (Claude Enhancement)
+   ========================================================================== */
+
+/* Header Glassmorphism Intensifies When Scrolled */
+.app-header.header-scrolled {
+  background: rgba(7, 9, 14, 0.65) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.light-theme .app-header.header-scrolled {
+  background: rgba(244, 244, 245, 0.8) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Enhanced Gradient Text Shimmer */
+.gradient-text {
+  background: linear-gradient(90deg, #38bdf8 0%, #818cf8 28%, #c084fc 48%, rgba(255,255,255,0.9) 53%, #c084fc 58%, #818cf8 72%, #38bdf8 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: gradientShimmer 5s linear infinite !important;
+}
+
+@keyframes gradientShimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}

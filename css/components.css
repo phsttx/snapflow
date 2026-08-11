@@ -2109,3 +2109,410 @@ body.light-theme .pricing-card.featured .plan-period {
   }
 }
 
+
+/* ==========================================================================
+   Site Footer (Premium SaaS 3-Column Layout)
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  z-index: 10;
+  margin-top: 5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 2rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 3rem;
+}
+
+/* Column styles */
+.footer-col-title {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  margin-bottom: 1.15rem;
+}
+
+.footer-brand-col .footer-logo {
+  margin-bottom: 0.85rem;
+}
+
+.footer-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  max-width: 300px;
+  margin-bottom: 1.25rem;
+}
+
+/* Operational Status Badge */
+.footer-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #34d399;
+}
+
+.footer-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulseBeacon 2s infinite ease-in-out;
+}
+
+/* Link lists */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-links a:hover {
+  color: var(--text-primary);
+  transform: translateX(3px);
+}
+
+.footer-link-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.footer-soon-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-full);
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* Sub-Footer / Bottom Bar */
+.footer-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-copyright {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+/* Light Theme Footer */
+body.light-theme .site-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .footer-bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .footer-status-badge {
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.15);
+}
+
+body.light-theme .footer-soon-badge {
+  background: rgba(2, 132, 199, 0.08);
+  color: #0284c7;
+  border-color: rgba(2, 132, 199, 0.2);
+}
+
+/* Footer Responsive */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-desc {
+    max-width: 100%;
+  }
+
+  .footer-container {
+    padding: 2.5rem 1.25rem 1.5rem 1.25rem;
+  }
+}
+
+
+/* ==========================================================================
+   Premium Micro-Animations & Visual Polish (Claude Enhancement)
+   ========================================================================== */
+
+
+/* ---- 1. Scroll-Triggered Card Reveal Animation ---- */
+
+.hub-card.scroll-reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+  will-change: transform, opacity;
+}
+
+.hub-card.scroll-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Staggered entrance delays for sequential reveal */
+.hub-card.scroll-revealed:nth-child(1)  { transition-delay: 0.00s; }
+.hub-card.scroll-revealed:nth-child(2)  { transition-delay: 0.04s; }
+.hub-card.scroll-revealed:nth-child(3)  { transition-delay: 0.08s; }
+.hub-card.scroll-revealed:nth-child(4)  { transition-delay: 0.12s; }
+.hub-card.scroll-revealed:nth-child(5)  { transition-delay: 0.16s; }
+.hub-card.scroll-revealed:nth-child(6)  { transition-delay: 0.20s; }
+.hub-card.scroll-revealed:nth-child(7)  { transition-delay: 0.24s; }
+.hub-card.scroll-revealed:nth-child(8)  { transition-delay: 0.28s; }
+.hub-card.scroll-revealed:nth-child(9)  { transition-delay: 0.32s; }
+.hub-card.scroll-revealed:nth-child(10) { transition-delay: 0.36s; }
+
+
+/* ---- 2. Gradient Border Shimmer on Hover for Hub Cards ---- */
+
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes borderShimmer {
+  0%   { --border-angle: 0deg; }
+  100% { --border-angle: 360deg; }
+}
+
+.hub-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    transparent 0%,
+    transparent 30%,
+    rgba(56, 189, 248, 0.4) 40%,
+    rgba(129, 140, 248, 0.35) 50%,
+    rgba(192, 132, 252, 0.3) 55%,
+    transparent 65%,
+    transparent 100%
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  padding: 1px;
+}
+
+@media (hover: hover) {
+  .hub-card:hover::after {
+    opacity: 1;
+    animation: borderShimmer 3s linear infinite;
+  }
+}
+
+
+/* ---- 3. Hub Title Gradient Text Shimmer ---- */
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #38bdf8 0%,
+    #818cf8 30%,
+    #c084fc 50%,
+    rgba(255, 255, 255, 0.95) 55%,
+    #c084fc 60%,
+    #818cf8 70%,
+    #38bdf8 100%
+  ) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: gradientShimmer 4s linear infinite;
+}
+
+@keyframes gradientShimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+
+/* ---- 4. Pricing Card Featured Glow Pulse ---- */
+
+.pricing-card.featured {
+  animation: featuredCardGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes featuredCardGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.15),
+                0 8px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(56, 189, 248, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 35px rgba(56, 189, 248, 0.3),
+                0 8px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(56, 189, 248, 0.5);
+  }
+}
+
+
+/* ---- 5. Search Input Breathing Glow ---- */
+
+.hub-search-input:focus {
+  animation: searchBreathing 3s ease-in-out infinite alternate;
+}
+
+@keyframes searchBreathing {
+  0%   { box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+  100% { box-shadow: 0 0 35px rgba(56, 189, 248, 0.35); }
+}
+
+
+/* ---- 6. Smooth Page Transition Fade ---- */
+
+.hub-screen:not(.hidden),
+.pricing-screen:not(.hidden) {
+  animation: screenFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes screenFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ---- 7. Hub Category Title Decorative Line ---- */
+
+.hub-category-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.3), transparent);
+  margin-left: 1rem;
+}
+
+body.light-theme .hub-category-title::after {
+  background: linear-gradient(90deg, rgba(2, 132, 199, 0.25), transparent);
+}
+
+
+/* ---- 8. Button Click Ripple Effect ---- */
+
+.btn-primary {
+  transition: transform 0.12s ease,
+              box-shadow 0.12s ease,
+              background var(--transition-fast),
+              border-color var(--transition-fast);
+}
+
+@media (hover: hover) {
+  .btn-primary:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+    transition: transform 0.08s ease,
+                box-shadow 0.08s ease;
+  }
+}
+
+
+/* ---- 9. Toast Notification Slide + Bounce ---- */
+
+.toast {
+  animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Prefers reduced motion — disable all micro-animations */
+@media (prefers-reduced-motion: reduce) {
+  .hub-card.scroll-reveal,
+  .hub-card.scroll-revealed {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    transition-delay: 0s !important;
+  }
+
+  .hub-card::after {
+    animation: none !important;
+  }
+
+  .gradient-text {
+    animation: none !important;
+  }
+
+  .pricing-card.featured {
+    animation: none !important;
+  }
+
+  .hub-search-input:focus {
+    animation: none !important;
+  }
+
+  .hub-screen:not(.hidden),
+  .pricing-screen:not(.hidden) {
+    animation: none !important;
+  }
+
+  .toast {
+    animation: none !important;
+  }
+}
