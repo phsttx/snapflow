@@ -20,6 +20,8 @@ class AppController {
     this.initPwaSupport();
     this.initCookieConsent();
     this.initKeyboardShortcuts();
+    this.initScrollReveal();
+    this.initSmoothHeaderShrink();
   }
 
   /* 0. Ambient Magnetic Cursor Follower */
@@ -312,7 +314,7 @@ class AppController {
     this.switchTab(tabId);
   }
 
-  /* Screen Switcher Engine with GSAP Coreography */
+  /* Screen Switcher Engine with GSAP Choreography (Enhanced) */
   showScreen(stepNumber) {
     this.currentStep = stepNumber;
 
@@ -332,15 +334,19 @@ class AppController {
       const homeLink = document.getElementById('navHomeLink');
       if (homeLink) homeLink.classList.add('active');
 
-      // GSAP Stagger Entrance for Hub Cards
+      // Enhanced GSAP Stagger Entrance with spring-like feel
       if (window.gsap) {
         gsap.fromTo('.hub-header > *', 
-          { opacity: 0, y: 20 }, 
-          { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' }
+          { opacity: 0, y: 24, filter: 'blur(6px)' }, 
+          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, stagger: 0.08, ease: 'power3.out' }
         );
         gsap.fromTo('.hub-card', 
-          { opacity: 0, y: 30, scale: 0.96 }, 
-          { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out', delay: 0.15 }
+          { opacity: 0, y: 40, scale: 0.94, rotateX: 8 }, 
+          { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: 0.6, stagger: 0.04, ease: 'back.out(1.4)', delay: 0.12 }
+        );
+        gsap.fromTo('.hub-category-title',
+          { opacity: 0, x: -20 },
+          { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out', delay: 0.05 }
         );
       }
     } else if (stepNumber === 3) {
@@ -351,8 +357,14 @@ class AppController {
       if (showHubBtn) showHubBtn.classList.remove('hidden');
 
       if (window.gsap) {
-        gsap.fromTo('.sidebar', { opacity: 0, x: -25 }, { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out' });
-        gsap.fromTo('.tab-panel.active', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+        gsap.fromTo('.sidebar', 
+          { opacity: 0, x: -30, filter: 'blur(4px)' }, 
+          { opacity: 1, x: 0, filter: 'blur(0px)', duration: 0.55, ease: 'power3.out' }
+        );
+        gsap.fromTo('.tab-panel.active', 
+          { opacity: 0, y: 20, filter: 'blur(4px)' }, 
+          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.55, ease: 'power3.out', delay: 0.1 }
+        );
       }
     } else if (stepNumber === 4) {
       if (hubScreen) hubScreen.classList.add('hidden');
@@ -364,8 +376,23 @@ class AppController {
       if (pricingLink) pricingLink.classList.add('active');
 
       if (window.gsap) {
-        gsap.fromTo('.pricing-header > *', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out' });
-        gsap.fromTo('.pricing-card', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: 'power3.out', delay: 0.15 });
+        gsap.fromTo('.pricing-header > *', 
+          { opacity: 0, y: 24, filter: 'blur(6px)' }, 
+          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.65, stagger: 0.08, ease: 'power3.out' }
+        );
+        gsap.fromTo('.pricing-card', 
+          { opacity: 0, y: 35, scale: 0.96 }, 
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.12, ease: 'back.out(1.2)', delay: 0.15 }
+        );
+        // Animate guarantee and FAQ sections too
+        gsap.fromTo('.pricing-guarantee-card', 
+          { opacity: 0, y: 25 }, 
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.5 }
+        );
+        gsap.fromTo('.faq-card', 
+          { opacity: 0, y: 20 }, 
+          { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out', delay: 0.6 }
+        );
       }
     }
 
@@ -484,6 +511,48 @@ class AppController {
         gsap.to(banner, { opacity: 0, y: 30, duration: 0.4, ease: 'power3.in', onComplete: () => banner.classList.add('hidden') });
       } else {
         banner.classList.add('hidden');
+      }
+    });
+  }
+
+  /* Scroll-Reveal: IntersectionObserver for Cards & Sections */
+  initScrollReveal() {
+    if (!('IntersectionObserver' in window)) return;
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('scroll-revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    // Observe pricing cards, FAQ cards, and guarantee card on scroll
+    const revealTargets = document.querySelectorAll('.pricing-card, .faq-card, .pricing-guarantee-card');
+    revealTargets.forEach(el => {
+      el.classList.add('scroll-reveal');
+      revealObserver.observe(el);
+    });
+  }
+
+  /* Smooth Header Background on Scroll */
+  initSmoothHeaderShrink() {
+    const header = document.querySelector('.app-header');
+    if (!header) return;
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (window.scrollY > 50) {
+            header.classList.add('header-scrolled');
+          } else {
+            header.classList.remove('header-scrolled');
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     });
   }
